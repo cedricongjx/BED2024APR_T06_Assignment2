@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,700italic,400italic' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="css/leaderboard.css">
+  <title>Donation Leaderboard</title>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="logo">Social Impact</div>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="donation.html">Donate</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+        <li><a href="leaderboard.html">Leaderboard</a></li>
+      </ul>
+    </div>
+  </nav>
+  
+  <div class="leaderboard-container">
+    <h2>Top Donors</h2>
+    <div class="top-donors">
+      <div class="top-donor-card">
+        <img src="avatar1.jpg" alt="Donor 1">
+        <h3>Samantha</h3>
+        <p>$1020</p>
+      </div>
+      <div class="top-donor-card">
+        <img src="avatar2.jpg" alt="Donor 2">
+        <h3>Bernadette</h3>
+        <p>$1000</p>
+      </div>
+      <div class="top-donor-card">
+        <img src="avatar3.jpg" alt="Donor 3">
+        <h3>Alexandra</h3>
+        <p>$720</p>
+      </div>
+    </div>
+    <div class="search-sort">
+      <input type="text" id="searchDonor" placeholder="Search donor">
+      <div class="sort-buttons">
+        <button onclick="sortDonors('newest')">Newest</button>
+        <button onclick="sortDonors('oldest')">Oldest</button>
+        <button onclick="sortDonors('top')">Top Donor</button>
+      </div>
+    </div>
+    <table id="leaderboard">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Amount Donated</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>Samantha</td>
+          <td>$1020</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>Bernadette</td>
+          <td>$1000</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>Alexandra</td>
+          <td>$720</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <script src="css/leaderboard.css"></script>
+</body>
+</html>
