@@ -130,3 +130,19 @@
     .scroll-next {
       right: 130px;
     }
+
+    .banner{
+      margin-top: 20px;
+    }
+    .newEvent button {
+      background-color: lightcoral;
+      border: none;
+      color: white;
+      padding: 15px 25px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+    }
