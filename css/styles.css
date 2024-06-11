@@ -214,3 +214,51 @@ body {
     margin-top: 10px;
   }
   
+
+  /* Feedback */
+  .feedback_form{
+    background-color:white ;
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-bottom: 5%;
+    padding-top: 1%;
+    margin: auto;
+    width: 50%;
+    border-style:solid;
+    border-color: black;
+    border-radius: 10px;
+  }
+  .feedback_form_header
+  {
+    font-size: 40px;
+    text-align: center;
+    margin-bottom:5%;
+  }
+
+.feedback_button
+{
+  background-color: blueviolet;
+
+}
+
+.feedback_form_submit
+{
+  width:100%;
+}
+
+.feedback_body
+{
+    background-color: lightblue;
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+}
+
+.feedback_form_group
+{
+  padding:2.5%;
+}
