@@ -5,8 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
   <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,700italic,400italic' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="css/event-details.css">
   <link rel="stylesheet" href="css/event.css">
-  <title>Events Page</title>
+  <title>Event Details</title>
 </head>
 <body>
   <nav class="navbar">
@@ -21,21 +22,17 @@
       </ul>
     </div>
   </nav>
-  <div class="banner">
-    <img src="https://via.placeholder.com/800x300" alt="Card Image" class="card-img">
-  </div>
-  <div class="scroll-container">
-    <button class="scroll-button scroll-prev" onclick="scrollPrev()">❮</button>
-    <div class="card-container" id="cardContainer">
-      
+  <div class="container">
+    <div class="event-details">
+      <img id="eventImg" alt="Event Image" class="event-img">
+      <div class="event-text">
+        <h2 id="eventTitle"></h2>
+        <p id="eventDescription"></p>
+        <p id="eventDateTime"></p>
+      </div>
     </div>
-    <button class="scroll-button scroll-next" onclick="scrollNext()">❯</button>
   </div>
-  <div class="newEvent">
-    <a href="AddEvent.html">
-      <button>Add New Event</button>
-    </a>
-  </div>
-  <script src="js/event.js"></script>
+
+  <script src="js/Event-details.js"></script>
 </body>
 </html>
