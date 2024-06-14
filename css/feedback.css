@@ -214,3 +214,84 @@ body {
     margin-top: 10px;
   }
   
+
+  /* Feedback */
+  .feedback_form{
+    background-color:white ;
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-bottom: 5%;
+    padding-top: 1%;
+    margin: auto;
+    width: 50%;
+    border-style:solid;
+    border-color: black;
+    border-radius: 10px;
+  }
+  .feedback_form_header
+  {
+    font-size: 40px;
+    text-align: center;
+    margin-bottom:5%;
+  }
+
+.feedback_button
+{
+  background-color: blueviolet;
+
+}
+
+.feedback_form_submit
+{
+  width:100%;
+}
+
+.feedback_body
+{
+    background-color: lightblue;
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+}
+
+.feedback_form_group
+{
+  padding:2.5%;
+}
+
+.feedback_section
+{
+    margin-top:12%;
+    width:90%;
+}
+.feedback_row
+{
+    padding:7.5%;
+    text-align: center;
+
+}
+
+.feedback_item
+{
+  margin-left:1%;
+  margin-right:1%;
+  padding:100px;
+  background-color:#ffbc03;
+  border-style:solid;
+  border-color: black;
+  border-radius: 5%;
+}
+
+.navbar_staff_feedback
+{
+    position:fixed;
+    z-index: 10000;
+    width: 100%;
+    background-color: #333;
+    height: 80px;
+  
+}
