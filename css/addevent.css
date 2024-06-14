@@ -1,0 +1,98 @@
+body {
+    background-color: lightblue;
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+  }
+
+  .navbar {
+    width: 100%;
+    background-color: #333;
+    overflow: hidden;
+    height: 80px;
+  }
+
+  .nav-container {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+  }
+
+  .logo {
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-right: 20px;
+  }
+
+  .nav-links {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+  }
+
+  .nav-links li {
+    padding: 14px 20px;
+  }
+
+  .nav-links a {
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+  }
+
+  .nav-links a:hover {
+    background-color: #575757;
+    border-radius: 4px;
+  }
+
+  .visible-container {
+    background-color: #f8f9fa; /* Light background color */
+    padding: 20px;
+    border: 1px solid #dee2e6; /* Border to make it stand out */
+    border-radius: 5px; /* Rounded corners */
+  }
+    .form-container {
+      background-color: #ffffff; /* Set background color of the form container to white */
+      padding: 20px; /* Add padding for spacing */
+      border-radius: 10px; /* Add border radius for rounded corners */
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Add box shadow for depth */
+      justify-content: center;
+      align-items: center;
+      margin-top: 200px;
+      
+}
+.btn-submit{
+    background-color: lightcoral;
+    border: none;
+    color: white;
+    padding: 15px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    
+}
+.form-label{
+    margin-right: 10px;
+}
+.Dform-group{
+    display: flex;
+    flex-direction: column;
+}
+.button-container{
+    display: flex;
+    justify-content: center;
+}
