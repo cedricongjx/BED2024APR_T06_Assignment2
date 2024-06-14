@@ -277,6 +277,7 @@ body {
 
 .feedback_item
 {
+  cursor:pointer;
   margin-left:1%;
   margin-right:1%;
   padding:100px;
@@ -294,4 +295,23 @@ body {
     background-color: #333;
     height: 80px;
   
+}
+
+.feedback_details_container
+{
+  /* border-style:solid;
+  border-color: black;
+  padding:5%;
+  margin-top:10%; */
+  text-align: center;
+  background-color:white ;
+  padding-left: 5%;
+  padding-right: 5%;
+  padding-bottom: 5%;
+  padding-top: 1%;
+  margin-top:10%;
+  width: 50%;
+  border-style:solid;
+  border-color: black;
+  border-radius: 10px;
 }
