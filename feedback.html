@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang = eng>
+    <head>
+        <meta charset="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="UTF-8">
+        <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,700italic,400italic' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="css/feedback.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
+   crossorigin="anonymous">
+        <title>Feedback Page</title>
+      </head>
+
+    <body class = "feedback_body">
+      <nav class="navbar">
+        <div class="nav-container">
+          <div class="logo">Social Impact</div>
+          <ul class="nav-links">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Donate</a></li>
+            <li><a href="#">Events</a></li>
+            <li><a href="#">Feedback</a></li>
+            <li><a href="#">Contact Us</a></li>
+          </ul>
+        </div>
+      </nav>
+
+        
+
+        <div class = "feedback_form">
+          <div class = "feedback_form_header">
+            Feedback
+          </div>
+          <form>
+            <div class="form-group feedback_form_group">
+              <label for="title">Title</label>
+              <input type="text" class="form-control" id="inputTitle" aria-describedby="titleHelp" placeholder="Enter title">
+              <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+            </div>
+            <div class="form-group feedback_form_group">
+              <label for="category">Category</label>
+              <select class="form-control" id="categorySelect">
+                <option selected disabled>Please select</option>
+                <option>Bug</option>
+                <option>Customer Support</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="form-group feedback_form_group">
+              <label for="message">Message</label>
+              <textarea class="form-control" id="textareaMessage" rows="3"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary feedback_button bg-warning feedback_form_submit">Submit</button>
+          </form>
+      </div>
+
+
+
+
+
+      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
+    </body>
+</html>
