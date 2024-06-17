@@ -1,0 +1,19 @@
+{
+  "name": "bed2024apr_t06_assignment",
+  "version": "1.0.0",
+  "description": "Assignment project",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "express-session": "^1.18.0",
+    "joi": "^17.4.2",
+    "mssql": "^6.3.1"
+  }
+}
