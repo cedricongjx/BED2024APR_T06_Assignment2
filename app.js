@@ -14,6 +14,7 @@ app.use(staticMiddleware);
 
 app.get("/event",eventController.getAllEvent);
 app.get("/event/:id",eventController.getEventById);
+app.post("/event",eventController.createEvent);
 
 app.listen(port, async () => {
   try {

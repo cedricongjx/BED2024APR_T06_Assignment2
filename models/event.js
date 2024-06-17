@@ -44,5 +44,22 @@ class Event{
             )
             :null;
     }
+    static async createEvent(newEventData){
+        const connection = await sql.connect(dbConfig);
+        const sqlQuery = `INSERT INTO EVENT(EventName,eventDescription,eventDateTime,Adminid) values(@EventName,@eventDescription,@eventDateTime,@Adminid); 
+                          select scope_identity() AS Eventid`;
+        const request = connection.request();
+        request.input("EventName",newEventData.Eventname);
+        request.input("eventDescription",newEventData.eventDescription);
+        request.input("eventDateTime",sql.DateTime,new Date(newEventData.eventDateTime));
+        request.input("Adminid",sql.Int,newEventData.Adminid);
+        const result = await request.query(sqlQuery);
+        connection.close();
+        const eventid = result.recordset[0].Eventid;
+        if (!eventid){
+            console.log("Event creation failed, no id returned");
+        }
+        return this.getEventById(eventid);
+    }
 }
 module.exports = Event;

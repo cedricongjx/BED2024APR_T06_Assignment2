@@ -22,8 +22,19 @@ const getEventById = async (req,res)=>{
         res.status(500).send("Error retreiving event");
     }
 };
+const createEvent = async (req,res)=>{
+    const newEvent = req.body;
+    try{
+        const createdEvent = await Event.createEvent(newEvent);
+        res.status(201).json(createdEvent);
+    }catch(error){
+        console.log(error);
+        res.status(500).send("Error creating event");
+    }
+}
 module.exports={
     getAllEvent,
     getEventById,
+    createEvent,
 
 }
