@@ -1,0 +1,148 @@
+    body {
+      background-color: lightblue;
+      font-family: 'Montserrat', sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .navbar {
+      width: 100%;
+      background-color: #333;
+      overflow: hidden;
+      height: 80px;
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      width: 100%;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 100%;
+    }
+
+    .logo {
+      color: white;
+      font-size: 24px;
+      font-weight: bold;
+      text-transform: uppercase;
+      margin-right: 20px;
+    }
+
+    .nav-links {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+    }
+
+    .nav-links li {
+      padding: 14px 20px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: white;
+      font-size: 16px;
+    }
+
+    .nav-links a:hover {
+      background-color: #575757;
+      border-radius: 4px;
+    }
+
+    .scroll-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      position: relative;
+    }
+
+    .card-container {
+      display: flex;
+      gap: 20px;
+      padding: 20px;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      max-width: 80%;
+      scrollbar-width: none; /* Hide scrollbar for Firefox */
+    }
+
+    .card-container::-webkit-scrollbar {
+      display: none; /* Hide scrollbar for Chrome, Safari, and Opera */
+    }
+
+    .card {
+      display: flex;
+      flex-direction: column;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      min-width: 200px;
+      background-color: #fff;
+    }
+
+    .card-img {
+      width: 100%;
+      height: auto;
+    }
+
+    .card-content {
+      padding: 16px;
+    }
+
+    .card-title {
+      margin: 0;
+      font-size: 1.2em;
+      margin-bottom: 8px;
+    }
+
+    .card-description {
+      margin: 0;
+      font-size: 1em;
+      color: #555;
+    }
+
+    .scroll-button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+      font-size: 24px;
+      z-index: 10;
+    }
+
+    .scroll-prev {
+      left: 130px;
+    }
+
+    .scroll-next {
+      right: 130px;
+    }
+
+    .banner{
+      margin-top: 20px;
+    }
+    .newEvent button {
+      background-color: lightcoral;
+      border: none;
+      color: white;
+      padding: 15px 25px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+    }
