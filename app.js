@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const sql = require('mssql');
 const dbConfig = require('./config/dbConfig');
 const usersController = require('./controllers/usersController'); // Ensure correct path
+const newslettersController = require('./controllers/newslettersController');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -20,6 +21,7 @@ app.get('/api/users', usersController.getAllUsers);
 app.get('/api/users/:id', usersController.getUserById);
 app.put('/api/users/:id', usersController.updateUser);
 app.delete('/api/users/:id', usersController.deleteUser);
+app.post('/api/newsletter', newslettersController.joinNewsletter);
 
 // Start the server and connect to the database
 app.listen(port, async () => {

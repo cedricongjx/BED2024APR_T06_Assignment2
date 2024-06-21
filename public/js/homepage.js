@@ -17,3 +17,4 @@ document.querySelector('.prev').addEventListener('click', () => {
 document.querySelector('.active').addEventListener('click',() => {
     window.location.href = "documentary.html"
 });
+
