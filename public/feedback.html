@@ -25,9 +25,6 @@
           </ul>
         </div>
       </nav>
-
-        
-
         <form class = "feedback_form" id = "feedback_form_id">
           <div class = "feedback_form_header">
             Feedback
@@ -36,6 +33,16 @@
             <div class="form-group feedback_form_group">
               <label for="title">Title</label>
               <input type="text" class="form-control" id="inputTitle" aria-describedby="titleHelp" placeholder="Enter title">
+            </div>
+            <div class="form-group">
+              <label for="feedback_category">Category</label>
+              <select class="form-control" id="feedback_category">
+                <option disabled selected value>Select a category</option>
+                <option>Bug</option>
+                <option>Customer service</option>
+                <option>Feedback</option>
+                <option>Other</option>
+              </select>
             </div>
             <div class="form-group feedback_form_group">
               <label for="message">Message</label>

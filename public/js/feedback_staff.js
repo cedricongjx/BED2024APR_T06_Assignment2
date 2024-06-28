@@ -1,8 +1,34 @@
 
-async function fetchFeedback()
+async function fetchBugFeedback()
 {
-    const response = await fetch("/feedback");
+    const response = await fetch("/feedback/bug");
     const data = await response.json();
+    createHTMLDOMFeedback(data);
+}
+
+async function fetchCustomerServiceFeedback()
+{
+    const response = await fetch("/feedback/customerservice");
+    const data = await response.json();
+    createHTMLDOMFeedback(data);
+}
+
+async function fetchfeedbackFeedback()
+{
+    const response = await fetch("/feedback/feedback");
+    const data = await response.json();
+    createHTMLDOMFeedback(data);
+}
+
+async function fetchOtherFeedback()
+{
+    const response = await fetch("/feedback/other");
+    const data = await response.json();
+    createHTMLDOMFeedback(data);
+}
+
+function createHTMLDOMFeedback(data)
+{
     const feedback_container = document.getElementsByClassName("feedback_section");
     var feedback_list = document.getElementsByClassName("row align-items-center");
     var count =0;
@@ -41,10 +67,60 @@ async function fetchFeedback()
                 window.location.href = "staff_feedback_details.html"
             })
         }
-    
 }
 
-fetchFeedback();
+function deleteHTML()
+{
+    const feedback_container = document.getElementById("feedback_test");
+    while(feedback_container.childElementCount != 1)
+        {
+            feedback_container.removeChild(feedback_container.lastChild);
+        }
+}   
+
+async function fetchAllFeedback()
+{
+
+    const response = await fetch("/feedback");
+    const data = await response.json();
+    createHTMLDOMFeedback(data);
+}
+
+fetchAllFeedback();
+
+const category = document.getElementById("staff_feedback_category");
+    var value;
+    category.addEventListener("change", function(e)
+        {
+            value = category.value;
+            console.log(value);
+            deleteHTML();
+            if(value == "Bug")
+                {
+                    fetchBugFeedback();
+                }
+            else if(value == "Customer service")
+                {
+                    
+                    fetchCustomerServiceFeedback();
+                }
+            else if(value == "Feedback")
+                {
+                    fetchfeedbackFeedback();
+                }
+            else if(value == "Other")
+                {
+                    
+                    fetchOtherFeedback();
+                }
+            else if(value == "All")
+                {
+                    fetchAllFeedback();
+                }
+           
+        });
+
+
 
 
 

@@ -5,6 +5,7 @@ async function postInfo()
 {
     const title = document.getElementById("inputTitle").value;
     const description = document.getElementById("description").value;
+    const cateogry  = document.getElementById("feedback_category").value;
     const res = await fetch("/feedback",
         {
             method:'POST',
@@ -16,6 +17,7 @@ async function postInfo()
             ({
                 title: title,
                 description: description,
+                category:cateogry
             })
         }
     )
@@ -39,6 +41,5 @@ button.addEventListener("click", (e)=>
     postInfo();
     document.getElementById("feedback_form_id").reset();
 });
-
 
 
