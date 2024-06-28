@@ -25,36 +25,10 @@
   <div class="donation-container">
     <div class="donation-box">
       <div class="title">Donation Information</div>
-      <form id="donationForm">
+      <form id="donationForm" onsubmit="handleDonation(event)">
         <div class="fields">
-          <input type="text" id="firstName" name="firstName" placeholder="First Name">
-          <input type="text" id="lastName" name="lastName" placeholder="Last Name">
-          <input type="email" id="email" name="email" placeholder="Email">
-        </div>
-        <div class="amount">
-          <div class="button" onclick="selectAmount(30)">$30</div>
-          <div class="button" onclick="selectAmount(50)">$50</div>
-          <div class="button" onclick="selectAmount(100)">$100</div>
-          <div class="button">$<input type="text" class="set-amount" placeholder="Custom" id="customAmount" oninput="selectCustomAmount()" name="customAmount"></div>
-        </div>
-        <div class="switch">
-          <input type="radio" class="switch-input" name="donationType" value="One-Time" id="one-time" checked onclick="toggleMonthly(false)">
-          <label for="one-time" class="switch-label switch-label-off">One-Time</label>
-          <input type="radio" class="switch-input" name="donationType" value="Monthly" id="monthly" onclick="toggleMonthly(true)">
-          <label for="monthly" class="switch-label switch-label-on">Monthly</label>
-          <span class="switch-selection"></span>
-        </div>
-        <div class="monthly-options" id="monthlyOptions" style="display: none;">
-          <div class="amount">
-            <div class="button" onclick="selectMonths(1)">1 Month</div>
-            <div class="button" onclick="selectMonths(3)">3 Months</div>
-            <div class="button" onclick="selectMonths(6)">6 Months</div>
-            <div class="button" onclick="selectMonths(12)">12 Months</div>
-          </div>
-        </div>
-        <div class="checkboxes">
-          <input type="checkbox" id="receipt" class="checkbox" name="receipt">
-          <label for="receipt">Email Me A Receipt</label>
+          <input type="text" id="firstName" name="firstName" placeholder="First Name" required>
+          <input type="text" id="amount" name="amount" placeholder="Amount to Donate" required>
         </div>
         <div class="confirm" id="confirmMessage"></div>
         <button type="submit" class="donate-button"><i class="fa fa-credit-card"></i> Donate Now</button>

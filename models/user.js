@@ -32,16 +32,22 @@ class User {
 
   static async getUserByUsername(username) {
     const connection = await sql.connect(dbConfig);
-    const sqlQuery = `SELECT * FROM Users WHERE username = @username`;
-    const request = connection.request();
-    request.input("username", username);
-    const result = await request.query(sqlQuery);
-    connection.close();
-    if (result.recordset.length === 0) {
-      return null;
+    try {
+      const query = `SELECT * FROM Users WHERE username = @username`;
+      const request = connection.request();
+      request.input('username', sql.VarChar, username);
+      const result = await request.query(query);
+      if (result.recordset.length === 0) {
+        return null;
+      }
+      const user = result.recordset[0];
+      return new User(user.UserID, user.username, user.password); // Ensure column names match database schema
+    } catch (error) {
+      console.error('Error retrieving user by username:', error);
+      throw error;
+    } finally {
+      await connection.close();
     }
-    const user = result.recordset[0];
-    return new User(user.id, user.username, user.password);
   }
 }
 

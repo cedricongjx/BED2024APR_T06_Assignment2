@@ -1,51 +1,35 @@
-let selectedAmount = 0;
-let selectedMonths = 0;
-
-function selectAmount(amount) {
-  selectedAmount = amount;
-  document.querySelectorAll('.amount .button').forEach(button => button.classList.remove('selected'));
-  document.querySelectorAll('.amount .button')[amount / 30 - 1].classList.add('selected');
-  document.getElementById('customAmount').value = '';
-}
-
-function selectCustomAmount() {
-  document.querySelectorAll('.amount .button').forEach(button => button.classList.remove('selected'));
-  selectedAmount = document.getElementById('customAmount').value;
-}
-
-function selectMonths(months) {
-  selectedMonths = months;
-  document.querySelectorAll('.monthly-options .amount .button').forEach(button => button.classList.remove('selected'));
-  document.querySelectorAll('.monthly-options .amount .button')[months / 3 - 1].classList.add('selected');
-}
-
-function toggleMonthly(show) {
-  const monthlyOptions = document.getElementById('monthlyOptions');
-  if (show) {
-    monthlyOptions.style.display = 'flex';
-  } else {
-    monthlyOptions.style.display = 'none';
-  }
-}
-
-function donate() {
+function handleDonation(event) {
+  event.preventDefault();
   const firstName = document.getElementById('firstName').value;
-  const lastName = document.getElementById('lastName').value;
-  const email = document.getElementById('email').value;
-  const donationType = document.querySelector('input[name="donationType"]:checked').value;
-  const emailReceipt = document.getElementById('receipt').checked;
+  let amount = document.getElementById('amount').value;
 
-  // Here you would typically send the donation data to the server
-  console.log({
-    firstName,
-    lastName,
-    email,
-    selectedAmount,
-    selectedMonths,
-    donationType,
-    emailReceipt
-  });
+  // Remove any dollar signs and convert to a number
+  amount = amount.replace(/\$/g, '');
+  amount = parseFloat(amount);
 
-  document.getElementById('confirmMessage').style.display = 'block';
-  document.getElementById('confirmMessage').innerText = `Thank you for your donation of $${selectedAmount}. Your support is greatly appreciated!`;
+  if (isNaN(amount) || amount <= 0) {
+    alert('Please enter a valid donation amount.');
+    return;
+  }
+
+  const token = localStorage.getItem('token'); // Get the stored token
+
+  fetch('/api/donate', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}` // Include the token in the request headers
+    },
+    body: JSON.stringify({ firstName, amount })
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.error) {
+      alert('Donation failed: ' + data.error);
+    } else {
+      document.getElementById('confirmMessage').style.display = 'block';
+      document.getElementById('confirmMessage').innerText = `Thank you for your donation of $${amount}. Your support is greatly appreciated!`;
+    }
+  })
+  .catch(error => console.error('Error:', error));
 }

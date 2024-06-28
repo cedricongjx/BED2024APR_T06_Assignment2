@@ -1,8 +1,12 @@
+require('dotenv').config(); // Load environment variables from .env file
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const sql = require('mssql');
+const usersController = require('./controllers/usersController');
+const donationsController = require('./controllers/donationsController');
+const authenticateToken = require('./middlewares/authenticateToken');
 const dbConfig = require('./config/dbConfig');
-const usersController = require('./controllers/usersController'); // Ensure correct path
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -14,12 +18,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
 // User routes
-app.post('/api/signup', usersController.createUser); 
-app.post('/api/login', usersController.loginUser); // Ensure this line is correct
-app.get('/api/users', usersController.getAllUsers);
-app.get('/api/users/:id', usersController.getUserById);
-app.put('/api/users/:id', usersController.updateUser);
-app.delete('/api/users/:id', usersController.deleteUser);
+app.post('/api/signup', usersController.createUser);
+app.post('/api/login', usersController.loginUser);
+
+// Protected donation route
+app.post('/api/donate', authenticateToken, donationsController.createDonation);
 
 // Start the server and connect to the database
 app.listen(port, async () => {
