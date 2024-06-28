@@ -14,18 +14,18 @@ window.addEventListener('click', (event) => {
     }
 });
 
-function joinNewsletter(event) {
+async function joinNewsletter(event) {
     event.preventDefault();
     const email = document.getElementById('email').value;
   
-    fetch('/api/newsletter', {
+    const res = await fetch('/api/newsletter', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ email })
+      body: JSON.stringify({ email: email })
     })
-    .then(response => response.json())
+    .then(res => res.json())
     .then(data => {
       if (data.error) {
         alert('Subscription failed: ' + data.error);
@@ -33,5 +33,11 @@ function joinNewsletter(event) {
         alert('Newsletter subscription successful');
       }
     })
-    .catch(error => console.error('Error:', error));
+    .catch(error => {
+      console.error('Error:', error);
+      alert('Subscription failed: ' + error.message);
+    });
   }
+  
+
+document.getElementById('email-form').addEventListener('submit', joinNewsletter);

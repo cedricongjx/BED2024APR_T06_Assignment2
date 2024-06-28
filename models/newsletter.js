@@ -12,11 +12,11 @@ class Newsletter {
         try {
         const query = `
             INSERT INTO Newsletter (email)
-            VALUES (@email);
+            VALUES (@email)
             SELECT SCOPE_IDENTITY() AS id;
         `;
         const request = connection.request();
-        request.input('email', sql.VarChar, email);
+        request.input('email', email);
         const result = await request.query(query);
         const Newsid = result.recordset[0].id;
         return new Newsletter(Newsid, email);
