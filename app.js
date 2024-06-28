@@ -24,6 +24,7 @@ app.put('/api/users/:id', usersController.updateUser);
 app.delete('/api/users/:id', usersController.deleteUser);
 app.post('/api/newsletter', newslettersController.joinNewsletter);
 app.get('/api/documentary/:id', documentarysController.getDocbyID);
+app.put('/api/documentary/:id', documentarysController.updateDocByID);
 
 // Start the server and connect to the database
 app.listen(port, async () => {

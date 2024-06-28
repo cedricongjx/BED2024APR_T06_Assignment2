@@ -143,3 +143,12 @@ footer {
     cursor: pointer;
 }
 
+#edit-button, #ok-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 1em;
+    background-color: #e50914;
+    border: none;
+    color: white;
+    cursor: pointer;
+}

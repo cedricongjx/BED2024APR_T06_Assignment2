@@ -28,6 +28,31 @@ class Documentary {
         await connection.close();
         }
     }
+  
+    static async updateDocByID(id, title, docdate, documentary, image) {
+      const connection = await sql.connect(dbConfig);
+      try {
+        const query = `
+          UPDATE documentary
+          SET title = @title, docdate = @docdate, documentary = @documentary, image = @image
+          WHERE docid = @id
+        `;
+        const request = connection.request();
+        request.input('id', sql.Int, id);
+        request.input('title', sql.NVarChar, title);
+        request.input('docdate', sql.Date, docdate);
+        request.input('documentary', sql.NVarChar, documentary);
+        request.input('image', sql.NVarChar, image);
+        const result = await request.query(query);
+        return result.rowsAffected[0]; // Returns the number of rows affected
+      } catch (error) {
+        console.error('Error updating documentary:', error);
+        throw error;
+      } finally {
+        await connection.close();
+      }
+    }
+
 
 }
 
