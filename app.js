@@ -15,6 +15,9 @@ app.use(staticMiddleware);
 app.get("/event",eventController.getAllEvent);
 app.get("/event/:id",eventController.getEventById);
 app.post("/event",eventController.createEvent);
+app.get("/latestEvent",eventController.latestEvent);
+//app.put("/event/:id",eventController.updateEvent);
+app.get("/events/search",eventController.getEventByName);
 
 app.listen(port, async () => {
   try {
@@ -26,7 +29,6 @@ app.listen(port, async () => {
     // Terminate the application with an error code (optional)
     process.exit(1); // Exit with code 1 indicating an error
   }
-
   console.log(`Server listening on port ${port}`);
 });
 

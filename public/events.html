@@ -21,14 +21,27 @@
       </ul>
     </div>
   </nav>
-  <div class="banner">
-    <img src="https://via.placeholder.com/800x300" alt="Card Image" class="card-img">
+  <div class="search-container">
+    <input type="text" id="searchInput" placeholder="Search events by name">
+    <button onclick="searchEvent()">Search</button>
   </div>
+  <div class="banner" id="latestEventBanner">
+    <p>Latest Event</p>
+  </div>
+  <div class="card latest-event-card" id="latestEventCard">
+    <div class="card-img-container">
+      <img src="https://via.placeholder.com/400x300" alt="Card Image" class="card-img" id="eventImage">
+    </div>
+    <div class="card-content">
+      <h2 id="eventTitle">Event Title</h2>
+      <p id="eventDescription">Event description goes here. This is a placeholder for event details.</p>
+      <p id="eventDateTime">Event Date & Time</p>
+    </div>
+  </div>
+
   <div class="scroll-container">
     <button class="scroll-button scroll-prev" onclick="scrollPrev()">❮</button>
-    <div class="card-container" id="cardContainer">
-      
-    </div>
+    <div class="card-container" id="cardContainer"></div>
     <button class="scroll-button scroll-next" onclick="scrollNext()">❯</button>
   </div>
   <div class="newEvent">

@@ -3,7 +3,7 @@ const Event = require("../models/event")
 const getAllEvent = async (req,res) => {
     try{
         const events = await Event.getAllEvent();
-        return res.json(events);
+        res.json(events);
     }catch(error){
         console.log(error);
         res.status(500).send("error retreiving events");
@@ -22,6 +22,19 @@ const getEventById = async (req,res)=>{
         res.status(500).send("Error retreiving event");
     }
 };
+const getEventByName = async (req, res) => {
+    const EventName = req.query.name; // Use query parameter instead of path parameter
+    try {
+        const events = await Event.getEventByName(EventName);
+        if (events.length === 0) {
+            return res.status(404).send("No events found");
+        }
+        res.json(events);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error retrieving events");
+    }
+};
 const createEvent = async (req,res)=>{
     const newEvent = req.body;
     try{
@@ -32,9 +45,35 @@ const createEvent = async (req,res)=>{
         res.status(500).send("Error creating event");
     }
 }
+const latestEvent = async (req,res) =>{
+    try{
+        const latestevent = await Event.latestEvent();
+        return res.json(latestevent);
+    }catch(error){
+        console.log(error);
+        res.status(500).send("error retreiving events");
+    }
+}
+const updateEvent = async (req,res) =>{
+    const EventId = parseInt(req.params.id)
+    const newEventData = req.body;
+    try{
+        const updatedEvent = await Event.updateEvent(EventId,newEventData);
+        if (!updatedEvent){
+            return res.status(404).send("Event not found");
+        }
+        res.json(updatedEvent)
+    }catch(error){
+        console.log(error)
+        res.status(500).send("Error updating Events");
+    }
+}
 module.exports={
     getAllEvent,
     getEventById,
     createEvent,
+    latestEvent,
+    updateEvent,
+    getEventByName,
 
 }
