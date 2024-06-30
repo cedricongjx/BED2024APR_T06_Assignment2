@@ -5,6 +5,7 @@ const dbConfig = require('./config/dbConfig');
 const usersController = require('./controllers/usersController'); // Ensure correct path
 const newslettersController = require('./controllers/newslettersController');
 const documentarysController = require('./controllers/documentarysController');
+const validateEmail = require('./middlewares/validateEmail')
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -22,7 +23,7 @@ app.get('/api/users', usersController.getAllUsers);
 app.get('/api/users/:id', usersController.getUserById);
 app.put('/api/users/:id', usersController.updateUser);
 app.delete('/api/users/:id', usersController.deleteUser);
-app.post('/api/newsletter', newslettersController.joinNewsletter);
+app.post('/api/newsletter', validateEmail, newslettersController.joinNewsletter);
 app.get('/api/documentary/:id', documentarysController.getDocbyID);
 app.put('/api/documentary/:id', documentarysController.updateDocByID);
 
