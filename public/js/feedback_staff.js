@@ -1,33 +1,33 @@
 
-async function fetchBugFeedback()
+async function fetchBugFeedback(value)
 {
     const response = await fetch("/feedback/bug");
     const data = await response.json();
-    createHTMLDOMFeedback(data);
+    createHTMLDOMFeedback(data,value);
 }
 
-async function fetchCustomerServiceFeedback()
+async function fetchCustomerServiceFeedback(value)
 {
     const response = await fetch("/feedback/customerservice");
     const data = await response.json();
-    createHTMLDOMFeedback(data);
+    createHTMLDOMFeedback(data,value);
 }
 
-async function fetchfeedbackFeedback()
+async function fetchfeedbackFeedback(value)
 {
     const response = await fetch("/feedback/feedback");
     const data = await response.json();
-    createHTMLDOMFeedback(data);
+    createHTMLDOMFeedback(data,value);
 }
 
-async function fetchOtherFeedback()
+async function fetchOtherFeedback(value)
 {
     const response = await fetch("/feedback/other");
     const data = await response.json();
-    createHTMLDOMFeedback(data);
+    createHTMLDOMFeedback(data,value);
 }
 
-function createHTMLDOMFeedback(data)
+function createHTMLDOMFeedback(data,category)
 {
     const feedback_container = document.getElementsByClassName("feedback_section");
     var feedback_list = document.getElementsByClassName("row align-items-center");
@@ -64,6 +64,14 @@ function createHTMLDOMFeedback(data)
             items[i].addEventListener("click",function(e)
             {
                 sessionStorage.setItem("feedback_id",e.target.id); 
+                const text = e.target.id.split("-")
+                const id = text[1];
+                sessionStorage.setItem("feedback_type",data[id].category);
+                if(category == undefined)
+                    {
+                        category = "All"
+                    }
+                sessionStorage.setItem("feedback_category",category);
                 window.location.href = "staff_feedback_details.html"
             })
         }
@@ -78,12 +86,12 @@ function deleteHTML()
         }
 }   
 
-async function fetchAllFeedback()
+async function fetchAllFeedback(value)
 {
 
     const response = await fetch("/feedback");
     const data = await response.json();
-    createHTMLDOMFeedback(data);
+    createHTMLDOMFeedback(data,value);
 }
 
 fetchAllFeedback();
@@ -93,29 +101,28 @@ const category = document.getElementById("staff_feedback_category");
     category.addEventListener("change", function(e)
         {
             value = category.value;
-            console.log(value);
             deleteHTML();
             if(value == "Bug")
                 {
-                    fetchBugFeedback();
+                    fetchBugFeedback(value);
                 }
             else if(value == "Customer service")
                 {
                     
-                    fetchCustomerServiceFeedback();
+                    fetchCustomerServiceFeedback(value);
                 }
             else if(value == "Feedback")
                 {
-                    fetchfeedbackFeedback();
+                    fetchfeedbackFeedback(value);
                 }
             else if(value == "Other")
                 {
                     
-                    fetchOtherFeedback();
+                    fetchOtherFeedback(value);
                 }
             else if(value == "All")
                 {
-                    fetchAllFeedback();
+                    fetchAllFeedback(value);
                 }
            
         });
