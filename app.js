@@ -6,6 +6,7 @@ const sql = require('mssql');
 const usersController = require('./controllers/usersController');
 const donationsController = require('./controllers/donationsController');
 const authenticateToken = require('./middlewares/authenticateToken');
+const validationMiddleware = require('./middlewares/validate');
 const dbConfig = require('./config/dbConfig');
 
 const app = express();
@@ -18,8 +19,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
 // User routes
-app.post('/api/signup', usersController.createUser);
-app.post('/api/login', usersController.loginUser);
+app.post('/api/signup', validationMiddleware.validateSignup, usersController.createUser);
+app.post('/api/login', validationMiddleware.validateLogin, usersController.loginUser);
+app.get('/api/users', usersController.getAllUsers);
+app.get('/api/users/:id', validationMiddleware.validateUserIdParam, usersController.getUserById);
+app.put('/api/users/:id', validationMiddleware.validateUserIdParam, validationMiddleware.validateUserUpdate, usersController.updateUser);
+app.delete('/api/users/:id', validationMiddleware.validateUserIdParam, usersController.deleteUser);
 
 // Protected donation route
 app.post('/api/donate', authenticateToken, donationsController.createDonation);
