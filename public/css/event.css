@@ -159,14 +159,14 @@ body {
 
 .latest-event-card {
   display: flex;
-  flex-direction: row; /* Change layout for the latest event card */
+  flex-direction: row; 
   border: 1px solid #ccc;
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  min-width: 300px; /* Adjusted minimum width */
+  min-width: 300px;
   background-color: #fff;
-  margin: 20px; /* Add some margin for separation */
+  margin: 20px; 
 }
 
 .latest-event-card .card-img-container {
@@ -263,4 +263,13 @@ body {
 }
 .card-container h2{
   cursor: pointer;
+}
+.no-events-message {
+  font-size: 18px;
+  color: #555;
+  text-align: center;
+  padding: 20px;
+}
+.hidden {
+  display: none;
 }

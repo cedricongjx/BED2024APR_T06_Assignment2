@@ -23,7 +23,7 @@ const getEventById = async (req,res)=>{
     }
 };
 const getEventByName = async (req, res) => {
-    const EventName = req.query.name; // Use query parameter instead of path parameter
+    const EventName = req.query.name; 
     try {
         const events = await Event.getEventByName(EventName);
         if (events.length === 0) {

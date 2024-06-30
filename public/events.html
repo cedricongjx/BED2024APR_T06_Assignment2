@@ -16,7 +16,7 @@
         <li><a href="#">Home</a></li>
         <li><a href="#">About Us</a></li>
         <li><a href="#">Donate</a></li>
-        <li><a href="#">Events</a></li>
+        <li><a href="events.html">Events</a></li>
         <li><a href="#">Contact Us</a></li>
       </ul>
     </div>
@@ -24,6 +24,9 @@
   <div class="search-container">
     <input type="text" id="searchInput" placeholder="Search events by name">
     <button onclick="searchEvent()">Search</button>
+  </div>
+  <div id="noResultsMessage" style="display: none; text-align: center; font-size: 1.2em; color: #555;">
+    No events found.
   </div>
   <div class="banner" id="latestEventBanner">
     <p>Latest Event</p>

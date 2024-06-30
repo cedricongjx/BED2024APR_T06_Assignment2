@@ -124,13 +124,12 @@ class Event{
         const request = connection.request();
         request.input("Eventid",id);
         request.input("EventName",newEventData.EventName || null);
-        request.input("EventName",newEventData.eventDescription || null);
-        request.input("EventName",newEventData.eventDateTime || null);
+        request.input("EventDescription",newEventData.eventDescription || null);
+        request.input("EventDateTime",newEventData.eventDateTime || null);
         request.input("Adminid",1)
         await request.query(sqlQuery);
         connection.close()
         return this.getEventById(id);
     }
-    
 }
 module.exports = Event;
