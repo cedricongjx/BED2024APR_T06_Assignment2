@@ -70,6 +70,22 @@ const getAllOtherFeedback = async(req,res)=>
         }
     };
 
+const getFeedbackByName = async(req,res)=>
+    {
+        const feedback_name = req.query.searchTermFeedback;
+        try
+        {
+            const feedback = await Feedback.getFeedbackByName(feedback_name);
+
+            res.json(feedback);
+        }
+        catch(error)
+        {
+            console.error(error);
+            res.status(500).send("Error retrieving feedback");
+        }
+    }
+
 const createFeedback = async(req,res) =>
     {
         const newFeedback = req.body;
@@ -123,6 +139,26 @@ const deleteFeedback = async(req,res) =>
         }
     };
 
+const addJustification = async(req,res)=>
+    {
+        const newFeedback_justification = req.body;
+        try
+        {
+            const addedJustification = await Feedback.addJustification(newFeedback_justification.justification, newFeedback_justification.feedback_id);
+            if(!addedJustification)
+                {
+                    return res.status(404).send("Feedback not found");
+
+                }
+            res.status(204).send();
+
+        }
+        catch(error)
+        {
+            console.error(error);
+            res.status(500).send("Error deleting feedback");
+        }
+    };
 
 module.exports =
 {
@@ -132,7 +168,9 @@ module.exports =
     getAllCustomerServiceFeedback,
     getAllfeedbackFeedback,
     getAllOtherFeedback,
+    getFeedbackByName,
     updateFeedback,
     deleteFeedback,
+    addJustification,
 };
 

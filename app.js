@@ -23,6 +23,7 @@ app.put('/api/users/:id', usersController.updateUser);
 app.delete('/api/users/:id', usersController.deleteUser);
 
 //Feedback
+app.get("/feedback/name",feedbackController.getFeedbackByName);
 app.get("/feedback",feedbackController.getAllFeedback);
 app.get("/feedback/bug",feedbackController.getAllBugFeedback);
 app.get("/feedback/customerservice",feedbackController.getAllCustomerServiceFeedback);
@@ -31,6 +32,9 @@ app.get("/feedback/other",feedbackController.getAllOtherFeedback);
 app.post("/feedback",feedbackController.createFeedback)
 app.put("/feedback/:id",feedbackController.updateFeedback)
 app.delete("/feedback/:id",feedbackController.deleteFeedback);
+
+app.post("/feedback/verified",feedbackController.addJustification);
+
 
 // Start the server and connect to the database
 app.listen(port, async () => {

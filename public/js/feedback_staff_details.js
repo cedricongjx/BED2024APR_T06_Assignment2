@@ -21,6 +21,36 @@ async function fetchDeleteFeedback(feedback_id)
     
 }
 
+async function fetchAddJustification(justification,feedback_id)
+{
+    const response = await fetch('/feedback/verified',
+        {
+            method:'POST',
+            headers:
+            {
+                "Content-Type":'application/json'
+            },
+            body: JSON.stringify
+            ({
+                justification: justification,
+                feedback_id: feedback_id
+            })
+        }
+    )
+    .then(res =>
+        {
+            res.json()
+        }
+    )
+    .then(data =>
+        {
+            window.alert("Justification submitted")
+            console.log(data);
+        }
+    )
+}
+
+
 async function fetchUpdateFeedback(feedback_id)
 {
     const response = await fetch(`/feedback/${feedback_id}`,
@@ -32,10 +62,15 @@ async function fetchUpdateFeedback(feedback_id)
             }
         }
     )
-    .then
-    (
-        window.alert("Feedback Updated")
-    );
+    const justification_button = document.getElementById("feedback_justification_submit");
+    justification_button.addEventListener("click",() =>
+    {
+        const justification_text =document.getElementById("feedback_justification_text").value;
+        fetchAddJustification(justification_text, feedback_id);
+    })
+
+
+    
 }
 
 async function fetchSpecificFeedback(feedback_id)
@@ -89,7 +124,7 @@ async function fetchSpecificFeedback1(feedback_id,data)
     verify_button.addEventListener("click",() =>
     {
         fetchUpdateFeedback(feedback.id)
-        window.location.href = "staff_feedback.html"
+        //window.location.href = "staff_feedback.html"
     })
     delete_button.addEventListener("click",() =>
         {

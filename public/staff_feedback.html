@@ -29,8 +29,15 @@
           <div class = "staff_feedback_top_container">
             <h1>Feedback Recieved</h1>
 
+            
+            
             <div class="form-group staff_feedback_category_container">
-              <label for="staff_feedback_category ">Category</label>
+              <form class="form-inline">
+              <input class="form-control mr-sm-2" id = "feedback_search_value" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-success my-2 my-sm-0 " id = "feedback_search_button" type="submit">Search</button>
+            </form>
+            <form>
+              <label for="staff_feedback_category">Category</label>
               <select class="form-control" id="staff_feedback_category">
                 <option>All</option>
                 <option>Bug</option>
@@ -38,6 +45,7 @@
                 <option>Feedback</option>
                 <option>Other</option>
               </select>
+            </form>
             </div>
           </div>
           

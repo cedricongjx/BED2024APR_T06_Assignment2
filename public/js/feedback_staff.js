@@ -94,6 +94,14 @@ async function fetchAllFeedback(value)
     createHTMLDOMFeedback(data,value);
 }
 
+async function fetchFeedbackByName(name)
+{
+    const response = await fetch(`/feedback/name?searchTermFeedback=${name}`)
+    const data = await response.json();
+    createHTMLDOMFeedback(data,"All");
+
+}
+
 fetchAllFeedback();
 
 const category = document.getElementById("staff_feedback_category");
@@ -127,7 +135,15 @@ const category = document.getElementById("staff_feedback_category");
            
         });
 
-
+const search = document.getElementById("feedback_search_value");
+const search_button = document.getElementById("feedback_search_button");
+search_button.addEventListener("click", function(e)
+{
+    e.preventDefault();
+    const search_value = search.value;
+    deleteHTML();
+    fetchFeedbackByName(search_value);
+});
 
 
 

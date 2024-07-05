@@ -79,6 +79,16 @@ class Feedback
         );
     }
 
+    static async getFeedbackByName(name)
+    {
+        const connection = await sql.connect(dbConfig);
+        const sqlQuery = `SELECT * FROM Feedback WHERE title LIKE '%${name}%'`
+        const request = connection.request();
+        const result = await request.query(sqlQuery);
+        return result.recordset
+        
+    }
+
     static async createFeedback(newFeedbackData)
     {
         const connection = await sql.connect(dbConfig)
@@ -113,6 +123,19 @@ class Feedback
         connection.close();
 
         return result.rowsAffected > 0;
+    }
+
+    static async addJustification(justification,id)
+    {
+        const connection = await sql.connect(dbConfig);
+        const sqlQuery = `INSERT INTO FeedbackVerified(justification,feedback_id) VALUES (@justification,@feedback_id); SELECT SCOPE_IDENTITY() AS id;`;
+        const request = connection.request();
+        request.input('justification',justification);
+        request.input('feedback_id',id);
+        const result = await request.query(sqlQuery);
+        connection.close();
+        return true;
+        
     }
 }
 
