@@ -5,11 +5,12 @@ const cors = require('cors');
 const morgan = require('morgan');
 const sql = require('mssql');
 const dbConfig = require('./dbConfigs');
-const authMiddleware = require('./practicals/PolytechnicLibraryAPI/middleware/authMiddleware');
+const authMiddleware = require('./middleware/authMiddleware');
+const appConfig = require('../config/appConfig');
 
 // Import routes
-const userRoutes = require('./practicals/PolytechnicLibraryAPI/Controller/userController');
-const bookRoutes = require('./practicals/PolytechnicLibraryAPI/Controller/bookController');
+const userRoutes = require('./Controllers/userController');
+const bookRoutes = require('./Controllers/bookController');
 
 // Create Express app
 const app = express();
