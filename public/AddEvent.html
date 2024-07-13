@@ -25,7 +25,7 @@
     </div>
   </nav>
   <div class="container min-vh-100 d-flex justify-content-center">
-    <form class="form-container">
+    <form id="eventForm" method="POST" enctype="multipart/form-data" class="form-container">
       <div class="row">
         <div class="col-md-6">
           <div class="form-group">
@@ -43,10 +43,14 @@
             <label for="eventInputDescription" class="form-label">Event Description</label>
             <textarea class="form-control" id="eventInputDescription" rows="5"></textarea>
           </div>
-          <!-- <div class="form-group">
-            <label for="eventBanner">Event banner</label>
-            <input type="file" class="form-control-file" id="eventInputImage">
-          </div> -->
+          <div class="form-group">
+            <label for="eventlocation" class="form-label">Event Location</label>
+            <input type="text" class="form-control" id="eventInputlocation" aria-describedby="eventHelp" placeholder="Enter event location">
+          </div>
+          <div class="form-group">
+            <label for="eventInputImage">Event Banner</label>
+            <input type="file" class="form-control-file" id="eventInputImage" name="image" accept="image/*" required>
+          </div>
           <div class="button-container">
             <button type="button" class="btn btn-danger btn-submit">Submit</button>
           </div>

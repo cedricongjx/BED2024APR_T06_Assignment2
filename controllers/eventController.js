@@ -1,4 +1,5 @@
 const Event = require("../models/event")
+const path = require('path');
 
 const getAllEvent = async (req,res) => {
     try{
@@ -37,6 +38,7 @@ const getEventByName = async (req, res) => {
 };
 const createEvent = async (req,res)=>{
     const newEvent = req.body;
+    console.log('Request Body:', req.body);
     try{
         const createdEvent = await Event.createEvent(newEvent);
         res.status(201).json(createdEvent);
@@ -54,20 +56,20 @@ const latestEvent = async (req,res) =>{
         res.status(500).send("error retreiving events");
     }
 }
-const updateEvent = async (req,res) =>{
-    const EventId = parseInt(req.params.id)
+const updateEvent = async (req, res) => {
+    const EventId = parseInt(req.params.id);
     const newEventData = req.body;
-    try{
-        const updatedEvent = await Event.updateEvent(EventId,newEventData);
-        if (!updatedEvent){
+    try {
+        const updatedEvent = await Event.updateEvent(EventId, newEventData);
+        if (!updatedEvent) {
             return res.status(404).send("Event not found");
         }
-        res.json(updatedEvent)
-    }catch(error){
-        console.log(error)
-        res.status(500).send("Error updating Events");
+        res.json(updatedEvent);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error updating event");
     }
-}
+};
 module.exports={
     getAllEvent,
     getEventById,

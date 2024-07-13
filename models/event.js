@@ -2,13 +2,16 @@ const sql = require("mssql");
 const dbConfig = require("../dbConfig");
 const { number } = require("joi");
 
+
 class Event{
-    constructor(Eventid,EventName,eventDescription,eventDateTime,Adminid)
+    constructor(Eventid,EventName,eventDescription,eventDateTime,location,Image,Adminid)
     {
         this.Eventid = Eventid;
         this.EventName = EventName;
         this.eventDescription = eventDescription;
         this.eventDateTime = eventDateTime;
+        this.location = location
+        this.Image = Image
         this.Adminid = Adminid
     }
 
@@ -23,7 +26,7 @@ class Event{
 
         connection.close();
         return result.recordset.map(
-            (row) => new Event(row.Eventid,row.EventName,row.eventDescription,row.eventDateTime,row.Adminid)
+            (row) => new Event(row.Eventid,row.EventName,row.eventDescription,row.eventDateTime,row.location,row.Image,row.Adminid)
         );
     }
     static async getEventById(id){
@@ -40,6 +43,8 @@ class Event{
                 result.recordset[0].EventName,
                 result.recordset[0].eventDescription,
                 result.recordset[0].eventDateTime,
+                result.recordset[0].location,
+                result.recordset[0].Image,
                 result.recordset[0].Adminid,
             )
             :null;
@@ -52,18 +57,20 @@ class Event{
         const result = await request.query(sqlQuery);
         connection.close();
         return result.recordset.map(
-            (row) => new Event(row.Eventid, row.EventName, row.eventDescription, row.eventDateTime, row.Adminid)
+            (row) => new Event(row.Eventid,row.EventName,row.eventDescription,row.eventDateTime,row.location,row.Image,row.Adminid)
         );
     }
     static async createEvent(newEventData){
         const connection = await sql.connect(dbConfig);
-        const sqlQuery = `INSERT INTO EVENT(EventName,eventDescription,eventDateTime,Adminid) values(@EventName,@eventDescription,@eventDateTime,@Adminid); 
+        const sqlQuery = `INSERT INTO EVENT(EventName,eventDescription,eventDateTime,Adminid,image,location) values(@EventName,@eventDescription,@eventDateTime,@Adminid,@image,@location); 
                           select scope_identity() AS Eventid`;
         const request = connection.request();
-        request.input("EventName",newEventData.Eventname);
+        request.input("EventName",newEventData.EventName);
         request.input("eventDescription",newEventData.eventDescription);
         request.input("eventDateTime",sql.DateTime,new Date(newEventData.eventDateTime));
         request.input("Adminid",sql.Int,newEventData.Adminid);
+        request.input("image",newEventData.Image);
+        request.input("location",newEventData.location);
         const result = await request.query(sqlQuery);
         connection.close();
         const eventid = result.recordset[0].Eventid;
@@ -86,6 +93,8 @@ class Event{
                 result.recordset[0].EventName,
                 result.recordset[0].eventDescription,
                 result.recordset[0].eventDateTime,
+                result.recordset[0].location,
+                result.recordset[0].Image,
                 result.recordset[0].Adminid,
             )
             :null;
@@ -118,18 +127,25 @@ class Event{
         const result = await request.query(sqlQuery);
         connection.close()
     }
-    static async updateEvent(id, newEventData){// updating event details.
-        const connection = await sql.connect(dbconfig);
-        const sqlQuery =   `UPDATE EVENT SET Eventid = @Eventid, EventName = @EventName,eventDescription = @eventDescription, eventDateTime = @eventDateTime,Adminid = @Adminid;`
+    static async updateEvent(id, newEventData) {//update event
+        const connection = await sql.connect(dbConfig);
+        const sqlQuery = `UPDATE EVENT SET 
+                            EventName = @EventName, 
+                            eventDescription = @eventDescription, 
+                            eventDateTime = @eventDateTime,
+                            Adminid = @Adminid
+                          WHERE Eventid = @Eventid`;
         const request = connection.request();
-        request.input("Eventid",id);
-        request.input("EventName",newEventData.EventName || null);
-        request.input("EventDescription",newEventData.eventDescription || null);
-        request.input("EventDateTime",newEventData.eventDateTime || null);
-        request.input("Adminid",1)
+        request.input("Eventid", sql.Int, id);
+        request.input("EventName", sql.VarChar, newEventData.EventName);
+        request.input("eventDescription", sql.VarChar, newEventData.eventDescription);
+        request.input("eventDateTime", sql.DateTime, new Date(newEventData.eventDateTime));
+        request.input("Adminid", sql.Int, newEventData.Adminid);
+    
         await request.query(sqlQuery);
-        connection.close()
+        connection.close();
         return this.getEventById(id);
     }
+    
 }
 module.exports = Event;

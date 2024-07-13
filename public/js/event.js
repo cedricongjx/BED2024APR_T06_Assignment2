@@ -74,6 +74,7 @@ function renderEvents(events) {
           <h2 class="card-title">${event.EventName}</h2>
           <p class="card-description">${event.eventDescription}</p>
           <p class="card-datetime">${new Date(event.eventDateTime).toLocaleString()}</p>
+          <a href="editEventForm.html?id=${event.Eventid}" class="edit-button">Edit</a>
         </div>
       `;
       card.addEventListener('click', () => viewEvent(event.Eventid, events));
