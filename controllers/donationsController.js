@@ -33,6 +33,18 @@ const createDonation = async (req, res) => {
   }
 };
 
+
+const getTopDonors = async (req, res) => {
+  try {
+    const topDonors = await Donation.getTopDonors();
+    res.json(topDonors);
+  } catch (error) {
+    console.error("Error fetching top donors:", error);
+    res.status(500).json({ error: "Error fetching top donors" });
+  }
+};
+
 module.exports = {
   createDonation,
+  getTopDonors
 };

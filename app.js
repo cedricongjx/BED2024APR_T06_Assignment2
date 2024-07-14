@@ -26,8 +26,13 @@ app.get('/api/users/:id', validationMiddleware.validateUserIdParam, usersControl
 app.put('/api/users/:id', validationMiddleware.validateUserIdParam, validationMiddleware.validateUserUpdate, usersController.updateUser);
 app.delete('/api/users/:id', validationMiddleware.validateUserIdParam, usersController.deleteUser);
 
-// Protected donation route
+// Protected donation routes
 app.post('/api/donate', authenticateToken, donationsController.createDonation);
+
+// Add this new route for fetching top donors
+app.get('/api/top-donors', donationsController.getTopDonors);
+
+
 
 // Start the server and connect to the database
 app.listen(port, async () => {
