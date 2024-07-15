@@ -110,23 +110,6 @@ class Event{
         const result = await request.query(sqlQuery);
         connection.close();
     }
-    static async deleteExpiredEvent(){//for delete events after datetime.Now
-        const connection = await sql.connect(dbConfig);
-        const sqlQuery = ``
-        const request = connection.request();
-
-        const result = await request.query(sqlQuery);
-        connection.close()
-    
-    }
-    static async eventsTiedtospecificUser(id){// finding event tied to specific users.
-        const connection = await sql.connect(dbconfig);
-        const sqlQuery =   ``
-        const request = connection.request();
-        
-        const result = await request.query(sqlQuery);
-        connection.close()
-    }
     static async updateEvent(id, newEventData) {//update event
         const connection = await sql.connect(dbConfig);
         const sqlQuery = `UPDATE EVENT SET 
@@ -146,6 +129,120 @@ class Event{
         connection.close();
         return this.getEventById(id);
     }
+    static async getEventsWithCategories() {
+        const connection = await sql.connect(dbConfig);
     
+        try {
+            const sqlQuery = `
+                SELECT e.eventId AS event_id, e.EventName, e.eventDescription, e.eventDateTime, e.Adminid, e.Image, e.location, c.catId AS category_id, c.categoryName
+                FROM Event e
+                LEFT JOIN EventWithCategory ec ON ec.eventId = e.eventId
+                LEFT JOIN Categories c ON ec.catId = c.catId
+                ORDER BY e.eventName;
+            `;
+    
+            const result = await connection.request().query(sqlQuery);
+    
+            // Group events and their categories
+            const eventsWithCategories = {};
+            for (const row of result.recordset) {
+                const eventId = row.event_id;
+                if (!eventsWithCategories[eventId]) {
+                    eventsWithCategories[eventId] = {
+                        eventId: eventId,
+                        eventName: row.EventName,
+                        eventDescription: row.eventDescription,
+                        eventDateTime: row.eventDateTime,
+                        adminId: row.Adminid,
+                        image: row.Image,
+                        location: row.location,
+                        categories: [],
+                    };
+                }
+                if (row.category_id) {
+                    eventsWithCategories[eventId].categories.push({
+                        categoryId: row.category_id,
+                        categoryName: row.categoryName,
+                    });
+                }
+            }
+    
+            return Object.values(eventsWithCategories);
+        } catch (error) {
+            throw new Error("Error fetching events with categories");
+        } finally {
+            await connection.close();
+        }
+    }
+    static async detailedEventById(eventid){
+        const connection = await sql.connect(dbConfig);
+        try{
+            const sqlQuery = `
+            SELECT e.eventId AS event_id, e.EventName, e.eventDescription, e.eventDateTime, e.Adminid, e.Image, e.location, c.catId AS category_id, c.categoryName
+            FROM Event e
+            LEFT JOIN EventWithCategory ec ON ec.eventId = e.eventId
+            LEFT JOIN Categories c ON ec.catId = c.catId
+            WHERE e.eventId = @eventId
+            ORDER BY e.eventName;
+        `;
+        const request = connection.request();
+        request.input("eventId",eventid);
+        const result = await request.query(sqlQuery);
+        const eventWithCategories = {
+            eventId: null,
+            eventName: '',
+            eventDescription: '',
+            eventDateTime: '',
+            adminId: null,
+            image: '',
+            location: '',
+            categories: []
+        };
+
+        for (const row of result.recordset) {
+            if (!eventWithCategories.eventId) {
+                eventWithCategories.eventId = row.event_id;
+                eventWithCategories.eventName = row.EventName;
+                eventWithCategories.eventDescription = row.eventDescription;
+                eventWithCategories.eventDateTime = row.eventDateTime;
+                eventWithCategories.adminId = row.Adminid;
+                eventWithCategories.image = row.Image;
+                eventWithCategories.location = row.location;
+            }
+            if (row.category_id) {
+                eventWithCategories.categories.push({
+                    categoryId: row.category_id,
+                    categoryName: row.categoryName,
+                });
+            }
+        }
+
+            return eventWithCategories;
+        } catch (error) {
+            throw new Error("Error fetching event by ID with categories");
+        } finally {
+            await connection.close();
+        }     
+    }
+    static async addCategoryToEvent(eventDetails) {
+        const connection = await sql.connect(dbConfig);
+        const sqlQuery = `INSERT INTO EventWithCategory (eventId, catId) VALUES (@eventId, @catId)`;
+        const request = connection.request();
+        request.input("eventId", sql.Int, eventDetails.eventid);
+        request.input("catId", sql.Int, eventDetails.catid);
+        await request.query(sqlQuery)
+        connection.close();
+        return this.detailedEventById(eventDetails.eventid);
+    }
+    static async removeCategoryFromEvent(eventDetails){
+        const connection = await sql.connect(dbConfig);
+        const sqlQuery = `delete from EventWithCategory where Eventid = @eventId and CatId = @catId`;
+        const request = connection.request();
+        request.input("eventId",sql.Int,eventDetails.eventid);
+        request.input("catId",sql.Int,eventDetails.catid);
+        const result = await request.query(sqlQuery);
+        connection.close();
+        return result.rowsAffected > 0;
+    }
 }
 module.exports = Event;

@@ -8,6 +8,7 @@ const bodyParser = require("body-parser");
 const validateEventDate = require("./middlewares/validateEventDate");
 const userController = require("./controllers/userController");
 const testupload = multer({dest: 'public/images/events'})
+const categoryController = require("./controllers/categoryController")
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -44,6 +45,19 @@ app.get("/events/search", eventController.getEventByName);
 app.put("/event/:id", eventController.updateEvent);
 app.get("/userwithevent", userController.getAllUserWithEvents);
 app.get("/userwithevent/:id", userController.getUserWithEventsById);
+app.get("/eventWithCategory",eventController.getEventsWithCategories);
+app.get("/eventWithCategory/:id",eventController.detailedEventById);
+
+app.get("/category",categoryController.getAllCategories);
+app.get("/category/:id",categoryController.getCategoryById);
+app.post("/category",categoryController.addCategory)
+app.delete("/category/:id",categoryController.deleteCategory);
+app.post("/addcategoryforevent",eventController.addCategoryToEvent);
+app.delete("/removeCategoryFromEvent",eventController.removeCategoryFromEvent);
+
+app.use('/public', express.static(path.join(__dirname, 'public')));
+app.use('/images', express.static(path.join(__dirname, 'public/images/event')));
+
 
 // Start the server
 app.listen(port, async () => {
