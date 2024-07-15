@@ -88,6 +88,8 @@ body {
   min-width: 200px;
   background-color: #fff;
   cursor: pointer;
+  height: 250px;
+  width: 200px;
 }
 .card:hover {
   transform: scale(1.02); 
@@ -175,8 +177,8 @@ body {
 }
 
 .latest-event-card .card-img {
-  width: 100%;
-  height: 100%; /* Ensures the image covers its container */
+  width: 200px;
+  height: 100px; /* Ensures the image covers its container */
   object-fit: cover; /* Ensures the image is properly fitted */
 }
 
@@ -273,3 +275,76 @@ body {
 .hidden {
   display: none;
 }
+.category-filters {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.category-filters h3 {
+  margin-bottom: 10px;
+}
+
+.category-filters div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.category-filters button {
+  padding: 10px 20px;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+.category-filters button:hover {
+  background-color: #0056b3;
+}
+.show-all-button {
+  padding: 10px 20px;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff; /* Bootstrap primary color */
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+.show-all-button:hover {
+  background-color: #0056b3; /* Darker shade for hover effect */
+}
+/* /////////////////////////////////////////// */
+/* #categoryFilterContainer {
+  display: flex;
+  flex-direction: column; 
+  align-items: flex-start; 
+  padding: 20px;
+ 
+  width: 200px; 
+  position: absolute; 
+  top: 20px; 
+  left: 20px; 
+  margin-top: 50px;
+}
+
+.show-all-button, .category-button {
+  padding: 10px 20px;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  margin-bottom: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.show-all-button:hover, .category-button:hover {
+  background-color: #0056b3;
+} */

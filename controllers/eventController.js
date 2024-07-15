@@ -116,6 +116,19 @@ const removeCategoryFromEvent = async (req, res) => {
         res.status(500).send("Error deleting category for event");
     }
 };
+const getEventsByCategory = async(req,res) =>{
+    const catId = parseInt(req.params.id);
+    try{
+        const events = await Event.getEventsByCategory(catId)
+        if(!events || events.length === 0){
+            return res.status(404).send("Events not found")
+        }
+        res.json(events)
+    }catch(error){
+        console.error(error);
+        res.status(500).send("Error retreiving event by category")
+    }
+}
 module.exports={
     getAllEvent,
     getEventById,
@@ -127,4 +140,5 @@ module.exports={
     detailedEventById,
     addCategoryToEvent,
     removeCategoryFromEvent,
+    getEventsByCategory,
 }

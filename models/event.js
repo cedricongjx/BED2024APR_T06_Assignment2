@@ -244,5 +244,21 @@ class Event{
         connection.close();
         return result.rowsAffected > 0;
     }
+    static async getEventsByCategory(categoryId) {
+        const connection = await sql.connect(dbConfig);
+        const sqlQuery = `
+            SELECT e.eventId AS event_id, e.EventName, e.eventDescription, e.eventDateTime, e.location, e.Image, e.Adminid
+            FROM Event e
+            JOIN EventWithCategory ec ON e.eventId = ec.eventId
+            WHERE ec.catId = @categoryId
+        `;
+        const request = connection.request();
+        request.input("categoryId", sql.Int, categoryId);
+        const result = await request.query(sqlQuery);
+        connection.close();
+        return result.recordset.map(
+            (row) => new Event(row.event_id, row.EventName, row.eventDescription, row.eventDateTime, row.location, row.Image, row.Adminid)
+        );
+    }
 }
 module.exports = Event;

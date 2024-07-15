@@ -69,6 +69,7 @@ function renderEvents(events) {
 
       card.innerHTML = `
         <img src="${imageURL}">
+          <h3 class="card-name">${event.EventName}</h3>
           <p class="card-description">${event.eventDescription}</p>
           <p class="card-datetime">${new Date(event.eventDateTime).toLocaleString()}</p>
           <a href="editEventForm.html?id=${event.Eventid}" class="edit-button">Edit</a>
@@ -121,8 +122,58 @@ function scrollNext() {
   });
 }
 
+async function fetchCategories() {
+  try {
+    const response = await fetch('http://localhost:3000/category');
+    if (!response.ok) {
+      throw new Error('Failed to fetch categories');
+    }
+    const categories = await response.json();
+    const categoryFilterContainer = document.getElementById('categoryFilterContainer');
+    
+    categories.forEach(category => {
+      const button = document.createElement('button');
+      button.textContent = category.categoryName;
+      button.onclick = () => filterByCategory(category.catId);
+      categoryFilterContainer.appendChild(button);
+    });
+  } catch (error) {
+    console.error('Error fetching categories:', error);
+  }
+}
+
+async function filterByCategory(categoryId) {
+  try {
+    const response = await fetch(`http://localhost:3000/events/category/${categoryId}`);
+    if (!response.ok) {
+      throw new Error('Failed to fetch filtered events');
+    }
+    const events = await response.json();
+    renderEvents(events);
+  } catch (error) {
+    console.error('Error fetching filtered events:', error);
+  }
+}
+
+async function removeCategoryFilter() {
+  // Clear the filter category (optional, if you have any UI to indicate selected categories)
+  document.getElementById('categoryFilterContainer').querySelectorAll('button').forEach(button => {
+    button.classList.remove('active'); // Remove active class if used
+  });
+
+  // Fetch and display all events
+  await fetchEvents();
+}
+
 // Initialize the page
 document.addEventListener('DOMContentLoaded', function() {
   fetchEvents();
   fetchLatestEvent();
+  fetchCategories();
+
+  document.getElementById('showAllButton').addEventListener('click', () => {
+    fetchEvents()
+  });
 });
+
+
