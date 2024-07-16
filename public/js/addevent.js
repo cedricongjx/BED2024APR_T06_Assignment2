@@ -1,118 +1,6 @@
-// let dateTimeCount = 1;
-// const admin = 1;
-
-// function addDateTimeField() {
-//   dateTimeCount++;
-//   const newDateTimeDiv = document.createElement('div');
-//   newDateTimeDiv.className = 'mb-3';
-//   newDateTimeDiv.innerHTML = `
-//     <label for="eventDateTime${dateTimeCount}" class="form-label">Event Times</label>
-//     <input type="datetime-local" class="form-control" id="eventDateTime${dateTimeCount}" name="eventDateTime[]">
-//     <button type="button" class="btn btn-danger" onclick="removeDateTimeField(this)">
-//       <i class="fas fa-times"></i> <!-- X icon -->
-//     </button>
-//   `;
-//   document.getElementById('dateTimeFields').appendChild(newDateTimeDiv);
-// }
-
-// function removeDateTimeField(button) {
-//   const dateTimeField = button.parentNode;
-//   dateTimeField.parentNode.removeChild(dateTimeField);
-// }
-
-// function logFormData(formData) {
-//   for (const [key, value] of formData.entries()) {
-//     if (value instanceof File) {
-//       console.log(`${key}: File - ${value.name}`);
-//     } else {
-//       console.log(`${key}: ${value}`);
-//     }
-//   }
-// }
-
-// function formDataToJson(formData) {
-//   const obj = {};
-//   formData.forEach((value, key) => {
-//     if (obj.hasOwnProperty(key)) {
-//       if (Array.isArray(obj[key])) {
-//         obj[key].push(value);
-//       } else {
-//         obj[key] = [obj[key], value];
-//       }
-//     } else {
-//       obj[key] = value;
-//     }
-//   });
-//   return JSON.stringify(obj, null, 2);
-// }
-
-// document.addEventListener('DOMContentLoaded', function() {
-//   const submitButton = document.querySelector('.btn-submit');
-//   submitButton.addEventListener('click', async function(event) {
-//     event.preventDefault(); // Prevent form submission
-
-//     const eventName = document.getElementById('eventInputName').value;
-//     const eventDescription = document.getElementById('eventInputDescription').value;
-//     const eventLocation = document.getElementById('eventInputlocation').value;
-//     const dateTimeFields = document.querySelectorAll('input[name="eventDateTime[]"]');
-    
-//     // Collect all datetime values
-//     const eventDateTimes = Array.from(dateTimeFields).map(field => field.value).filter(value => value);
-
-//     // Get the file input
-//     const fileInput = document.getElementById('eventInputImage');
-//     const file = fileInput.files[0];
-    
-//     // Iterate over each datetime value
-//     for (const dateTime of eventDateTimes) {
-//       const formData = new FormData();
-//       if (file) {
-//         // Create the custom file detail string
-//         const fileDetails = `${file.lastModified}-${file.name.split('.').slice(0, -1).join('.')}.${file.name.split('.').pop()}`;
-//         formData.append('image', fileDetails); // Append file details
-//          // Append actual file
-//       }
-//       formData.append('eventName', eventName);
-//       formData.append('eventDescription', eventDescription);
-//       formData.append('eventLocation', eventLocation);
-//       formData.append('eventDateTime', dateTime); // Send one date-time at a time
-
-//       console.log('FormData contents before sending:');
-//       logFormData(formData); // Log FormData contents
-
-//       // Convert FormData to JSON and log it for debugging
-//       const jsonString = formDataToJson(formData);
-//       console.log('FormData as JSON:', jsonString);
-
-//       try {
-//         const response = await fetch('http://localhost:3000/event', {
-//           method: 'POST',
-//           body: jsonString
-//         });
-
-//         if (!response.ok) {
-//           const errorResponse = await response.text();
-//           console.error('Server responded with error:', errorResponse);
-//           alert(`Error: ${errorResponse}`); // Alert the error message to the user
-//           return;
-//         }
-
-//         const data = await response.json();
-//         console.log('Event created:', data);
-//         // Optionally, you might want to handle or display each created event separately
-//       } catch (error) {
-//         console.error('Error processing events:', error);
-//         alert(`Error: ${error.message}`); // Alert the error message to the user
-//         return; // Stop further processing if an error occurs
-//       }
-//     }
-
-//     // Redirect after all requests are processed
-//     window.location.href = 'events.html'; 
-//   });
-// });
 let dateTimeCount = 1;
 const admin = 1;
+let categories = [];
 
 function addDateTimeField() {
   dateTimeCount++;
@@ -132,7 +20,10 @@ function removeDateTimeField(button) {
   const dateTimeField = button.parentNode;
   dateTimeField.parentNode.removeChild(dateTimeField);
 }
+
 document.addEventListener('DOMContentLoaded', function() {
+  fetchExistingCategories();
+
   const submitButton = document.querySelector('.btn-submit');
   submitButton.addEventListener('click', async function(event) {
     event.preventDefault(); // Prevent form submission
@@ -143,10 +34,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const fileInput = document.getElementById('eventInputImage');
     const file = fileInput.files[0]; // Get the file object
     const dateTimeFields = document.querySelectorAll('input[name="eventDateTime[]"]');
+    const selectedCategories = Array.from(document.querySelectorAll('input[name="categories"]:checked')).map(input => input.value);
 
     const fetchPromises = [];
 
-    // If there is a file to upload, handle the file upload separately
     if (file) {
       const formData = new FormData();
       formData.append('image', file);
@@ -164,10 +55,9 @@ document.addEventListener('DOMContentLoaded', function() {
         const uploadData = await uploadResponse.json();
         console.log('Image uploaded:', uploadData);
 
-        // Use the returned file information for the event data
         const fileDetails = uploadData.file.filename;
 
-        dateTimeFields.forEach(field => {
+        for (const field of dateTimeFields) {
           const date = new Date(field.value);
           if (!isNaN(date.getTime())) {
             const eventDateTime = date.toISOString();
@@ -176,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
               EventName: eventName,
               eventDescription: eventDescription,
               eventDateTime: eventDateTime,
-              Adminid: 1,
+              Adminid: admin,
               Image: fileDetails,
               location: eventLocation  
             };
@@ -196,8 +86,21 @@ document.addEventListener('DOMContentLoaded', function() {
               }
               return response.json();
             })
-            .then(data => {
+            .then(async data => {
               console.log('Event created:', data);
+              const eventId = data.Eventid;
+
+              const categoryPromises = selectedCategories.map(catId => {
+                return fetch('http://localhost:3000/addcategoryforevent', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify({ eventid: eventId, catid: catId })
+                });
+              });
+
+              await Promise.all(categoryPromises);
             })
             .catch(error => {
               console.error('Failed to create event:', error);
@@ -207,7 +110,7 @@ document.addEventListener('DOMContentLoaded', function() {
           } else {
             console.error(`Invalid date input: ${field.value}`);
           }
-        });
+        }
 
         try {
           await Promise.all(fetchPromises);
@@ -220,8 +123,7 @@ document.addEventListener('DOMContentLoaded', function() {
         console.error('Failed to upload image:', error);
       }
     } else {
-      // Handle the case where there is no file to upload
-      dateTimeFields.forEach(field => {
+      for (const field of dateTimeFields) {
         const date = new Date(field.value);
         if (!isNaN(date.getTime())) {
           const eventDateTime = date.toISOString();
@@ -230,7 +132,7 @@ document.addEventListener('DOMContentLoaded', function() {
             EventName: eventName,
             eventDescription: eventDescription,
             eventDateTime: eventDateTime,
-            Adminid: 1,
+            Adminid: admin,
             Image: null, // or a default value
             location: eventLocation  
           };
@@ -250,8 +152,21 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             return response.json();
           })
-          .then(data => {
+          .then(async data => {
             console.log('Event created:', data);
+            const eventId = data.Eventid;
+
+            const categoryPromises = selectedCategories.map(catId => {
+              return fetch('http://localhost:3000/addcategoryforevent', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ eventid: eventId, catid: catId })
+              });
+            });
+
+            await Promise.all(categoryPromises);
           })
           .catch(error => {
             console.error('Failed to create event:', error);
@@ -261,7 +176,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
           console.error(`Invalid date input: ${field.value}`);
         }
-      });
+      }
 
       try {
         await Promise.all(fetchPromises);
@@ -273,3 +188,80 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 });
+
+async function addCategory() {
+  const categoryInput = document.getElementById('categoryInput');
+  const categoryName = categoryInput.value.trim();
+
+  if (categoryName) {
+    try {
+      const response = await fetch('http://localhost:3000/category', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ categoryName: categoryName })
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to add category');
+      }
+
+      const newCategory = await response.json();
+      categories.push(newCategory);
+      renderExistingCategories(categories);
+      categoryInput.value = '';
+    } catch (error) {
+      console.error('Error adding category:', error);
+    }
+  }
+}
+
+function renderExistingCategories(categories) {
+  const existingCategoriesContainer = document.getElementById('existingCategories');
+  existingCategoriesContainer.innerHTML = '';
+  categories.forEach(category => {
+    const categoryDiv = document.createElement('div');
+    categoryDiv.className = 'form-check d-flex align-items-center';
+    categoryDiv.innerHTML = `
+      <input class="form-check-input me-2" type="checkbox" name="categories" value="${category.catId}" id="category${category.catId}">
+      <label class="form-check-label flex-grow-1" for="category${category.catId}">
+        ${category.categoryName}
+      </label>
+      <button type="button" class="btn btn-danger btn-sm ms-2" onclick="deleteCategory(${category.catId})">
+        Delete
+      </button>
+    `;
+    existingCategoriesContainer.appendChild(categoryDiv);
+  });
+}
+
+async function fetchExistingCategories() {
+  try {
+    const response = await fetch('http://localhost:3000/category');
+    if (!response.ok) {
+      throw new Error('Failed to fetch categories');
+    }
+    categories = await response.json();
+    renderExistingCategories(categories);
+  } catch (error) {
+    console.error('Error fetching categories:', error);
+  }
+}
+
+async function deleteCategory(categoryId) {
+  if (confirm('Are you sure you want to delete this category?')) {
+    try {
+      const response = await fetch(`http://localhost:3000/category/${categoryId}`, {
+        method: 'DELETE',
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      categories = categories.filter(category => category.catId !== categoryId);
+      renderExistingCategories(categories);
+    } catch (error) {
+      console.error('Error deleting category:', error);
+    }
+  }
+}
