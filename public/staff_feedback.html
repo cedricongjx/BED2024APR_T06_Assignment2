@@ -25,54 +25,36 @@
               </ul>
             </div>
           </nav>
-        <section class = feedback_section>
-          <h1>Feedback Recieved</h1>
-          <div class="row align-items-center feedback_row">
-            <div class="col feedback_item">
-              One of three columns
-            </div>
-            <div class="col feedback_item">
-              One of three columns
-            </div>
-            <div class="col feedback_item">
-              One of three columns
-            </div>
-          </div>
+        <section class = "feedback_section" id = "feedback_test">
+          <div class = "staff_feedback_top_container">
+            <h1>Feedback Recieved</h1>
 
-          <div class="row align-items-center feedback_row">
-            <div class="col feedback_item">
-              One of three columns
-            </div>
-            <div class="col feedback_item">
-              One of three columns
-            </div>
-            <div class="col feedback_item">
-              One of three columns
-            </div>
-          </div>
-          <div class="row align-items-center feedback_row">
-            <div class="col feedback_item">
-              One of three columns
-            </div>
-            <div class="col feedback_item">
-              One of three columns
-            </div>
-            <div class="col feedback_item">
-              One of three columns
-            </div>
-          </div>
-          <div class="row align-items-center feedback_row">
-            <div class="col feedback_item">
-              One of three columns
-            </div>
-            <div class="col feedback_item">
-              One of three columns
-            </div>
-            <div class="col feedback_item">
-              One of three columns
+            
+            
+            <div class="form-group staff_feedback_category_container">
+              <form class="form-inline">
+              <input class="form-control mr-sm-2" id = "feedback_search_value" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-success my-2 my-sm-0 " id = "feedback_search_button" type="submit">Search</button>
+            </form>
+            <form>
+              <label for="staff_feedback_category">Category</label>
+              <select class="form-control" id="staff_feedback_category">
+                <option>All</option>
+                <option>Not Verified</option> 
+                <option>Verified</option> 
+                <option>Bug</option>
+                <option>Customer service</option>
+                <option>Feedback</option>
+                <option>Other</option>
+              </select>
+            </form>
             </div>
           </div>
+          
+          
         </section>
+        
+        <script type = "module" src = "js/feedback_staff.js"></script>
       </body>
 
 
