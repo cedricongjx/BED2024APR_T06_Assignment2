@@ -49,8 +49,7 @@ function handleLogin(event) {
   .then(response => response.json())
   .then(data => {
     if (data.message === 'Login successful') {
-      // Store the token or any other session identifier
-      // localStorage.setItem('token', data.token); // Uncomment if using JWT
+      localStorage.setItem('token', data.token); // Store the token
       alert('Login successful');
       window.location.href = '/donation.html'; // Redirect to donation page
     } else {

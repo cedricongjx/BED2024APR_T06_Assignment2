@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,700italic,400italic' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="css/statistics.css">
+  <title>Donation Statistics</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="logo">Social Impact</div>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="donate.html">Donate</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+        <li><a href="leaderboard.html">Leaderboard</a></li>
+        <li><a href="statistics.html">Statistics</a></li>
+      </ul>
+    </div>
+  </nav>
+  
+  <div class="statistics-container">
+    <div class="title">Donation Statistics</div>
+    <div class="filter-buttons">
+      <button onclick="fetchStatistics('weekly')">Weekly</button>
+      <button onclick="fetchStatistics('monthly')">Monthly</button>
+    </div>
+    <div class="statistics" id="statistics"></div>
+    <canvas id="donationChart"></canvas>
+  </div>
+
+  <script src="js/statistics.js"></script>
+</body>
+</html>
