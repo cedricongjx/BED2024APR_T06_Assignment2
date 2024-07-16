@@ -1,5 +1,7 @@
 const jwt = require('jsonwebtoken');
-const { jwtSecret } = require('../config/appConfig');
+// const { jwtSecret } = require('../config/appConfig');
+const { jwtSecret } = require('../../config/appConfig');
+
 
 const authMiddleware = (req, res, next) => {
   // Get token from header

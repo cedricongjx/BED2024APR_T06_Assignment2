@@ -3,8 +3,12 @@ const button = document.getElementById("submit_button_feedback");
 
 async function postInfo()
 {
-    const title = document.getElementById("inputTitle").value;
-    const description = document.getElementById("description").value;
+    // const title = document.getElementById("inputTitle").value;
+    const title = document.getElementById("feedbackTitle").value;
+
+    // const description = document.getElementById("description").value;
+    const description = document.getElementById("feedbackDescription").value;
+
     const cateogry  = document.getElementById("feedback_category").value;
     const res = await fetch("/feedback",
         {

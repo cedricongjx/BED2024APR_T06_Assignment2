@@ -50,6 +50,37 @@ async function fetchAddJustification(justification,feedback_id)
     )
 }
 
+async function fetchUpdateResponse(response1,feedback_id)
+{
+
+    const response = await fetch('/feedback/response',
+        {
+            method:'PUT',
+            headers:
+            {
+                "Content-Type" : 'application/json'
+            },
+            body : JSON.stringify
+            (
+                {
+                    response: response1,
+                    feedback_id: feedback_id
+                }
+            )
+        }
+    )
+    .then(res =>
+        {
+            res.json()
+        }
+    )
+    .then(data =>
+        {
+            window.alert("Response submitted")
+            console.log(data);
+        }
+    )
+}
 
 async function fetchUpdateFeedback(feedback_id)
 {
@@ -76,6 +107,20 @@ async function fetchUpdateFeedback(feedback_id)
 async function fetchSpecificFeedback(feedback_id)
 {
     const response = await fetch("/feedback");
+    const data = await response.json();
+    fetchSpecificFeedback1(feedback_id,data);
+}
+
+async function fetchSpecificVerifiedFeedback(feedback_id)
+{
+    const response = await fetch("/feedback/verified");
+    const data = await response.json();
+    fetchSpecificFeedback1(feedback_id,data);
+}
+
+async function fetchSpecificNotVerifiedFeeedback(feedback_id)
+{
+    const response = await fetch("/feedback/notverified");
     const data = await response.json();
     fetchSpecificFeedback1(feedback_id,data);
 }
@@ -108,7 +153,6 @@ async function fetchSpecificOtherFeedback(feedback_id)
 
 async function fetchSpecificFeedback1(feedback_id,data)
 {
-    console.log(feedback_id);
     // const response = await fetch("/feedback");
     // const data = await response.json();
     const text = feedback_id.split("-")
@@ -117,13 +161,35 @@ async function fetchSpecificFeedback1(feedback_id,data)
     document.getElementById("feedback_title").innerHTML = "Title: "+ feedback.title;
     document.getElementById("feedback_category").innerHTML = "Category: " + feedback.category;
     document.getElementById("feedback_description").innerHTML = "Description: " + feedback.description;
-
     const verify_button = document.getElementById("feedback_verify");
     const delete_button = document.getElementById("feedback_delete");
 
+    if(feedback.verified == "Y")
+        {
+            verify_button.innerText = "Response"
+            verify_button.dataset.target = "#feedback_response_modal";
+        }
+
     verify_button.addEventListener("click",() =>
     {
-        fetchUpdateFeedback(feedback.id)
+        if(feedback.verified == "Y")
+            {
+                const response_submit = document.getElementById("feedback_response_submit");
+                const response_text = document.getElementById("feedback_response_text");
+                response_submit.addEventListener("click" ,function(e)
+                    {
+                        e.preventDefault();
+                        const response = response_text.value
+                        fetchUpdateResponse(response, feedback.id);
+                    })
+                
+                //fetchUpdateResponse()
+            }
+        else
+            {
+                fetchUpdateFeedback(feedback.id)
+
+            }
         //window.location.href = "staff_feedback.html"
     })
     delete_button.addEventListener("click",() =>
@@ -136,6 +202,14 @@ async function fetchSpecificFeedback1(feedback_id,data)
 if(feedback_category == "All")
     {
         fetchSpecificFeedback(feedback_id);
+    }
+else if(feedback_category == "Verified")
+    {
+        fetchSpecificVerifiedFeedback(feedback_id)
+    }
+else if(feedback_category == "Not Verified")
+    {
+        fetchSpecificNotVerifiedFeeedback(feedback_id);
     }
 else if(feedback_category == "Bug")
     {

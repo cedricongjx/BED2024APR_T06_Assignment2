@@ -13,6 +13,32 @@ const getAllFeedback = async(req,res)=>
             res.status(500).send("Error retrieving feedbacks")
         }
     };
+const getAllNotVerifiedFeedback = async(req,res)=>
+    {
+        try
+        {
+            const feedback = await Feedback.getAllNotVerifiedFeedback();
+            res.json(feedback);
+        }
+        catch(error)
+        {
+            console.error(error);
+            res.status(500).send("Error retrieving feedbacks")
+        }
+    };
+const getAllVerifiedFeedback = async(req,res)=>
+    {
+        try
+        {
+            const feedback = await Feedback.getAllVerifiedFeedback();
+            res.json(feedback);
+        }
+        catch(error)
+        {
+            console.error(error);
+            res.status(500).send("Error retrieving feedbacks")
+        }
+    };
 
 const getAllBugFeedback = async(req,res)=>
     {
@@ -160,10 +186,51 @@ const addJustification = async(req,res)=>
         }
     };
 
+const editResponse = async(req,res)=>
+{
+    const response = req.body
+    try
+    {
+        const addedResponse = await Feedback.editResponse(response.response, response.feedback_id)
+        if(!addedResponse)
+        {
+            return res.status(404).send("Feedback not found");
+        }
+        res.status(200).send(response);
+    }
+    catch(error)
+        {
+            console.error(error);
+            res.status(500).send("Error updating Response");
+        }
+}
+
+const getResponse = async(req,res) =>
+    {
+        const user_id = parseInt(req.params.id);
+        try
+        {
+            const response = await Feedback.getResponse(user_id);
+            if(!(response.length > 0 ))
+                {
+                    return res.status(404).send("Response not found");
+                }      
+            res.json(response);
+        }
+        catch(error)
+        {
+            console.error(error);
+            res.status(500).send("Error getting response");
+        }
+
+    }
+
 module.exports =
 {
     createFeedback,
     getAllFeedback,
+    getAllNotVerifiedFeedback,
+    getAllVerifiedFeedback,
     getAllBugFeedback,
     getAllCustomerServiceFeedback,
     getAllfeedbackFeedback,
@@ -172,5 +239,7 @@ module.exports =
     updateFeedback,
     deleteFeedback,
     addJustification,
+    editResponse,
+    getResponse,
 };
 

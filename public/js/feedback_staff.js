@@ -50,7 +50,16 @@ function createHTMLDOMFeedback(data,category)
             }
         const feedback_item = document.createElement("button")
         feedback_item.classList.add("col","feedback_item");
-        feedback_item.textContent = feedback.title
+        const feedback_time = new Date(feedback.time);
+        const feedback_time_string = feedback_time.toISOString().substring(0,10);
+
+        // console.log(feedback.time)
+        // const year = feedback_time.getFullYear();
+        // const month = feedback_time.getMonth();
+        // const day = feedback_time.getDate();
+        // const feedback_time_string = day+"/"+month+"/"+year
+        feedback_item.innerHTML = `<h3>${feedback.title}</h3> <br> <div> ${feedback_time_string}</div>`
+
         feedback_list[i].appendChild(feedback_item);
         count ++;
     });
@@ -94,6 +103,20 @@ async function fetchAllFeedback(value)
     createHTMLDOMFeedback(data,value);
 }
 
+async function fetchAllVerifiedFeedback(value)
+{
+    const response = await fetch("/feedback/verified");
+    const data = await response.json();
+    createHTMLDOMFeedback(data,value);
+}
+
+async function fetchAllNotVerifiedFeedback(value)
+{
+    const response = await fetch("/feedback/notverified");
+    const data = await response.json();
+    createHTMLDOMFeedback(data,value);
+}
+
 async function fetchFeedbackByName(name)
 {
     const response = await fetch(`/feedback/name?searchTermFeedback=${name}`)
@@ -110,7 +133,16 @@ const category = document.getElementById("staff_feedback_category");
         {
             value = category.value;
             deleteHTML();
-            if(value == "Bug")
+
+            if(value == "Not Verified")
+            {
+                fetchAllNotVerifiedFeedback(value);
+            }
+            else if(value == "Verified")
+            {
+                fetchAllVerifiedFeedback(value);
+            }
+            else if(value == "Bug")
                 {
                     fetchBugFeedback(value);
                 }
@@ -135,14 +167,26 @@ const category = document.getElementById("staff_feedback_category");
            
         });
 
+
+//Search
 const search = document.getElementById("feedback_search_value");
 const search_button = document.getElementById("feedback_search_button");
 search_button.addEventListener("click", function(e)
 {
     e.preventDefault();
-    const search_value = search.value;
-    deleteHTML();
-    fetchFeedbackByName(search_value);
+    const search_value = search.value
+
+    if(search_value == "")
+    {
+        deleteHTML();
+        fetchAllFeedback();
+    }
+    else
+    {
+        deleteHTML();
+        fetchFeedbackByName(search_value);
+    }
+    
 });
 
 

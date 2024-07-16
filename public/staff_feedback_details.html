@@ -54,7 +54,7 @@
 
 
 
-<!-- Modal -->
+<!-- Modal Justification -->
 <div class="modal fade" id="feedback_verify_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
@@ -75,6 +75,32 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         <button type="button" class="btn btn-primary" id = "feedback_justification_submit" data-dismiss="modal">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Response -->
+<div class="modal fade" id="feedback_response_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Add Response</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id = "feedback_justification_form">
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">Response:</label>
+            <textarea class="form-control" id="feedback_response_text" rows = 5></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id = "feedback_response_submit" data-dismiss="modal">Submit</button>
       </div>
     </div>
   </div>

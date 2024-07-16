@@ -292,6 +292,7 @@ body {
 
 .feedback_item
 {
+
   cursor:pointer;
   margin-left:1%;
   margin-right:1%;
@@ -301,6 +302,7 @@ body {
   font-size: x-large;
   background-color:#ffbc03;
   border-radius: 5%;
+
 }
 
 .navbar_staff_feedback
@@ -330,4 +332,50 @@ body {
   border-style:solid;
   border-color: black;
   border-radius: 10px;
+}
+
+
+.inbox_feedback
+{
+  /* border-style:solid; */
+  margin-top:1%;
+  padding:1.5%;
+  padding-left: 5%;
+  padding-right: 5%;
+  width:90%;
+}
+
+
+#feedback_response_modal_body
+{
+  max-width: 100%;
+  height:auto;
+} 
+
+#modal_image
+{
+  max-width: 100%;
+  height:auto;
+}
+
+.inbox_feedback_item
+{
+  display:flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  font-size: x-large;
+  font-weight: bold;
+  border-style:solid;
+  padding:2%;
+  margin:5%;
+  border-radius: 100px;
+  cursor:pointer;
+  background-color:rgb(8, 101, 163,0.9) ;
+}
+
+.inbox_feedback_item:hover
+{
+  background-color: rgba(19, 67, 199, 0.3);
+  transition: ease-in 0.1s;
+  color:white; 
 }

@@ -9,7 +9,7 @@ const authenticateToken = require('./middlewares/authenticateToken');
 const validationMiddleware = require('./middlewares/validate');
 const dbConfig = require('./config/dbConfig');
 
-const usersController = require('./controllers/usersController'); // Ensure correct path
+//const usersController = require('./controllers/usersController'); // Ensure correct path
 const feedbackController = require('./controllers/feedbackController');
 
 
@@ -34,8 +34,12 @@ app.delete('/api/users/:id', validationMiddleware.validateUserIdParam, usersCont
 app.post('/api/donate', authenticateToken, donationsController.createDonation);
 
 //Feedback
+app.put("/feedback/response",feedbackController.editResponse);
+
 app.get("/feedback/name",feedbackController.getFeedbackByName);
 app.get("/feedback",feedbackController.getAllFeedback);
+app.get("/feedback/notverified",feedbackController.getAllNotVerifiedFeedback);
+app.get("/feedback/verified",feedbackController.getAllVerifiedFeedback);
 app.get("/feedback/bug",feedbackController.getAllBugFeedback);
 app.get("/feedback/customerservice",feedbackController.getAllCustomerServiceFeedback);
 app.get("/feedback/feedback",feedbackController.getAllfeedbackFeedback)
@@ -45,7 +49,7 @@ app.put("/feedback/:id",feedbackController.updateFeedback)
 app.delete("/feedback/:id",feedbackController.deleteFeedback);
 
 app.post("/feedback/verified",feedbackController.addJustification);
-
+app.get("/feedback/response/:id",feedbackController.getResponse);
 
 // Start the server and connect to the database
 app.listen(port, async () => {

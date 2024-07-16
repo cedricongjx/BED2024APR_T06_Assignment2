@@ -3,18 +3,31 @@ const dbConfig  = require("../config/dbConfig");
 
 class Feedback
 {
-    constructor(id,title,description,category,verified,userid,adminid)
+    constructor(id,title,description,category,verified,time,userid,adminid)
     {
         this.id = id;
         this.title = title;
         this.description = description;
         this.category = category;
         this.verified = verified;
+        this.time = time;
         this.userid = userid;
         this.adminid = adminid;
     }
 
     static async getAllFeedback()
+    {
+        const connection = await sql.connect(dbConfig);
+        const sqlQuery = `SELECT * FROM Feedback`;
+        const request = connection.request();
+        const result = await request.query(sqlQuery);
+        connection.close();
+        return result.recordset.map
+        (
+            (row) => new Feedback(row.id,row.title,row.description,row.category,row.verified,row.time,row.userid,row.adminid)
+        );
+    }
+    static async getAllNotVerifiedFeedback()
     {
         const connection = await sql.connect(dbConfig);
         const sqlQuery = `SELECT * FROM Feedback WHERE verified = 'N'`;
@@ -23,7 +36,19 @@ class Feedback
         connection.close();
         return result.recordset.map
         (
-            (row) => new Feedback(row.id,row.title,row.description,row.category,row.verified,row.userid,row.adminid)
+            (row) => new Feedback(row.id,row.title,row.description,row.category,row.verified,row.time,row.userid,row.adminid)
+        );
+    }
+    static async getAllVerifiedFeedback()
+    {
+        const connection = await sql.connect(dbConfig);
+        const sqlQuery = `SELECT * FROM Feedback WHERE verified = 'Y'`;
+        const request = connection.request();
+        const result = await request.query(sqlQuery);
+        connection.close();
+        return result.recordset.map
+        (
+            (row) => new Feedback(row.id,row.title,row.description,row.category,row.verified,row.time,row.userid,row.adminid)
         );
     }
 
@@ -36,7 +61,7 @@ class Feedback
         connection.close();
         return result.recordset.map
         (
-            (row) => new Feedback(row.id,row.title,row.description,row.category,row.verified,row.userid,row.adminid)
+            (row) => new Feedback(row.id,row.title,row.description,row.category,row.verified,row.time,row.userid,row.adminid)
         );
     }
 
@@ -49,7 +74,7 @@ class Feedback
         connection.close();
         return result.recordset.map
         (
-            (row) => new Feedback(row.id,row.title,row.description,row.category,row.verified,row.userid,row.adminid)
+            (row) => new Feedback(row.id,row.title,row.description,row.category,row.verified,row.time,row.userid,row.adminid)
         );
     }
 
@@ -60,9 +85,10 @@ class Feedback
         const request = connection.request();
         const result = await request.query(sqlQuery);
         connection.close();
+        console.log(result)
         return result.recordset.map
         (
-            (row) => new Feedback(row.id,row.title,row.description,row.category,row.verified,row.userid,row.adminid)
+            (row) => new Feedback(row.id,row.title,row.description,row.category,row.verified,row.time,row.userid,row.adminid)
         );
     }
 
@@ -75,7 +101,7 @@ class Feedback
         connection.close();
         return result.recordset.map
         (
-            (row) => new Feedback(row.id,row.title,row.description,row.category,row.verified,row.userid,row.adminid)
+            (row) => new Feedback(row.id,row.title,row.description,row.category,row.verified,row.time,row.userid,row.adminid)
         );
     }
 
@@ -137,6 +163,37 @@ class Feedback
         return true;
         
     }
+
+    static async editResponse(response,feedback_id)
+    {
+        const connection = await sql.connect(dbConfig);
+        const sqlQuery = `UPDATE FeedbackVerified SET response = @response WHERE feedback_id = @feedback_id`
+        const request = connection.request();
+        request.input('response', response);
+        request.input('feedback_id', feedback_id);
+        const result = await request.query(sqlQuery);
+        connection.close();
+        return true;
+    }
+
+    static async getResponse(userid)
+    {
+        const connection = await sql.connect(dbConfig);
+        const sqlQuery = 
+        `
+            SELECT fv.id, fv.justification, fv.response, fv.feedback_Id, f.title,f.description,f.category,f.verified,f.user_id,u.username,u.password
+            FROM FeedbackVerified fv INNER JOIN Feedback f
+            ON fv.feedback_Id = f.id
+            INNER JOIN Users u
+            ON u.Userid = f.user_id
+            WHERE u.Userid = @userid
+        `
+        const request = connection.request();
+        request.input("userid", userid)
+        const result = await request.query(sqlQuery);
+        connection.close();
+        return result.recordset;
+    } 
 }
 
 module.exports = Feedback;
