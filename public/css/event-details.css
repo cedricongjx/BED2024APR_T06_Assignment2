@@ -63,6 +63,7 @@ body {
     font-family: 'Droid Serif', serif;
     font-size: 1.2em;
   }
+
   #eventCategories {
     margin-top: 20px;
   }
@@ -91,4 +92,5 @@ body {
     display: inline-block;
     margin-right: 5px;
   }
+
   

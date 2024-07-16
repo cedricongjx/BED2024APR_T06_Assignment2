@@ -1,3 +1,4 @@
+
 require('dotenv').config();
 
 const express = require("express");
@@ -11,6 +12,7 @@ const validateEventDate = require("./middlewares/validateEventDate");
 const userController = require("./controllers/userController");
 const testupload = multer({dest: 'public/images/events'})
 const categoryController = require("./controllers/categoryController")
+
 const donationsController = require('./controllers/donationsController');
 const statisticsController = require('./controllers/statisticsController');
 const authenticateToken = require('./middlewares/authenticateToken');
@@ -20,6 +22,7 @@ const usersController = require('./controllers/usersController'); // Ensure corr
 const newslettersController = require('./controllers/newslettersController');
 const documentarysController = require('./controllers/documentarysController');
 const validateEmail = require('./middlewares/validateEmail')
+
 const feedbackController = require('./controllers/feedbackController');
 
 const app = express();
@@ -42,6 +45,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
+
 app.post('/api/signup', validationMiddleware.validateSignup, usersController.createUser);
 app.post('/api/login', validationMiddleware.validateLogin, usersController.loginUser);
 app.get('/api/users', usersController.getAllUsers);
@@ -51,6 +55,7 @@ app.delete('/api/users/:id', validationMiddleware.validateUserIdParam, usersCont
 app.post('/api/newsletter', validateEmail, newslettersController.joinNewsletter);
 app.get('/api/documentary/:id', documentarysController.getDocbyID);
 app.put('/api/documentary/:id', documentarysController.updateDocByID);
+
 
 // Routes
 app.get("/event", eventController.getAllEvent);
@@ -81,6 +86,7 @@ app.get("/events/category/:id",eventController.getEventsByCategory)
 app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use('/images', express.static(path.join(__dirname, 'public/images/event')));
 
+
 app.post('/api/donate', authenticateToken, donationsController.createDonation);
 
 // Add this new route for fetching top donors
@@ -107,22 +113,25 @@ app.delete("/feedback/:id",feedbackController.deleteFeedback);
 app.post("/feedback/verified",feedbackController.addJustification);
 app.get("/feedback/response/:id",feedbackController.getResponse);
 
-// Start the server
+
+
+
+
+// Start the server and connect to the database
 app.listen(port, async () => {
   try {
     await sql.connect(dbConfig);
-    console.log("Database connection established successfully");
+    console.log(`Database connected and server running on port ${port}`);
   } catch (err) {
-    console.error("Database connection error:", err);
+    console.error('Database connection error:', err);
     process.exit(1);
   }
-  console.log(`Server listening on port ${port}`);
 });
 
-// Close the connection pool on SIGINT signal
-process.on("SIGINT", async () => {
-  console.log("Server is gracefully shutting down");
+// Handle graceful shutdown
+process.on('SIGINT', async () => {
+  console.log('Shutting down gracefully...');
   await sql.close();
-  console.log("Database connection closed");
+
   process.exit(0);
 });

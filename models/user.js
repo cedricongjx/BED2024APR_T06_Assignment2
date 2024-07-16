@@ -1,4 +1,5 @@
 const sql = require("mssql");
+
 const dbConfig = require("../dbConfig");
 const { number } = require("joi");
 //const event = require("../models/event");
@@ -282,3 +283,4 @@ class user{
       }
 }
 module.exports = user;
+

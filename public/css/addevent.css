@@ -95,6 +95,7 @@ body {
 .button-container{
     display: flex;
     justify-content: center;
+
 }
 .category-item {
   display: flex;
@@ -108,4 +109,5 @@ body {
 }
 #existingCategories .form-check {
   margin-bottom: 5px;
+
 }
