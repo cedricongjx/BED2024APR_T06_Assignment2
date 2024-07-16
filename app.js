@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const sql = require('mssql');
 const usersController = require('./controllers/usersController');
 const donationsController = require('./controllers/donationsController');
+const statisticsController = require('./controllers/statisticsController');
 const authenticateToken = require('./middlewares/authenticateToken');
 const validationMiddleware = require('./middlewares/validate');
 const dbConfig = require('./config/dbConfig');
@@ -26,11 +27,13 @@ app.get('/api/users/:id', validationMiddleware.validateUserIdParam, usersControl
 app.put('/api/users/:id', validationMiddleware.validateUserIdParam, validationMiddleware.validateUserUpdate, usersController.updateUser);
 app.delete('/api/users/:id', validationMiddleware.validateUserIdParam, usersController.deleteUser);
 
-// Protected donation routes
 app.post('/api/donate', authenticateToken, donationsController.createDonation);
 
 // Add this new route for fetching top donors
 app.get('/api/top-donors', donationsController.getTopDonors);
+
+// Statistics route
+app.get('/api/statistics', statisticsController.getStatistics);
 
 
 

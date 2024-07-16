@@ -1,21 +1,29 @@
 document.addEventListener('DOMContentLoaded', function() {
-  fetchTopDonors();
-
+  fetchTopDonors('one-time');
   document.getElementById('searchDonor').addEventListener('input', filterDonors);
 });
 
-function fetchTopDonors() {
-  fetch('/api/top-donors')
+let currentDonationType = 'one-time';
+
+function toggleDonationType() {
+  currentDonationType = currentDonationType === 'one-time' ? 'monthly' : 'one-time';
+  const title = currentDonationType === 'one-time' ? 'Top Donors by One-Time Donation' : 'Top Donors by Monthly Donation';
+  document.getElementById('leaderboard-title').innerText = title;
+  fetchTopDonors(currentDonationType);
+}
+
+function fetchTopDonors(donationType) {
+  fetch(`/api/top-donors?type=${donationType}`)
     .then(response => response.json())
-    .then(donations => {
-      displayTopDonors(donations);
-      displayLeaderboard(donations);
+    .then(data => {
+      displayTopDonors(data);
+      displayLeaderboard(data);
     })
     .catch(error => console.error('Error fetching top donors:', error));
 }
 
 function displayTopDonors(data) {
-  const topDonors = data.slice(0, 3);
+  const topDonors = data.slice(0, 3); // Get top 3 donors
   const topDonorsContainer = document.getElementById('topDonors');
   topDonorsContainer.innerHTML = '';
 
@@ -24,7 +32,7 @@ function displayTopDonors(data) {
     card.className = 'top-donor-card';
 
     const img = document.createElement('img');
-    img.src = `avatar-placeholder.png`;
+    img.src = `images/avatar-placeholder.png`; // Placeholder image, replace with actual avatar
 
     const name = document.createElement('h3');
     name.textContent = donor.Name;
@@ -72,21 +80,4 @@ function filterDonors(event) {
       row.style.display = 'none';
     }
   });
-}
-
-function sortDonors(criteria) {
-  const rows = Array.from(document.querySelectorAll('#leaderboard tbody tr'));
-  let sortedRows;
-
-  if (criteria === 'newest') {
-    sortedRows = rows.sort((a, b) => b.dataset.timestamp - a.dataset.timestamp);
-  } else if (criteria === 'oldest') {
-    sortedRows = rows.sort((a, b) => a.dataset.timestamp - b.dataset.timestamp);
-  } else if (criteria === 'top') {
-    sortedRows = rows.sort((a, b) => parseFloat(b.cells[2].textContent.slice(1)) - parseFloat(a.cells[2].textContent.slice(1)));
-  }
-
-  const tbody = document.querySelector('#leaderboard tbody');
-  tbody.innerHTML = '';
-  sortedRows.forEach(row => tbody.appendChild(row));
 }

@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
   <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,700italic,400italic' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/leaderboard.css">
   <title>Donation Leaderboard</title>
 </head>
@@ -25,16 +24,14 @@
   </nav>
   
   <div class="leaderboard-container">
-    <h2>Top Donors</h2>
-    <div id="topDonors" class="top-donors">
+    <h2 id="leaderboard-title">Top Donors by One-Time Donation</h2>
+    <div class="top-donors" id="topDonors">
       <!-- Top donors will be dynamically inserted here -->
     </div>
     <div class="search-sort">
       <input type="text" id="searchDonor" placeholder="Search donor">
       <div class="sort-buttons">
-        <button onclick="sortDonors('newest')">Newest</button>
-        <button onclick="sortDonors('oldest')">Oldest</button>
-        <button onclick="sortDonors('top')">Top Donor</button>
+        <button onclick="toggleDonationType()">Toggle Donation Type</button>
       </div>
     </div>
     <table id="leaderboard">
@@ -46,7 +43,7 @@
         </tr>
       </thead>
       <tbody>
-        <!-- Leaderboard rows will be dynamically inserted here -->
+        <!-- Leaderboard data will be dynamically inserted here -->
       </tbody>
     </table>
   </div>

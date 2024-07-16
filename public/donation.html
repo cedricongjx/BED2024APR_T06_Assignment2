@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta charset="UTF-8">
   <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
   <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,700italic,400italic' rel='stylesheet' type='text/css'>
@@ -29,6 +29,11 @@
         <div class="fields">
           <input type="text" id="firstName" name="firstName" placeholder="First Name" required>
           <input type="text" id="amount" name="amount" placeholder="Amount to Donate" required>
+          <select id="donationType" name="donationType" required onchange="toggleMonthsField()">
+            <option value="one-time">One-Time</option>
+            <option value="monthly">Monthly</option>
+          </select>
+          <input type="number" id="months" name="months" placeholder="Number of Months" style="display: none;">
         </div>
         <div class="confirm" id="confirmMessage"></div>
         <button type="submit" class="donate-button"><i class="fa fa-credit-card"></i> Donate Now</button>
