@@ -3,12 +3,16 @@ require('dotenv').config(); // Load environment variables from .env file
 const express = require('express');
 const bodyParser = require('body-parser');
 const sql = require('mssql');
-const usersController = require('./controllers/usersController');
 const donationsController = require('./controllers/donationsController');
 const statisticsController = require('./controllers/statisticsController');
 const authenticateToken = require('./middlewares/authenticateToken');
 const validationMiddleware = require('./middlewares/validate');
 const dbConfig = require('./config/dbConfig');
+const usersController = require('./controllers/usersController'); // Ensure correct path
+const newslettersController = require('./controllers/newslettersController');
+const documentarysController = require('./controllers/documentarysController');
+const validateEmail = require('./middlewares/validateEmail')
+
 
 //const usersController = require('./controllers/usersController'); // Ensure correct path
 const feedbackController = require('./controllers/feedbackController');
@@ -30,6 +34,9 @@ app.get('/api/users', usersController.getAllUsers);
 app.get('/api/users/:id', validationMiddleware.validateUserIdParam, usersController.getUserById);
 app.put('/api/users/:id', validationMiddleware.validateUserIdParam, validationMiddleware.validateUserUpdate, usersController.updateUser);
 app.delete('/api/users/:id', validationMiddleware.validateUserIdParam, usersController.deleteUser);
+app.post('/api/newsletter', validateEmail, newslettersController.joinNewsletter);
+app.get('/api/documentary/:id', documentarysController.getDocbyID);
+app.put('/api/documentary/:id', documentarysController.updateDocByID);
 
 app.post('/api/donate', authenticateToken, donationsController.createDonation);
 
@@ -56,6 +63,7 @@ app.delete("/feedback/:id",feedbackController.deleteFeedback);
 
 app.post("/feedback/verified",feedbackController.addJustification);
 app.get("/feedback/response/:id",feedbackController.getResponse);
+
 
 
 
