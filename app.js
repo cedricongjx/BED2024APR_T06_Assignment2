@@ -10,6 +10,10 @@ const authenticateToken = require('./middlewares/authenticateToken');
 const validationMiddleware = require('./middlewares/validate');
 const dbConfig = require('./config/dbConfig');
 
+//const usersController = require('./controllers/usersController'); // Ensure correct path
+const feedbackController = require('./controllers/feedbackController');
+
+
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -34,6 +38,24 @@ app.get('/api/top-donors', donationsController.getTopDonors);
 
 // Statistics route
 app.get('/api/statistics', statisticsController.getStatistics);
+
+//Feedback
+app.put("/feedback/response",feedbackController.editResponse);
+
+app.get("/feedback/name",feedbackController.getFeedbackByName);
+app.get("/feedback",feedbackController.getAllFeedback);
+app.get("/feedback/notverified",feedbackController.getAllNotVerifiedFeedback);
+app.get("/feedback/verified",feedbackController.getAllVerifiedFeedback);
+app.get("/feedback/bug",feedbackController.getAllBugFeedback);
+app.get("/feedback/customerservice",feedbackController.getAllCustomerServiceFeedback);
+app.get("/feedback/feedback",feedbackController.getAllfeedbackFeedback)
+app.get("/feedback/other",feedbackController.getAllOtherFeedback);
+app.post("/feedback",feedbackController.createFeedback)
+app.put("/feedback/:id",feedbackController.updateFeedback)
+app.delete("/feedback/:id",feedbackController.deleteFeedback);
+
+app.post("/feedback/verified",feedbackController.addJustification);
+app.get("/feedback/response/:id",feedbackController.getResponse);
 
 
 
