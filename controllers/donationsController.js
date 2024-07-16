@@ -1,12 +1,11 @@
 const Donation = require("../models/donation");
 
 const createDonation = async (req, res) => {
-  const { firstName, amount } = req.body;
-  const userId = req.user && req.user.id; 
-  console.log("Creating donation for user ID:", userId); // Log the user ID
+  const { firstName, amount, donationType, months } = req.body;
+  const userId = req.user && req.user.id;
+  console.log("Creating donation for user ID:", userId);
 
   if (!userId) {
-    console.log("No authenticated user ID found.");
     return res.status(400).json({ error: "User ID is missing" });
   }
 
@@ -23,16 +22,30 @@ const createDonation = async (req, res) => {
     const newDonation = await Donation.createDonation({
       DonatorID: userId,
       Name: firstName,
-      Amount: parsedAmount, // Ensure amount is a valid number
-      DonationDate: new Date(), // Automatically use the current date
+      Amount: parsedAmount,
+      DonationDate: new Date(),
+      DonationType: donationType,
+      Months: months ? parseInt(months) : null
     });
     res.status(201).json(newDonation);
   } catch (error) {
-    console.error("Error creating donation:", error); // Log the actual error
+    console.error("Error creating donation:", error);
     res.status(500).json({ error: "Error creating donation" });
+  }
+};
+
+const getTopDonors = async (req, res) => {
+  const donationType = req.query.type || 'one-time';
+  try {
+    const topDonors = await Donation.getTopDonorsByType(donationType);
+    res.json(topDonors);
+  } catch (error) {
+    console.error("Error fetching top donors:", error);
+    res.status(500).json({ error: "Error fetching top donors" });
   }
 };
 
 module.exports = {
   createDonation,
+  getTopDonors,
 };

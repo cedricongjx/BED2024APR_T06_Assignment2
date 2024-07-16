@@ -83,9 +83,9 @@ body {
   font-weight: bold;
 }
 
-.fields input {
-  width: 100%;
-  max-width: calc(100% - 30px); /* Adjust maximum width to fit within the container */
+.fields input,
+.fields select {
+  width: calc(100% - 32px);
   padding: 15px;
   margin-bottom: 15px;
   border: 1px solid #ccc;
