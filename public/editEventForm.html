@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/event.css">
+  <title>Edit Event</title>
+</head>
+<body>
+  <h1>Edit Event</h1>
+  <form id="editEventForm">
+    <label for="eventName">Event Name:</label>
+    <input type="text" id="eventName" name="EventName" required><br>
+    <label for="eventDescription">Description:</label>
+    <textarea id="eventDescription" name="eventDescription" required></textarea><br>
+    <label for="eventDateTime">Date & Time:</label>
+    <input type="datetime-local" id="eventDateTime" name="eventDateTime" required><br>
+    <button type="submit">Save Changes</button>
+  </form>
+
+  <script src="js/editEvent.js"></script>
+</body>
+</html>
