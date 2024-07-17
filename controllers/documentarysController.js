@@ -1,5 +1,14 @@
 const Documentary = require('../models/documentary');
 
+const getAllDocs = async (req, res) =>{
+  try{
+    const docs = await Documentary.getAllDocs();
+    res.json(docs);
+  }catch(error){
+    console.log(error);
+    res.status(500).send("error retreiving documentarises");
+}
+};
 const getDocbyID = async (req, res) => {
     const id = parseInt(req.params.id);
     try {
@@ -29,5 +38,6 @@ const updateDocByID = async (req, res) => {
 
 module.exports = {  
     getDocbyID,
-    updateDocByID
+    updateDocByID,
+    getAllDocs
 };

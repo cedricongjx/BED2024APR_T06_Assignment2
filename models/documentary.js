@@ -10,6 +10,26 @@ class Documentary {
       this.image = image;
     }
 
+    static async getAllDocs() {
+      const connection = await sql.connect(dbConfig);
+      try
+      {
+      const query = `
+      SELECT * from documentary;
+      `;
+      const request = connection.request();
+      const result = await request.query(query);
+      return result.recordset.map(
+        (row) => new Documentary(row.docid,row.title,row.documentary,row.docdate,row.image)
+    );
+      } catch (error) {
+      console.error('Error getting documentary:', error);
+      throw error;
+      } finally {
+      await connection.close();
+      }
+  }
+
     static async getDocbyID(id) {
         const connection = await sql.connect(dbConfig);
         try
@@ -20,7 +40,15 @@ class Documentary {
         const request = connection.request();
         request.input('id', id);
         const result = await request.query(query);
-        return result.recordset[0];
+        return result.recordset[0]
+            ? new Documentary(
+                result.recordset[0].docid,
+                result.recordset[0].title,
+                result.recordset[0].documentary,
+                result.recordset[0].docdate,
+                result.recordset[0].image
+            )
+            :null;
         } catch (error) {
         console.error('Error getting documentary:', error);
         throw error;

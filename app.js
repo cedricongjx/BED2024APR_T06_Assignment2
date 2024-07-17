@@ -55,6 +55,7 @@ app.delete('/api/users/:id', validationMiddleware.validateUserIdParam, usersCont
 app.post('/api/newsletter', validateEmail, newslettersController.joinNewsletter);
 app.get('/api/documentary/:id', documentarysController.getDocbyID);
 app.put('/api/documentary/:id', documentarysController.updateDocByID);
+app.get('/api/documentary', documentarysController.getAllDocs);
 
 
 // Routes
