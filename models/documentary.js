@@ -2,11 +2,11 @@ const sql = require('mssql');
 const dbConfig = require('../config/dbConfig');
 
 class Documentary {
-    constructor(id, title, documentary, date, image) {
-      this.id = id;
+    constructor(docid, title, documentary, docdate, image) {
+      this.docid = docid;
       this.title = title;
       this.documentary = documentary;
-      this.date = date;
+      this.docdate = docdate;
       this.image = image;
     }
 

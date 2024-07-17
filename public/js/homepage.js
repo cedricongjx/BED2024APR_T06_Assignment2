@@ -11,14 +11,17 @@ async function generateSlides() {
     let slider = document.querySelector('.slider');
     slider.innerHTML = '';
     for (let i = 0; i < documentaries.length; i++) {
-        let slide = `
-            <div class="slide ${i === 0 ? 'active' : ''}" style="background-image: url('${documentaries[i].image}');">
-                <div class="slide-content">
-                    <p class="id">${documentaries[i].docid}</p>
-                    <h2 class="title">${documentaries[i].title}</h2>
-                    <p class="date">${documentaries[i].docDate}</p>
-                </div>
-            </div>\n`;
+      console.log(documentaries[i])
+      const date = new Date(documentaries[i].docdate);
+      const formattedDate = date.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
+      let slide = `
+          <div class="slide ${i === 0 ? 'active' : ''}" style="background-image: url('${documentaries[i].image}');">
+              <div class="slide-content">
+                  <p class="id">${documentaries[i].docid}</p>
+                  <h2 class="title">${documentaries[i].title}</h2>
+                  <p class="date">${formattedDate}</p>
+              </div>
+          </div>\n`;
         slider.innerHTML += slide;
     }
     slider += '</div>';
@@ -67,27 +70,11 @@ async function fetchDoc(id) {
     }
 }
   
-async function updateHome() {
-  const slides = document.querySelectorAll('.slide');
-  for (const slide of slides) {
-    const slideID = slide.querySelector('.id').textContent.trim();
-    console.log(slideID);
-    const data = await fetchDoc(slideID);
-    if (data) {
-      const date = new Date(data.docdate);
-      const formattedDate = date.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
-      slide.querySelector('.title').textContent = data.title;
-      slide.querySelector('.date').textContent = formattedDate;
-      slide.style.backgroundImage = `url('${data.image}')`;
-    } else {
-      console.error(`Failed to fetch data for slide ID ${slideID}`);
-    }
-  }
-}
   
   
-document.addEventListener('DOMContentLoaded', function() {
-  updateHome();
+document.addEventListener('DOMContentLoaded', async function() {
+  await generateSlides();
   getid();
-  generateSlides();
 });
+
+

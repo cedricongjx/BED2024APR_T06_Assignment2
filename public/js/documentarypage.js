@@ -48,13 +48,13 @@ function makeFieldsEditable() {
 
 async function saveDoc(id) {
   const title = document.getElementById('title').textContent;
-  const date = document.getElementById('date').textContent;
+  const docdate = document.getElementById('date').textContent;
   const documentary = document.getElementById('documentary').textContent;
   const image = document.getElementById('docimage').src;
 
   const docData = {
       title,
-      docdate: date,
+      docdate,
       documentary,
       image
   };
