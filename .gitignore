@@ -2,6 +2,7 @@ node_modules
 package-lock.json
 
 .env
+/public/images/event
 BED Checkpoint 2 Video - Dylan Teo.mp4
 BED_2024Apr_Assignment_Checkpoint_2_DylanTeo.docx
 
