@@ -4,7 +4,7 @@ const dbConfig = require("../dbConfig");
 const { number } = require("joi");
 //const event = require("../models/event");
 
-class user{
+class User{
     constructor(userId, username, password)
     {
         this.userId = userId;
@@ -235,7 +235,7 @@ class user{
             return null;
           }
           const updatedUser = result.recordset[0];
-          return new User(updatedUser.UserID, updatedUser.username, updatedUser.password); // Ensure column names match database schema
+          return new user(updatedUser.UserID, updatedUser.username, updatedUser.password); // Ensure column names match database schema
         } catch (error) {
           console.error('Error updating user:', error);
           throw error;
@@ -282,5 +282,5 @@ class user{
         }
       }
 }
-module.exports = user;
+module.exports = User;
 
