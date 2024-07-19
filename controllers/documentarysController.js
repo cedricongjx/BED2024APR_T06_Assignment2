@@ -7,7 +7,7 @@ const getAllDocs = async (req, res) =>{
   }catch(error){
     console.log(error);
     res.status(500).send("error retreiving documentarises");
-}
+  }
 };
 const getDocbyID = async (req, res) => {
     const id = parseInt(req.params.id);
@@ -22,22 +22,30 @@ const getDocbyID = async (req, res) => {
 
 const updateDocByID = async (req, res) => {
   const id = parseInt(req.params.id);
-  const { title, docdate, documentary, image } = req.body;
+  const { title, documentary, docdate, image } = req.body;
   try {
-    const rowsAffected = await Documentary.updateDocByID(id, title, docdate, documentary, image);
-    if (rowsAffected > 0) {
-      res.send("Documentary updated successfully");
-    } else {
-      res.status(404).send("Documentary not found");
-    }
+    const rowAffected = await Documentary.updateDocByID(id, title, documentary, docdate, image);
+    res.json(rowAffected);
   } catch (error) {
     console.error('Error updating documentary:', error);
     res.status(500).send("Error updating documentary");
   }
 };
 
+const createDoc = async (req, res) =>{
+  try{
+    const { title, documentary, docdate, image } = req.body;
+    const createdDoc = await Documentary.createDoc(title, documentary, docdate, image);
+    res.json(createdDoc);
+  }catch(error){
+    console.log(error);
+    res.status(500).send("error creating documentarises");
+  }
+};
+
 module.exports = {  
     getDocbyID,
     updateDocByID,
-    getAllDocs
+    getAllDocs,
+    createDoc
 };

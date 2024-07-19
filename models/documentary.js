@@ -57,7 +57,7 @@ class Documentary {
         }
     }
   
-    static async updateDocByID(id, title, docdate, documentary, image) {
+    static async updateDocByID(id, title, documentary, docdate, image) {
       const connection = await sql.connect(dbConfig);
       try {
         const query = `
@@ -72,7 +72,7 @@ class Documentary {
         request.input('documentary', sql.NVarChar, documentary);
         request.input('image', sql.NVarChar, image);
         const result = await request.query(query);
-        return result.rowsAffected[0]; // Returns the number of rows affected
+        return this.getDocbyID(id);
       } catch (error) {
         console.error('Error updating documentary:', error);
         throw error;
@@ -80,6 +80,27 @@ class Documentary {
         await connection.close();
       }
     }
+
+    static async createDoc(title, documentary, docdate, image) {
+      const connection = await sql.connect(dbConfig);
+      try
+      {
+      const query = `
+      INSERT into Documentary(title, documentary, docdate, image) values (@title, @documentary, @docdate, @image) select scope_identity() AS docid`;
+      ;
+      const request = connection.request();
+      request.input('title', sql.NVarChar, title);
+      request.input('docdate', sql.Date, docdate);
+      request.input('documentary', sql.NVarChar, documentary);
+      request.input('image', sql.NVarChar, image);
+      const result = await request.query(query);
+      const docid = result.recordset[0].docid;
+      return this.getDocbyID(docid);
+      } catch (error) {
+      console.error('Error creating documentary:', error);
+      throw error;
+      }
+  }
 
 
 }

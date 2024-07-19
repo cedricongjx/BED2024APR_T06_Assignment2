@@ -52,10 +52,11 @@ app.get('/api/users', usersController.getAllUsers);
 app.get('/api/users/:id', validationMiddleware.validateUserIdParam, usersController.getUserById);
 app.put('/api/users/:id', validationMiddleware.validateUserIdParam, validationMiddleware.validateUserUpdate, usersController.updateUser);
 app.delete('/api/users/:id', validationMiddleware.validateUserIdParam, usersController.deleteUser);
-app.post('/api/newsletter', validateEmail, newslettersController.joinNewsletter);
-app.get('/api/documentary/:id', documentarysController.getDocbyID);
-app.put('/api/documentary/:id', documentarysController.updateDocByID);
-app.get('/api/documentary', documentarysController.getAllDocs);
+app.post('/newsletter', validateEmail, newslettersController.joinNewsletter);
+app.get('/documentary/:id', documentarysController.getDocbyID);
+app.put('/documentary/:id', documentarysController.updateDocByID);
+app.get('/documentary', documentarysController.getAllDocs);
+app.post('/documentary', documentarysController.createDoc);
 
 
 // Routes

@@ -5,7 +5,7 @@ function getCardIDFromURL() {
 
 async function fetchDoc(id) {
     try {
-      const response = await fetch(`/api/documentary/${id}`);
+      const response = await fetch(`/documentary/${id}`);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
@@ -60,7 +60,7 @@ async function saveDoc(id) {
   };
 
   try {
-      const response = await fetch(`/api/documentary/${id}`, {
+      const response = await fetch(`/documentary/${id}`, {
           method: 'PUT',
           headers: {
               'Content-Type': 'application/json'

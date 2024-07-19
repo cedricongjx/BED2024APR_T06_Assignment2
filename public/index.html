@@ -44,7 +44,30 @@
         <button class="prev">&#10094;</button>
         <button class="next">&#10095;</button>
     </div>
+    <button id="add-button" class="add-button">Add</button>
 
+    <div id="addModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Add New Documentary</h2>
+        <form id="addDocForm">
+          <label for="title">Title:</label>
+          <input type="text" id="title" name="title" required>
+          
+          <label for="docdate">Date:</label>
+          <input type="date" id="docdate" name="docdate" required>
+          
+          <label for="documentary">Documentary:</label>
+          <textarea id="documentary" name="documentary" required></textarea>
+          
+          <label for="image">Image URL:</label>
+          <input type="text" id="image" name="image" required>
+          
+          <button type="submit">Add Documentary</button>
+        </form>
+      </div>
+    </div>
+    
   </main>
 
   <section class="info-section">

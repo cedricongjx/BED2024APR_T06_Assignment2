@@ -2,7 +2,7 @@ let currentSlide = 0;
 
 async function generateSlides() {
   try {
-    const response = await fetch(`/api/documentary`);
+    const response = await fetch(`/documentary`);
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }
@@ -44,7 +44,7 @@ document.querySelector('.prev').addEventListener('click', () => {
     slides[currentSlide].classList.add('active');
 });
 
-function getid(){
+function getId(){
   document.querySelectorAll('.slide').forEach(button => {
       button.addEventListener('click', function() {
           const slideID = button.querySelector('.id').textContent.trim();
@@ -58,7 +58,7 @@ function getid(){
 
 async function fetchDoc(id) {
     try {
-      const response = await fetch(`/api/documentary/${id}`);
+      const response = await fetch(`/documentary/${id}`);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
@@ -71,10 +71,67 @@ async function fetchDoc(id) {
 }
   
   
+function showAddModal() {
+
+  let addButton = document.querySelector('.add-button');
+  let modal = document.getElementById('addModal');
+  let span = document.getElementsByClassName('close')[0];
+
+  addButton.addEventListener('click', function() {
+    modal.style.display = 'block';
+  });
+
+  span.addEventListener('click', function() {
+    modal.style.display = 'none';
+  });
+
+  window.addEventListener('click', function(event) {
+    if (event.target == modal) {
+      modal.style.display = 'none';
+    }
+  });
+
+}
+async function createDoc(event){
+  event.preventDefault(); // Prevent the form from submitting the traditional way
+  let modal = document.getElementById('addModal');
+  const title = document.getElementById('title').value;
+  const docdate = document.getElementById('docdate').value;
+  const documentary = document.getElementById('documentary').value;
+  const image = document.getElementById('image').value;
+
+  console.log('Title:', title);
+  console.log('Date:', docdate);
+  console.log('Documentary:', documentary);
+  console.log('Image:', image);
+
+
+
+  try {
+    const response = await fetch('/documentary', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ title, docdate, documentary, image })
+    });
+
+    if (response.ok) {
+      alert('Documentary added successfully!');
+      modal.style.display = 'none';
+    } else {
+      alert('Error adding documentary');
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    alert('Error adding documentary');
+  }
+}
   
 document.addEventListener('DOMContentLoaded', async function() {
   await generateSlides();
-  getid();
+  getId();
+  showAddModal();
+  document.getElementById('addDocForm').addEventListener('submit', createDoc);
 });
-
 
