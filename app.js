@@ -43,8 +43,9 @@ const storage = multer.diskStorage({
   }
 });
 
-const upload = multer({ storage: storage });
 
+const upload = multer({ storage: storage });
+const docUpload = multer({ dest: 'public/images/documentary' });
 
 app.post('/api/signup', validationMiddleware.validateSignup, usersController.createUser);
 app.post('/api/login', validationMiddleware.validateLogin, usersController.loginUser);
@@ -56,7 +57,8 @@ app.post('/newsletter', validateEmail, newslettersController.joinNewsletter);
 app.get('/documentary/:id', documentarysController.getDocbyID);
 app.put('/documentary/:id', documentarysController.updateDocByID);
 app.get('/documentary', documentarysController.getAllDocs);
-app.post('/documentary', documentarysController.createDoc);
+app.post('/documentary', docUpload.single('image'), documentarysController.createDoc);
+
 
 
 // Routes

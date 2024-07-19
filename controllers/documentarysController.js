@@ -32,14 +32,16 @@ const updateDocByID = async (req, res) => {
   }
 };
 
-const createDoc = async (req, res) =>{
-  try{
-    const { title, documentary, docdate, image } = req.body;
-    const createdDoc = await Documentary.createDoc(title, documentary, docdate, image);
-    res.json(createdDoc);
-  }catch(error){
-    console.log(error);
-    res.status(500).send("error creating documentarises");
+const createDoc = async (req, res) => {
+  const { title, docdate, documentary } = req.body;
+  const image = req.file ? `/public/images/documentary/${req.file.filename}` : null; // Adjust path as needed
+
+  try {
+    const newDoc = await Documentary.createDoc(title, documentary, docdate, image);
+    res.status(201).json({ message: 'Documentary created successfully', documentary: newDoc });
+  } catch (error) {
+    console.error('Error creating documentary:', error);
+    res.status(500).send('Error creating documentary');
   }
 };
 

@@ -92,33 +92,22 @@ function showAddModal() {
   });
 
 }
-async function createDoc(event){
+async function createDoc(event) {
   event.preventDefault(); // Prevent the form from submitting the traditional way
-  let modal = document.getElementById('addModal');
-  const title = document.getElementById('title').value;
-  const docdate = document.getElementById('docdate').value;
-  const documentary = document.getElementById('documentary').value;
-  const image = document.getElementById('image').value;
 
-  console.log('Title:', title);
-  console.log('Date:', docdate);
-  console.log('Documentary:', documentary);
-  console.log('Image:', image);
-
-
+  const form = document.getElementById('addDocForm');
+  const formData = new FormData(form);
 
   try {
     const response = await fetch('/documentary', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ title, docdate, documentary, image })
+      body: formData
     });
 
     if (response.ok) {
       alert('Documentary added successfully!');
-      modal.style.display = 'none';
+      document.getElementById('addModal').style.display = 'none';
+      window.location.reload(); // Reload the page
     } else {
       alert('Error adding documentary');
     }
@@ -127,7 +116,6 @@ async function createDoc(event){
     alert('Error adding documentary');
   }
 }
-  
 document.addEventListener('DOMContentLoaded', async function() {
   await generateSlides();
   getId();
