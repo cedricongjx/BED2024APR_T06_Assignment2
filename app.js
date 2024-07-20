@@ -60,7 +60,7 @@ app.post('/api/donate', authenticateToken, donationsController.createDonation);
 // Add this new route for fetching top donors
 app.get('/api/top-donors', donationsController.getTopDonors);
 
-// Statistics route
+// Statisticss route
 app.get('/api/statistics', statisticsController.getStatistics);
 app.get('/api/average-donations', statisticsController.getAverageDonations);
 
