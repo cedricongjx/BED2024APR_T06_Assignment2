@@ -22,7 +22,6 @@ const usersController = require('./controllers/usersController'); // Ensure corr
 const newslettersController = require('./controllers/newslettersController');
 const documentarysController = require('./controllers/documentarysController');
 const validateEmail = require('./middlewares/validateEmail')
-
 const feedbackController = require('./controllers/feedbackController');
 
 const app = express();
@@ -56,6 +55,16 @@ app.post('/api/newsletter', validateEmail, newslettersController.joinNewsletter)
 app.get('/api/documentary/:id', documentarysController.getDocbyID);
 app.put('/api/documentary/:id', documentarysController.updateDocByID);
 
+app.post('/api/donate', authenticateToken, donationsController.createDonation);
+
+// Add this new route for fetching top donors
+app.get('/api/top-donors', donationsController.getTopDonors);
+
+// Statistics route
+app.get('/api/statistics', statisticsController.getStatistics);
+app.get('/api/average-donations', statisticsController.getAverageDonations);
+
+
 
 // Routes
 app.get("/event", eventController.getAllEvent);
@@ -87,13 +96,7 @@ app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use('/images', express.static(path.join(__dirname, 'public/images/event')));
 
 
-app.post('/api/donate', authenticateToken, donationsController.createDonation);
 
-// Add this new route for fetching top donors
-app.get('/api/top-donors', donationsController.getTopDonors);
-
-// Statistics route
-app.get('/api/statistics', statisticsController.getStatistics);
 
 //Feedback
 app.put("/feedback/response",feedbackController.editResponse);
