@@ -3,10 +3,6 @@ body {
   font-family: 'Montserrat', sans-serif;
   margin: 0;
   padding: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 100vh;
 }
 
 .navbar {
@@ -15,7 +11,7 @@ body {
   overflow: hidden;
   height: 80px;
   display: flex;
-  justify-content: center; /* Center align the content */
+  justify-content: center;
   align-items: center;
 }
 
@@ -27,7 +23,7 @@ body {
   justify-content: space-between;
   align-items: center;
   height: 100%;
-  padding: 0 20px; /* Add padding to the sides */
+  padding: 0 20px;
 }
 
 .logo {
@@ -59,6 +55,14 @@ body {
   border-radius: 4px;
 }
 
+.main-content {
+  padding-top: 80px; /* Adjust to ensure content is below the navbar */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
 .leaderboard-container {
   width: 80%;
   margin: 20px auto;
@@ -69,7 +73,7 @@ body {
   text-align: center;
 }
 
-.leaderboard-container h2 {
+.leaderboard-container .title {
   margin-bottom: 20px;
   font-size: 24px;
   font-weight: bold;
@@ -86,14 +90,15 @@ body {
   background-color: #e0f7fa;
   border-radius: 8px;
   padding: 20px;
-  width: 30%;
   text-align: center;
+  width: 30%;
 }
 
 .top-donor-card img {
-  border-radius: 50%;
   width: 100px;
   height: 100px;
+  border-radius: 50%;
+  margin-bottom: 10px;
 }
 
 .top-donor-card h3 {
@@ -113,16 +118,11 @@ body {
   margin-bottom: 20px;
 }
 
-.search-sort input {
+#searchDonor {
   padding: 10px;
-  font-size: 16px;
-  border-radius: 4px;
+  width: 70%;
   border: 1px solid #ccc;
-  width: 60%;
-}
-
-.sort-buttons {
-  display: flex;
+  border-radius: 4px;
 }
 
 .sort-buttons button {
@@ -130,7 +130,6 @@ body {
   color: white;
   border: none;
   padding: 10px 20px;
-  margin-left: 10px;
   border-radius: 4px;
   cursor: pointer;
 }
@@ -139,23 +138,27 @@ body {
   background-color: #004d40;
 }
 
-#leaderboard {
+table {
   width: 100%;
   border-collapse: collapse;
-  margin-bottom: 20px;
+  margin-top: 20px;
 }
 
-#leaderboard th, #leaderboard td {
+table th, table td {
   padding: 10px;
-  border: 1px solid #ddd;
+  border: 1px solid #ccc;
   text-align: left;
 }
 
-#leaderboard th {
-  background-color: #c1d82f;
-  color: white;
+table th {
+  background-color: #d4edda;
+  color: #333;
 }
 
-#leaderboard tbody tr:nth-child(even) {
-  background-color: #f9f9f9;
+table td {
+  background-color: #fff;
+}
+
+table tr:nth-child(even) {
+  background-color: #f2f2f2;
 }
