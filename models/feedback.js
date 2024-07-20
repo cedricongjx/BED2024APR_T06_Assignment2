@@ -151,6 +151,8 @@ class Feedback
         return result.rowsAffected > 0;
     }
 
+    // static async deleteFeedback
+
     static async addJustification(justification,id)
     {
         const connection = await sql.connect(dbConfig);
