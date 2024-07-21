@@ -4,13 +4,13 @@ const dbConfig = require("../dbConfig");
 const { number } = require("joi");
 //const event = require("../models/event");
 
-class User{
-    constructor(userId, username, password)
-    {
-        this.userId = userId;
-        this.Username = username;
-        this.password = password;
-    }
+class User {
+  constructor(userId, username, password, role = 'U') {
+    this.userId = userId;
+    this.username = username;
+    this.password = password;
+    this.role = role;
+  }
     static async getAllUserWithEvents(){
         const connection = await sql.connect(dbConfig);
         const sqlQuery = 
@@ -131,57 +131,58 @@ class User{
     const EventsWithUsers = {}
 
     }
-    static async createUser({ username, password }) {
-        const connection = await sql.connect(dbConfig);
-        try {
-          const query = `
-            INSERT INTO Users (username, password)
-            VALUES (@username, @password);
-            SELECT SCOPE_IDENTITY() AS Userid;
-          `;
-    
-          const request = connection.request();
-          request.input("username", sql.VarChar, username);
-          request.input("password", sql.VarChar, password);
-    
-          const result = await request.query(query);
-          const userId = result.recordset[0].Userid;
-    
-          return new User(userId, username, password);
-        } catch (error) {
-          console.error("Error creating user:", error);
-          throw error;
-        } finally {
-          await connection.close();
-        }
+    static async createUser({ username, password, role = 'U' }) {
+      const connection = await sql.connect(dbConfig);
+      try {
+        const query = `
+          INSERT INTO Users (username, password, role)
+          VALUES (@username, @password, @role);
+          SELECT SCOPE_IDENTITY() AS Userid;
+        `;
+  
+        const request = connection.request();
+        request.input("username", sql.VarChar, username);
+        request.input("password", sql.VarChar, password);
+        request.input("role", sql.Char, role);
+  
+        const result = await request.query(query);
+        const userId = result.recordset[0].Userid;
+  
+        return new User(userId, username, password, role);
+      } catch (error) {
+        console.error("Error creating user:", error);
+        throw error;
+      } finally {
+        await connection.close();
       }
-    
-      static async getUserByUsername(username) {
-        const connection = await sql.connect(dbConfig);
-        try {
-          const query = `
-            SELECT Userid, username, password
-            FROM Users
-            WHERE username = @username;
-          `;
-    
-          const request = connection.request();
-          request.input("username", sql.VarChar, username);
-    
-          const result = await request.query(query);
-          if (result.recordset.length > 0) {
-            const user = result.recordset[0];
-            return new User(user.Userid, user.username, user.password);
-          } else {
-            return null;
-          }
-        } catch (error) {
-          console.error("Error fetching user:", error);
-          throw error;
-        } finally {
-          await connection.close();
+    }
+  
+    static async getUserByUsername(username) {
+      const connection = await sql.connect(dbConfig);
+      try {
+        const query = `
+          SELECT Userid, username, password, role
+          FROM Users
+          WHERE username = @username;
+        `;
+  
+        const request = connection.request();
+        request.input("username", sql.VarChar, username);
+  
+        const result = await request.query(query);
+        if (result.recordset.length > 0) {
+          const user = result.recordset[0];
+          return new User(user.Userid, user.username, user.password, user.role);
+        } else {
+          return null;
         }
+      } catch (error) {
+        console.error("Error fetching user:", error);
+        throw error;
+      } finally {
+        await connection.close();
       }
+    }
     
       static async getAllUsers() {
         const connection = await sql.connect(dbConfig);

@@ -211,6 +211,7 @@ footer {
 
 .id {
     display: none;
+}
 /* .dropdown_menu
 {
     position: absolute;
@@ -241,7 +242,7 @@ footer {
     background-color: #000;
     color:yellow;
 } */
- .dropdown_menu 
+.dropdown_menu 
  {
     color:white;
  }

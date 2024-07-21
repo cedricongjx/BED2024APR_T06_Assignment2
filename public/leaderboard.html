@@ -23,29 +23,31 @@
     </div>
   </nav>
   
-  <div class="leaderboard-container">
-    <h2 id="leaderboard-title">Top Donors by One-Time Donation</h2>
-    <div class="top-donors" id="topDonors">
-      <!-- Top donors will be dynamically inserted here -->
-    </div>
-    <div class="search-sort">
-      <input type="text" id="searchDonor" placeholder="Search donor">
-      <div class="sort-buttons">
-        <button onclick="toggleDonationType()">Toggle Donation Type</button>
+  <div class="main-content">
+    <div class="leaderboard-container">
+      <h2 id="leaderboard-title">Top Donors by One-Time Donation</h2>
+      <div class="top-donors" id="topDonors">
+        <!-- Top donors will be dynamically inserted here -->
       </div>
+      <div class="search-sort">
+        <input type="text" id="searchDonor" placeholder="Search donor">
+        <div class="sort-buttons">
+          <button onclick="toggleDonationType()">Toggle Donation Type</button>
+        </div>
+      </div>
+      <table id="leaderboard">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Amount Donated</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Leaderboard data will be dynamically inserted here -->
+        </tbody>
+      </table>
     </div>
-    <table id="leaderboard">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Name</th>
-          <th>Amount Donated</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Leaderboard data will be dynamically inserted here -->
-      </tbody>
-    </table>
   </div>
 
   <script src="js/leaderboard.js"></script>
