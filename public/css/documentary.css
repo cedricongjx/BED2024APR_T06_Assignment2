@@ -143,7 +143,7 @@ footer {
     cursor: pointer;
 }
 
-#edit-button, #ok-button {
+#edit-button, #ok-button, #delete-button {
     margin-top: 20px;
     padding: 10px 20px;
     font-size: 1em;

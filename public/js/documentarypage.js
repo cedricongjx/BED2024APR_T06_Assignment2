@@ -86,6 +86,23 @@ async function saveDoc(id) {
   }
 }
 
+async function deleteDoc(id) {
+  try {
+    const response = await fetch(`/documentary/${id}`, {
+      method: 'DELETE'
+  });
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    else{
+      alert("Successfully deleted documentary");
+      window.location.href = 'index.html';
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    return null;
+  }
+}
 
 document.addEventListener('DOMContentLoaded', function() {
     const id = getCardIDFromURL();
@@ -94,4 +111,9 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('ok-button').addEventListener('click', function() {
       saveDoc(id);
     });
+    document.getElementById('delete-button').addEventListener('click', function () {
+      if (confirm('Are you sure you want to delete this documentary?')) {
+          deleteDoc(id);
+      }
+  });
   });

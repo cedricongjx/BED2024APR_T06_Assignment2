@@ -58,6 +58,7 @@ app.get('/documentary/:id', documentarysController.getDocbyID);
 app.put('/documentary/:id', documentarysController.updateDocByID);
 app.get('/documentary', documentarysController.getAllDocs);
 app.post('/documentary', docUpload.single('image'), documentarysController.createDoc);
+app.delete('/documentary/:id', documentarysController.deleteDocByID);
 
 
 

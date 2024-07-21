@@ -24,8 +24,8 @@ const updateDocByID = async (req, res) => {
   const id = parseInt(req.params.id);
   const { title, documentary, docdate, image } = req.body;
   try {
-    const rowAffected = await Documentary.updateDocByID(id, title, documentary, docdate, image);
-    res.json(rowAffected);
+    const doc = await Documentary.updateDocByID(id, title, documentary, docdate, image);
+    res.json(doc);
   } catch (error) {
     console.error('Error updating documentary:', error);
     res.status(500).send("Error updating documentary");
@@ -45,9 +45,25 @@ const createDoc = async (req, res) => {
   }
 };
 
+const deleteDocByID = async (req, res) => {
+  const id = parseInt(req.params.id);
+  try {
+    const rowsAffected = await Documentary.deleteDocByID(id);
+    if (rowsAffected > 0) {
+      res.send("Documentary updated successfully");
+    } else {
+      res.status(404).send("Documentary not found");
+    }
+  } catch (error) {
+    console.error('Error deleting documentary:', error);
+    res.status(500).send("Error deleting documentary");
+  }
+};
+
 module.exports = {  
     getDocbyID,
     updateDocByID,
     getAllDocs,
-    createDoc
+    createDoc,
+    deleteDocByID
 };
