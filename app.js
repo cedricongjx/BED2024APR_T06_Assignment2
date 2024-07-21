@@ -102,7 +102,7 @@ app.use('/images', express.static(path.join(__dirname, 'public/images/event')));
 app.put("/feedback/response",feedbackController.editResponse);
 
 app.get("/feedback/name",feedbackController.getFeedbackByName);
-app.get("/feedback",feedbackController.getAllFeedback);
+app.get("/feedback",authenticateToken,feedbackController.getAllFeedback);
 app.get("/feedback/notverified",feedbackController.getAllNotVerifiedFeedback);
 app.get("/feedback/verified",feedbackController.getAllVerifiedFeedback);
 app.get("/feedback/bug",feedbackController.getAllBugFeedback);

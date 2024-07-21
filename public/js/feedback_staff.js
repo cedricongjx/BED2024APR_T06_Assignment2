@@ -1,7 +1,16 @@
 
+const token = localStorage.getItem('token');
+console.log(token);
 async function fetchBugFeedback(value)
 {
-    const response = await fetch("/feedback/bug");
+    const response = await fetch("/feedback/bug",
+    {
+        headers:
+        {
+            'Authorization' : `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        }
+    });
     const data = await response.json();
     createHTMLDOMFeedback(data,value);
 }
@@ -98,7 +107,14 @@ function deleteHTML()
 async function fetchAllFeedback(value)
 {
 
-    const response = await fetch("/feedback");
+    const response = await fetch("/feedback",
+        {
+            headers:
+            {
+                'Authorization' : `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
     const data = await response.json();
     createHTMLDOMFeedback(data,value);
 }
