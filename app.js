@@ -78,7 +78,13 @@ app.post("/upload", upload.single('image'), (req, res) => {
 });
 app.get("/latestEvent", eventController.latestEvent);
 app.get("/events/search", eventController.getEventByName);
-app.put("/event/:id", eventController.updateEvent);
+app.put('/event/:id', upload.single('image'), eventController.updateEvent);
+app.post("/upload", upload.single('image'), (req, res) => {
+  if (!req.file) {
+    return res.status(400).send({ message: 'No file uploaded' });
+  }
+  res.status(200).send({ message: 'File uploaded successfully', file: req.file });
+});
 app.get("/userwithevent", userController.getAllUserWithEvents);
 app.get("/userwithevent/:id", userController.getUserWithEventsById);
 app.get("/eventWithCategory",eventController.getEventsWithCategories);

@@ -100,7 +100,7 @@ class Event{
             :null;
     }
     static async getAllUserWithEvents(){//get all user with events
-        const connection = await sql.connect(dbconfig);
+        const connection = await sql.connect(dbConfig);
         const sqlQuery = `SELECT u.Userid, u.username, u.password, e.Eventid, e.EventName, e.eventDescription, e.eventDateTime
                             FROM Users u
                             JOIN EventsWithUsers ewu ON u.Userid = ewu.userid
@@ -110,25 +110,29 @@ class Event{
         const result = await request.query(sqlQuery);
         connection.close();
     }
-    static async updateEvent(id, newEventData) {//update event
+    static async updateEvent(id, newEventData) {
         const connection = await sql.connect(dbConfig);
         const sqlQuery = `UPDATE EVENT SET 
                             EventName = @EventName, 
                             eventDescription = @eventDescription, 
                             eventDateTime = @eventDateTime,
+                            Location = @Location,
+                            Image = @Image,
                             Adminid = @Adminid
-                          WHERE Eventid = @Eventid`;
+                          WHERE EventId = @EventId`;
         const request = connection.request();
-        request.input("Eventid", sql.Int, id);
+        request.input("EventId", sql.Int, id);
         request.input("EventName", sql.VarChar, newEventData.EventName);
         request.input("eventDescription", sql.VarChar, newEventData.eventDescription);
+        request.input("Location", sql.VarChar, newEventData.Location);
+        request.input("Image", sql.VarChar, newEventData.Image); // Save the image path
         request.input("eventDateTime", sql.DateTime, new Date(newEventData.eventDateTime));
         request.input("Adminid", sql.Int, newEventData.Adminid);
     
         await request.query(sqlQuery);
         connection.close();
         return this.getEventById(id);
-    }
+      }
     static async getEventsWithCategories() {
         const connection = await sql.connect(dbConfig);
     
