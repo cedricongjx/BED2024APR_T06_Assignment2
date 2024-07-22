@@ -4,7 +4,7 @@ const { number } = require("joi");
 
 
 class Event{
-    constructor(Eventid,EventName,eventDescription,eventDateTime,location,Image,Adminid)
+    constructor(Eventid,EventName,eventDescription,eventDateTime,location,Image)
     {
         this.Eventid = Eventid;
         this.EventName = EventName;
@@ -12,21 +12,17 @@ class Event{
         this.eventDateTime = eventDateTime;
         this.location = location
         this.Image = Image
-        this.Adminid = Adminid
     }
 
     static async getAllEvent(){
         const connection = await sql.connect(dbConfig);
         const sqlQuery = `select * from event`;
         const request = connection.request();
-        
         const result = await request.query(sqlQuery);
         console.log(result.recordset);
-        
-
         connection.close();
         return result.recordset.map(
-            (row) => new Event(row.Eventid,row.EventName,row.eventDescription,row.eventDateTime,row.location,row.Image,row.Adminid)
+            (row) => new Event(row.Eventid,row.EventName,row.eventDescription,row.eventDateTime,row.location,row.Image)
         );
     }
     static async getEventById(id){
@@ -45,7 +41,6 @@ class Event{
                 result.recordset[0].eventDateTime,
                 result.recordset[0].location,
                 result.recordset[0].Image,
-                result.recordset[0].Adminid,
             )
             :null;
     }
@@ -57,18 +52,17 @@ class Event{
         const result = await request.query(sqlQuery);
         connection.close();
         return result.recordset.map(
-            (row) => new Event(row.Eventid,row.EventName,row.eventDescription,row.eventDateTime,row.location,row.Image,row.Adminid)
+            (row) => new Event(row.Eventid,row.EventName,row.eventDescription,row.eventDateTime,row.location,row.Image)
         );
     }
     static async createEvent(newEventData){
         const connection = await sql.connect(dbConfig);
-        const sqlQuery = `INSERT INTO EVENT(EventName,eventDescription,eventDateTime,Adminid,image,location) values(@EventName,@eventDescription,@eventDateTime,@Adminid,@image,@location); 
+        const sqlQuery = `INSERT INTO EVENT(EventName,eventDescription,eventDateTime,image,location) values(@EventName,@eventDescription,@eventDateTime,@image,@location); 
                           select scope_identity() AS Eventid`;
         const request = connection.request();
         request.input("EventName",newEventData.EventName);
         request.input("eventDescription",newEventData.eventDescription);
         request.input("eventDateTime",sql.DateTime,new Date(newEventData.eventDateTime));
-        request.input("Adminid",sql.Int,newEventData.Adminid);
         request.input("image",newEventData.Image);
         request.input("location",newEventData.location);
         const result = await request.query(sqlQuery);
@@ -95,7 +89,6 @@ class Event{
                 result.recordset[0].eventDateTime,
                 result.recordset[0].location,
                 result.recordset[0].Image,
-                result.recordset[0].Adminid,
             )
             :null;
     }
@@ -118,7 +111,6 @@ class Event{
                             eventDateTime = @eventDateTime,
                             Location = @Location,
                             Image = @Image,
-                            Adminid = @Adminid
                           WHERE EventId = @EventId`;
         const request = connection.request();
         request.input("EventId", sql.Int, id);
@@ -127,7 +119,6 @@ class Event{
         request.input("Location", sql.VarChar, newEventData.Location);
         request.input("Image", sql.VarChar, newEventData.Image); // Save the image path
         request.input("eventDateTime", sql.DateTime, new Date(newEventData.eventDateTime));
-        request.input("Adminid", sql.Int, newEventData.Adminid);
     
         await request.query(sqlQuery);
         connection.close();
@@ -138,7 +129,7 @@ class Event{
     
         try {
             const sqlQuery = `
-                SELECT e.eventId AS event_id, e.EventName, e.eventDescription, e.eventDateTime, e.Adminid, e.Image, e.location, c.catId AS category_id, c.categoryName
+                SELECT e.eventId AS event_id, e.EventName, e.eventDescription, e.eventDateTime, e.Image, e.location, c.catId AS category_id, c.categoryName
                 FROM Event e
                 LEFT JOIN EventWithCategory ec ON ec.eventId = e.eventId
                 LEFT JOIN Categories c ON ec.catId = c.catId
@@ -157,7 +148,6 @@ class Event{
                         eventName: row.EventName,
                         eventDescription: row.eventDescription,
                         eventDateTime: row.eventDateTime,
-                        adminId: row.Adminid,
                         image: row.Image,
                         location: row.location,
                         categories: [],
@@ -182,7 +172,7 @@ class Event{
         const connection = await sql.connect(dbConfig);
         try{
             const sqlQuery = `
-            SELECT e.eventId AS event_id, e.EventName, e.eventDescription, e.eventDateTime, e.Adminid, e.Image, e.location, c.catId AS category_id, c.categoryName
+            SELECT e.eventId AS event_id, e.EventName, e.eventDescription, e.eventDateTime, e.Image, e.location, c.catId AS category_id, c.categoryName
             FROM Event e
             LEFT JOIN EventWithCategory ec ON ec.eventId = e.eventId
             LEFT JOIN Categories c ON ec.catId = c.catId
@@ -197,7 +187,6 @@ class Event{
             eventName: '',
             eventDescription: '',
             eventDateTime: '',
-            adminId: null,
             image: '',
             location: '',
             categories: []
@@ -209,7 +198,6 @@ class Event{
                 eventWithCategories.eventName = row.EventName;
                 eventWithCategories.eventDescription = row.eventDescription;
                 eventWithCategories.eventDateTime = row.eventDateTime;
-                eventWithCategories.adminId = row.Adminid;
                 eventWithCategories.image = row.Image;
                 eventWithCategories.location = row.location;
             }
@@ -251,7 +239,7 @@ class Event{
     static async getEventsByCategory(categoryId) {
         const connection = await sql.connect(dbConfig);
         const sqlQuery = `
-            SELECT e.eventId AS event_id, e.EventName, e.eventDescription, e.eventDateTime, e.location, e.Image, e.Adminid
+            SELECT e.eventId AS event_id, e.EventName, e.eventDescription, e.eventDateTime, e.location, e.Image
             FROM Event e
             JOIN EventWithCategory ec ON e.eventId = ec.eventId
             WHERE ec.catId = @categoryId
@@ -261,7 +249,7 @@ class Event{
         const result = await request.query(sqlQuery);
         connection.close();
         return result.recordset.map(
-            (row) => new Event(row.event_id, row.EventName, row.eventDescription, row.eventDateTime, row.location, row.Image, row.Adminid)
+            (row) => new Event(row.event_id, row.EventName, row.eventDescription, row.eventDateTime, row.location, row.Image)
         );
     }
 }

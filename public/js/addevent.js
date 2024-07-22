@@ -1,5 +1,4 @@
 let dateTimeCount = 1;
-const admin = 1;
 let categories = [];
 
 function addDateTimeField() {
@@ -66,7 +65,6 @@ document.addEventListener('DOMContentLoaded', function() {
               EventName: eventName,
               eventDescription: eventDescription,
               eventDateTime: eventDateTime,
-              Adminid: admin,
               Image: fileDetails,
               location: eventLocation  
             };
@@ -132,7 +130,6 @@ document.addEventListener('DOMContentLoaded', function() {
             EventName: eventName,
             eventDescription: eventDescription,
             eventDateTime: eventDateTime,
-            Adminid: admin,
             Image: null, // or a default value
             location: eventLocation  
           };

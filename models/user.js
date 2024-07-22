@@ -282,6 +282,58 @@ class User {
           await connection.close();
         }
       }
-}
+      static async getUsersForEvent(id) {
+        const connection = await sql.connect(dbConfig);
+        const sqlQuery = `
+          SELECT 
+              u.username
+          FROM 
+              EventWithUsers  eu
+          JOIN 
+              Users u ON eu.userid = u.userid
+          WHERE 
+              eu.Eventid = @Eventid;
+        `;
+        const request = connection.request();
+        request.input("Eventid", sql.Int, id); 
+        const result = await request.query(sqlQuery);
+        connection.close();
+        return result.recordset;
+      }
+      static async registerUserEvent(details){
+        const connection = await sql.connect(dbConfig);
+        const sqlQuery = `Insert into EventWithUsers (Eventid,userid) values (@Eventid,@userid)`
+        const request = connection.request();
+        request.input("Eventid",details.eventid);
+        request.input("userid",details.userid)
+        await request.query(sqlQuery);
+        connection.close();
+        return true;
+      }
+      static async removeUserFromEvent(details){
+        const connection = await sql.connect(dbConfig);
+        const sqlQuery = `Delete from EventWithUsers where userid = @userid and Eventid = @Eventid`
+        const request = connection.request();
+        request.input("Eventid", sql.Int, details.eventid);
+        request.input("userid", sql.Int, details.userid);
+        await request.query(sqlQuery);
+        connection.close();
+        return true;
+      }
+      static async isUserRegisteredForEvent(details) {
+        const connection = await sql.connect(dbConfig);
+        const sqlQuery = `SELECT COUNT(*) AS count
+                          FROM EventWithUsers
+                          WHERE userid = @userid AND Eventid = @Eventid`;
+        const request = connection.request();
+        request.input("Eventid", sql.Int, details.eventid);
+        request.input("userid", sql.Int, details.userid);
+        
+        const result = await request.query(sqlQuery);
+        connection.close();
+        return result.recordset[0].count > 0;
+    }
+    
+}     
 module.exports = User;
 

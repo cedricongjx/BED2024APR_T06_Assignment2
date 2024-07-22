@@ -148,6 +148,62 @@ const createUser = async (req, res) => {
       res.status(500).json({ error: 'Error searching users' });
     }
   };
+  const getUsersForEvent = async (req, res) => {
+    
+    const id = parseInt(req.params.id);
+    console.log(id)
+    try {
+      const usersForEvent = await user.getUsersForEvent(id);
+      if (usersForEvent.length === 0) {
+        return res.status(404).send("No users found for this event");
+      }
+      res.json(usersForEvent);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send("Error retrieving users for event");
+    }
+  };
+  const registerUserEvent = async(req,res) =>{
+    const userdetails = req.body;
+    try{
+      const success = await user.registerUserEvent(userdetails);
+      if(success){
+        res.status(200).send("User registered for the event successfully.")
+      }else{
+        res.status(400).send("Failed to register user for the event.");
+      }
+    }catch(error){
+      console.error(error);
+      res.status(500).send("Error registering user for the event.");
+    }
+  }
+  const removeUserFromEvent = async(req,res)=>{
+    const userdetails = req.body;
+    try{
+      const success = await user.removeUserFromEvent(userdetails);
+      if(success){
+        res.status(200).send("User removed for the event successfully.")
+      }else{
+        res.status(400).send("Failed to remove user for the event.");
+      }
+    }catch(error){
+      res.status(500).send("Error deleting user for the event")
+    }
+  };
+  const isUserRegisteredForEvent = async(req,res)=>{
+    const userdetails = req.body;
+    try{
+      const isRegistered  = await user.isUserRegisteredForEvent(userdetails);
+      if (isRegistered) {
+        res.status(200).send({ message: "User is registered for the event" });
+      }else {
+        res.status(404).send({ message: "User is not registered for the event" });
+      }
+    } catch (error) {
+      console.error('Error checking user registration:', error);
+      res.status(500).send({ message: 'Server error' });
+    }
+  };
 module.exports = {
     getAllUserWithEvents,
     getUserWithEventsById,
@@ -158,4 +214,8 @@ module.exports = {
     updateUser,
     deleteUser,
     searchUsers,
+    getUsersForEvent,
+    registerUserEvent,
+    removeUserFromEvent,
+    isUserRegisteredForEvent,
 }

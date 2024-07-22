@@ -23,6 +23,7 @@ const newslettersController = require('./controllers/newslettersController');
 const documentarysController = require('./controllers/documentarysController');
 const validateEmail = require('./middlewares/validateEmail')
 const feedbackController = require('./controllers/feedbackController');
+const { user } = require('./dbConfig');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -64,7 +65,7 @@ app.get('/api/top-donors', donationsController.getTopDonors);
 app.get('/api/statistics', statisticsController.getStatistics);
 app.get('/api/average-donations', statisticsController.getAverageDonations);
 
-
+app.get("/testgetalluserforevent/:id",userController.getUsersForEvent);
 
 // Routes
 app.get("/event", eventController.getAllEvent);
@@ -102,7 +103,9 @@ app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use('/images', express.static(path.join(__dirname, 'public/images/event')));
 
 
-
+app.post("/testadduser",userController.registerUserEvent);
+app.delete("/testremoveuser",userController.removeUserFromEvent);
+app.post("/testcheck",userController.isUserRegisteredForEvent);
 
 //Feedback
 app.put("/feedback/response",feedbackController.editResponse);
@@ -121,6 +124,7 @@ app.delete("/feedback/:id",feedbackController.deleteFeedback);
 
 app.post("/feedback/verified",feedbackController.addJustification);
 app.get("/feedback/response/:id",feedbackController.getResponse);
+
 
 
 

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,700italic,400italic' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="css/event.css">
+  <title>Events Page</title>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="logo">Social Impact</div>
+      <ul class="nav-links">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Donate</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="#">Contact Us</a></li>
+      </ul>
+    </div>
+  </nav>
+  <!-- <img src="/public/images/event/1720851551183-Untitled.png" style="width: 50px; height: 50px;" alt="Event Image"/> -->
+  <div class="search-container">
+    <input type="text" id="searchInput" placeholder="Search events by name">
+    <button onclick="searchEvent()">Search</button>
+  </div>
+  <div class="category-filters">
+    <h3>Filter by Category:</h3>
+    <div id="categoryFilterContainer"></div>
+    <!-- <button id="showAllButton" class="show-all-button">All</button> -->
+  </div>
+
+  <div id="noResultsMessage" style="display: none; text-align: center; font-size: 1.2em; color: #555;">
+    No events found.
+  </div>
+  <div class="banner" id="latestEventBanner">
+    <p>Latest Event</p>
+  </div>
+  <div class="card latest-event-card" id="latestEventCard">
+    <div class="card-img-container">
+      <img src="https://via.placeholder.com/400x300" alt="Card Image" class="card-img" id="eventImage">
+    </div>
+    <div class="card-content">
+      <h2 id="eventTitle">Event Title</h2>
+      <p id="eventDescription">Event description goes here. This is a placeholder for event details.</p>
+      <p id="eventDateTime">Event Date & Time</p>
+    </div>
+  </div>
+
+  <div class="scroll-container">
+    <button class="scroll-button scroll-prev" onclick="scrollPrev()">❮</button>
+    <div class="card-container" id="cardContainer"></div>
+    <button class="scroll-button scroll-next" onclick="scrollNext()">❯</button>
+  </div>
+  <script src="js/user_event.js"></script>
+</body>
+</html>
