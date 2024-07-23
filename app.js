@@ -97,7 +97,8 @@ app.post("/category",categoryController.addCategory)
 app.delete("/category/:id",categoryController.deleteCategory);
 app.post("/addcategoryforevent",eventController.addCategoryToEvent);
 app.delete("/removeCategoryFromEvent",eventController.removeCategoryFromEvent);
-app.get("/events/category/:id",eventController.getEventsByCategory)
+app.get("/events/category/:id",eventController.getEventsByCategory);
+app.get("/getCategoryForEvent/:id",eventController.getCategoryForEvent);
 
 app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use('/images', express.static(path.join(__dirname, 'public/images/event')));

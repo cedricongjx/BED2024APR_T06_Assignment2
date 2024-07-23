@@ -1,4 +1,3 @@
-let dateTimeCount = 1;
 let categories = [];
 
 function addDateTimeField() {

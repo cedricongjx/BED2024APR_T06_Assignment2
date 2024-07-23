@@ -110,7 +110,7 @@ class Event{
                             eventDescription = @eventDescription, 
                             eventDateTime = @eventDateTime,
                             Location = @Location,
-                            Image = @Image,
+                            Image = @Image
                           WHERE EventId = @EventId`;
         const request = connection.request();
         request.input("EventId", sql.Int, id);
@@ -215,6 +215,15 @@ class Event{
         } finally {
             await connection.close();
         }     
+    }
+    static async getCategoryForEvent(id){
+        const connection = await sql.connect(dbConfig);
+        const sqlQuery = `select * from EventWithCategory where Eventid = @id`
+        const request = connection.request();
+        request.input("id",sql.Int,id);
+        const result = await request.query(sqlQuery);
+        connection.close();
+        return result.recordset;
     }
     static async addCategoryToEvent(eventDetails) {
         const connection = await sql.connect(dbConfig);
