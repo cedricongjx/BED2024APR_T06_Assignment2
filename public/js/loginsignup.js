@@ -15,7 +15,6 @@ function handleSignup(event) {
   event.preventDefault();
   const username = document.getElementById('signupUsername').value;
   const password = document.getElementById('signupPassword').value;
-
   fetch('/api/signup', {
     method: 'POST',
     headers: {
@@ -51,7 +50,8 @@ function handleLogin(event) {
     if (data.message === 'Login successful') {
       localStorage.setItem('token', data.token); // Store the token
       alert('Login successful');
-      window.location.href = '/donation.html'; // Redirect to donation page
+      // window.location.href = '/donation.html'; // Redirect to donation page
+      window.location.href = "/index.html"; 
     } else {
       alert('Login failed: ' + data.error);
     }
