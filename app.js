@@ -1,28 +1,28 @@
-
 require('dotenv').config();
 
 const express = require("express");
-const eventController = require("./controllers/eventController");
 const sql = require("mssql");
 const multer = require("multer");
 const path = require("path");
-//const dbConfig = require("./dbConfig");
 const bodyParser = require("body-parser");
-const validateEventDate = require("./middlewares/validateEventDate");
-const userController = require("./controllers/userController");
-const testupload = multer({dest: 'public/images/events'})
-const categoryController = require("./controllers/categoryController")
 
-const donationsController = require('./controllers/donationsController');
-const statisticsController = require('./controllers/statisticsController');
+const validateEventDate = require("./middlewares/validateEventDate");
 const authenticateToken = require('./middlewares/authenticateToken');
 const validationMiddleware = require('./middlewares/validate');
-const dbConfig = require('./config/dbConfig');
+const validateEmail = require('./middlewares/validateEmail');
+const validateDonation = require('./middlewares/validateDonation');
+
+const eventController = require("./controllers/eventController");
+const userController = require("./controllers/userController");
+const categoryController = require("./controllers/categoryController");
+const donationsController = require('./controllers/donationsController');
+const statisticsController = require('./controllers/statisticsController');
 const usersController = require('./controllers/usersController'); // Ensure correct path
 const newslettersController = require('./controllers/newslettersController');
 const documentarysController = require('./controllers/documentarysController');
-const validateEmail = require('./middlewares/validateEmail')
 const feedbackController = require('./controllers/feedbackController');
+
+const dbConfig = require('./config/dbConfig');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -38,35 +38,36 @@ const storage = multer.diskStorage({
     cb(null, 'public/images/event');
   },
   filename: (req, file, cb) => {
-    cb(null, Date.now() +path.extname(file.originalname));
+    cb(null, Date.now() + path.extname(file.originalname));
   }
 });
-
 const upload = multer({ storage: storage });
+const testupload = multer({ dest: 'public/images/events' });
 
-
+// User routes
 app.post('/api/signup', validationMiddleware.validateSignup, usersController.createUser);
 app.post('/api/login', validationMiddleware.validateLogin, usersController.loginUser);
 app.get('/api/users', usersController.getAllUsers);
 app.get('/api/users/:id', validationMiddleware.validateUserIdParam, usersController.getUserById);
 app.put('/api/users/:id', validationMiddleware.validateUserIdParam, validationMiddleware.validateUserUpdate, usersController.updateUser);
 app.delete('/api/users/:id', validationMiddleware.validateUserIdParam, usersController.deleteUser);
+
+// Newsletter routes
 app.post('/api/newsletter', validateEmail, newslettersController.joinNewsletter);
+
+// Documentary routes
 app.get('/api/documentary/:id', documentarysController.getDocbyID);
 app.put('/api/documentary/:id', documentarysController.updateDocByID);
 
-app.post('/api/donate', authenticateToken, donationsController.createDonation);
+// Donation routes
+app.post('/api/donate', authenticateToken,validateDonation, donationsController.createDonation);
+app.get('/api/top-donors', donationsController.getTopDonors); // Fetch top donors
 
-// Add this new route for fetching top donors
-app.get('/api/top-donors', donationsController.getTopDonors);
-
-// Statisticss route
+// Statistics routes
 app.get('/api/statistics', statisticsController.getStatistics);
 app.get('/api/average-donations', statisticsController.getAverageDonations);
 
-
-
-// Routes
+// Event routes
 app.get("/event", eventController.getAllEvent);
 app.get("/event/:id", eventController.getEventById);
 app.post("/event", testupload.single('image'), validateEventDate, eventController.createEvent);
@@ -79,46 +80,43 @@ app.post("/upload", upload.single('image'), (req, res) => {
 app.get("/latestEvent", eventController.latestEvent);
 app.get("/events/search", eventController.getEventByName);
 app.put("/event/:id", eventController.updateEvent);
+
+// User with event routes
 app.get("/userwithevent", userController.getAllUserWithEvents);
 app.get("/userwithevent/:id", userController.getUserWithEventsById);
-app.get("/eventWithCategory",eventController.getEventsWithCategories);
-app.get("/eventWithCategory/:id",eventController.detailedEventById);
 
-app.get("/category",categoryController.getAllCategories);
-app.get("/category/:id",categoryController.getCategoryById);
-app.post("/category",categoryController.addCategory)
-app.delete("/category/:id",categoryController.deleteCategory);
-app.post("/addcategoryforevent",eventController.addCategoryToEvent);
-app.delete("/removeCategoryFromEvent",eventController.removeCategoryFromEvent);
-app.get("/events/category/:id",eventController.getEventsByCategory)
+// Event with category routes
+app.get("/eventWithCategory", eventController.getEventsWithCategories);
+app.get("/eventWithCategory/:id", eventController.detailedEventById);
 
+// Category routes
+app.get("/category", categoryController.getAllCategories);
+app.get("/category/:id", categoryController.getCategoryById);
+app.post("/category", categoryController.addCategory);
+app.delete("/category/:id", categoryController.deleteCategory);
+app.post("/addcategoryforevent", eventController.addCategoryToEvent);
+app.delete("/removeCategoryFromEvent", eventController.removeCategoryFromEvent);
+app.get("/events/category/:id", eventController.getEventsByCategory);
+
+// Feedback routes
+app.put("/feedback/response", feedbackController.editResponse);
+app.get("/feedback/name", feedbackController.getFeedbackByName);
+app.get("/feedback", authenticateToken, feedbackController.getAllFeedback);
+app.get("/feedback/notverified", feedbackController.getAllNotVerifiedFeedback);
+app.get("/feedback/verified", feedbackController.getAllVerifiedFeedback);
+app.get("/feedback/bug", feedbackController.getAllBugFeedback);
+app.get("/feedback/customerservice", feedbackController.getAllCustomerServiceFeedback);
+app.get("/feedback/feedback", feedbackController.getAllfeedbackFeedback);
+app.get("/feedback/other", feedbackController.getAllOtherFeedback);
+app.post("/feedback", feedbackController.createFeedback);
+app.put("/feedback/:id", feedbackController.updateFeedback);
+app.delete("/feedback/:id", feedbackController.deleteFeedback);
+app.post("/feedback/verified", feedbackController.addJustification);
+app.get("/feedback/response/:id", feedbackController.getResponse);
+
+// Static file routes
 app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use('/images', express.static(path.join(__dirname, 'public/images/event')));
-
-
-
-
-//Feedback
-app.put("/feedback/response",feedbackController.editResponse);
-
-app.get("/feedback/name",feedbackController.getFeedbackByName);
-app.get("/feedback",authenticateToken,feedbackController.getAllFeedback);
-app.get("/feedback/notverified",feedbackController.getAllNotVerifiedFeedback);
-app.get("/feedback/verified",feedbackController.getAllVerifiedFeedback);
-app.get("/feedback/bug",feedbackController.getAllBugFeedback);
-app.get("/feedback/customerservice",feedbackController.getAllCustomerServiceFeedback);
-app.get("/feedback/feedback",feedbackController.getAllfeedbackFeedback)
-app.get("/feedback/other",feedbackController.getAllOtherFeedback);
-app.post("/feedback",feedbackController.createFeedback)
-app.put("/feedback/:id",feedbackController.updateFeedback)
-app.delete("/feedback/:id",feedbackController.deleteFeedback);
-
-app.post("/feedback/verified",feedbackController.addJustification);
-app.get("/feedback/response/:id",feedbackController.getResponse);
-
-
-
-
 
 // Start the server and connect to the database
 app.listen(port, async () => {
@@ -135,6 +133,5 @@ app.listen(port, async () => {
 process.on('SIGINT', async () => {
   console.log('Shutting down gracefully...');
   await sql.close();
-
   process.exit(0);
 });

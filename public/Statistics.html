@@ -3,13 +3,17 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta charset="UTF-8">
+  <!-- Link to Google Fonts -->
   <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
   <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,700italic,400italic' rel='stylesheet' type='text/css'>
+  <!-- Link to external CSS file -->
   <link rel="stylesheet" href="css/statistics.css">
   <title>Donation Statistics</title>
+  <!-- Include Chart.js library -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
+  <!-- Navigation bar -->
   <nav class="navbar">
     <div class="nav-container">
       <div class="logo">Social Impact</div>
@@ -19,15 +23,26 @@
         <li><a href="donate.html">Donate</a></li>
         <li><a href="events.html">Events</a></li>
         <li><a href="contact.html">Contact Us</a></li>
+        <li class="dropdown_menu">
+          <div>Feedback</div>
+          <div class="feedback_content">
+            <a href="feedback.html">Feedback</a>
+            <a href="staff_feedback.html">Feedback Staff</a>
+            <a href="inbox.html">Inbox</a>
+          </div>
+        </li>
         <li><a href="leaderboard.html">Leaderboard</a></li>
         <li><a href="statistics.html">Statistics</a></li>
+        <li><a href="credits.html">Credits</a></li>
       </ul>
     </div>
   </nav>
   
+  <!-- Main content for the statistics page -->
   <div class="main-content">
     <div class="statistics-container">
       <div class="title">Donation Statistics</div>
+      <!-- Filter buttons for selecting month -->
       <div class="filter-buttons">
         <select id="monthFilter">
           <option value="all">All</option>
@@ -46,12 +61,15 @@
         </select>
         <button onclick="applyFilters()">Apply Filters</button>
       </div>
+      <!-- Container for statistics cards -->
       <div class="statistics" id="statistics"></div>
+      <!-- Canvas elements for charts -->
       <canvas id="totalDonationsChart"></canvas>
       <canvas id="averageDonationsChart"></canvas>
     </div>
   </div>
 
+  <!-- Link to external JavaScript file -->
   <script src="js/statistics.js"></script>
 </body>
 </html>

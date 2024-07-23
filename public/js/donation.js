@@ -19,6 +19,8 @@ function handleDonation(event) {
     return;
   }
 
+  console.log("Sending donation request:", { firstName, amount, donationType, months });
+
   const token = localStorage.getItem('token'); // Get the stored token
 
   fetch('/api/donate', {
@@ -31,6 +33,7 @@ function handleDonation(event) {
   })
   .then(response => response.json())
   .then(data => {
+    console.log("Donation response:", data);
     if (data.error) {
       alert('Donation failed: ' + data.error);
     } else {
@@ -42,12 +45,14 @@ function handleDonation(event) {
   .catch(error => console.error('Error:', error));
 }
 
+
+// Function to toggle the display of the months field based on donation type
 function toggleMonthsField() {
   const donationType = document.getElementById('donationType').value;
   const monthsField = document.getElementById('months');
   if (donationType === 'monthly') {
-    monthsField.style.display = 'block';
+    monthsField.style.display = 'block'; // Show the months field for monthly donations
   } else {
-    monthsField.style.display = 'none';
+    monthsField.style.display = 'none'; // Hide the months field for one-time donations
   }
 }
