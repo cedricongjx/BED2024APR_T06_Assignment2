@@ -68,8 +68,8 @@ const deleteDocByID = async (req, res) => {
 const getDocsbyCat = async (req, res) => {
   const doccategory = req.params.doccategory;
   try {
-    const Doc = await Documentary.getDocsbyCat(doccategory);
-    res.json(Doc);
+    const Docs = await Documentary.getDocsbyCat(doccategory);
+    res.json(Docs);
   } catch (error) {
     console.error(error);
     res.status(500).send("Error retrieving book");

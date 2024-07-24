@@ -127,21 +127,21 @@ class Documentary {
     try
     {
     const query = `
-    SELECT * from documentary where doccategory = @doccat
+    SELECT * from documentary where doccategory = @doccategory
     `;
     const request = connection.request();
-    request.input('doccat', doccategory);
+    request.input('doccategory', doccategory);
     const result = await request.query(query);
     return result.recordset.map(
       (row) => new Documentary(row.docid,row.title,row.documentary,row.docdate,row.image, row.doccategory)
-  );
+    );
     } catch (error) {
     console.error('Error getting documentaries:', error);
     throw error;
     } finally {
     await connection.close();
     }
-}
+  }
 
 }
 

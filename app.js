@@ -54,11 +54,13 @@ app.get('/api/users/:id', validationMiddleware.validateUserIdParam, usersControl
 app.put('/api/users/:id', validationMiddleware.validateUserIdParam, validationMiddleware.validateUserUpdate, usersController.updateUser);
 app.delete('/api/users/:id', validationMiddleware.validateUserIdParam, usersController.deleteUser);
 app.post('/newsletter', validateEmail, newslettersController.joinNewsletter);
+app.get('/documentary/category/:doccategory', documentarysController.getDocsbyCat);
 app.get('/documentary/:id', documentarysController.getDocbyID);
 app.put('/documentary/:id', docUpload.single('image'), documentarysController.updateDocByID);
 app.get('/documentary', documentarysController.getAllDocs);
 app.post('/documentary', docUpload.single('image'), documentarysController.createDoc);
 app.delete('/documentary/:id', documentarysController.deleteDocByID);
+
 
 
 
