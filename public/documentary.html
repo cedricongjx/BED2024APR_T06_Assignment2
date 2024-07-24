@@ -25,19 +25,23 @@
   </nav>
 
   <div class="docbox">
-    <img src="images/image.png" alt="image" id="docimage"> 
+    <img src="images/image.png" alt="image" id="image">
+    <input type="file" id="image-input" style="display: none;">
+    <img id="current-image" style="display: none;">
   </div>
+
   
-
-
   <section class="info-section">
     <h1 id="title">Title</h1>
     <h2 id="date"></h2>
+    <h2 id="doccategory"></h2>
+    <input type="hidden" id="current-doccategory">
     <p id="documentary"></p>
     <button id="edit-button">Edit</button>
     <button id="ok-button" style="display: none;">OK</button>
     <button id="delete-button">Delete</button>
   </section>
+
 
   <footer>
     <div class="footer-content">

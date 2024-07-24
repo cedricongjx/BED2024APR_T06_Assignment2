@@ -20,6 +20,7 @@ async function generateSlides() {
                   <p class="id">${documentaries[i].docid}</p>
                   <h2 class="title">${documentaries[i].title}</h2>
                   <p class="date">${formattedDate}</p>
+                  <p class="cat">${documentaries[i].doccategory}</p>
               </div>
           </div>\n`;
         slider.innerHTML += slide;

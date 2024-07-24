@@ -287,7 +287,6 @@ footer {
     margin-right: auto;
 }
 
-/* Modal Styles */
 .modal {
     display: none;
     position: fixed;
@@ -330,11 +329,13 @@ label {
     margin-top: 10px;
 }
 
-input, textarea {
+input, textarea, select {
     width: 100%;
     padding: 10px;
     margin-top: 5px;
     box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
 
 button[type="submit"] {
