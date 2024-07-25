@@ -67,7 +67,7 @@ app.get('/api/average-donations', statisticsController.getAverageDonations);
 
 app.get("/testgetalluserforevent/:id",userController.getUsersForEvent);
 
-// Routes
+//------EVENTS------//
 app.get("/event", eventController.getAllEvent);
 app.get("/event/:id", eventController.getEventById);
 app.post("/event", testupload.single('image'), validateEventDate, eventController.createEvent);
@@ -90,7 +90,6 @@ app.get("/userwithevent", userController.getAllUserWithEvents);
 app.get("/userwithevent/:id", userController.getUserWithEventsById);
 app.get("/eventWithCategory",eventController.getEventsWithCategories);
 app.get("/eventWithCategory/:id",eventController.detailedEventById);
-
 app.get("/category",categoryController.getAllCategories);
 app.get("/category/:id",categoryController.getCategoryById);
 app.post("/category",categoryController.addCategory)
@@ -99,11 +98,8 @@ app.post("/addcategoryforevent",eventController.addCategoryToEvent);
 app.delete("/removeCategoryFromEvent",eventController.removeCategoryFromEvent);
 app.get("/events/category/:id",eventController.getEventsByCategory);
 app.get("/getCategoryForEvent/:id",eventController.getCategoryForEvent);
-
 app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use('/images', express.static(path.join(__dirname, 'public/images/event')));
-
-
 app.post("/testadduser",userController.registerUserEvent);
 app.delete("/testremoveuser",userController.removeUserFromEvent);
 app.post("/testcheck",userController.isUserRegisteredForEvent);

@@ -1,5 +1,4 @@
-// Fetch events from the server and display them
-//const image = require('../images/event/172')
+
 
 async function fetchEvents() {
   try {
@@ -64,7 +63,7 @@ function renderEvents(events) {
       const card = document.createElement('div');
       card.className = 'card';
       console.log(event.Image);
-      const imageURL = `/public/images/event/${event.Image}`;
+      const imageURL = event.Image ? `/public/images/event/${event.Image}` : 'http://via.placeholder.com/500x500';
       console.log('Image URL:', imageURL);
 
       card.innerHTML = `
@@ -85,7 +84,7 @@ function renderEvents(events) {
 function viewEvent(eventId, events) {
   const event = events.find(e => e.Eventid === eventId);
   localStorage.setItem('selectedEvent', JSON.stringify(event));
-  window.location.href = 'event-details.html';
+  window.location.href = 'event_details.html';
 }
 
 // Fetch the latest event
