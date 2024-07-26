@@ -22,7 +22,7 @@ class Documentary {
     const result = await request.query(query);
     return result.recordset.map(
       (row) => new Documentary(row.docid,row.title,row.documentary,row.docdate,row.image, row.doccategory)
-  );
+    );
     } catch (error) {
     console.error('Error getting documentary:', error);
     throw error;
@@ -104,7 +104,7 @@ class Documentary {
     }
   }
 
-  static async deleteDocByID(id) {
+  static async deleteDocbyID(id) {
     const connection = await sql.connect(dbConfig);
     try {
       const query = `
@@ -127,7 +127,7 @@ class Documentary {
     try
     {
     const query = `
-    SELECT * from documentary where doccategory = @doccategory
+      SELECT * from documentary where doccategory = @doccategory
     `;
     const request = connection.request();
     request.input('doccategory', doccategory);
@@ -142,6 +142,24 @@ class Documentary {
     await connection.close();
     }
   }
+
+  static async searchDoc(searchTerm) {
+    const connection = await sql.connect(dbConfig);
+    try{
+      const query = `SELECT * FROM documentary WHERE title LIKE '%${searchTerm}%'`;
+      const request = connection.request();
+      const result = await request.query(query);
+      return result.recordset.map(
+        (row) => new Documentary(row.docid,row.title,row.documentary,row.docdate,row.image, row.doccategory)
+      );
+    } catch (error) {
+    console.error('Error getting documentaries:', error);
+    throw error;
+    } finally {
+    await connection.close();
+    }
+    
+}
 
 }
 

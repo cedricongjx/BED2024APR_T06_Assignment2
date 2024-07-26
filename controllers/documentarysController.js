@@ -50,10 +50,10 @@ const createDoc = async (req, res) => {
   }
 };
 
-const deleteDocByID = async (req, res) => {
+const deleteDocbyID = async (req, res) => {
   const id = parseInt(req.params.id);
   try {
-    const rowsAffected = await Documentary.deleteDocByID(id);
+    const rowsAffected = await Documentary.deleteDocbyID(id);
     if (rowsAffected > 0) {
       res.send("Documentary updated successfully");
     } else {
@@ -76,11 +76,23 @@ const getDocsbyCat = async (req, res) => {
   }
 };
 
+const searchDoc = async (req, res) => {
+  const searchTerm = req.query.searchTerm; 
+  try {
+    const docs = await Documentary.searchDoc(searchTerm);
+    res.json(docs);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error retrieving documentary");
+  }
+};
+
 module.exports = {  
     getDocbyID,
     updateDocByID,
     getAllDocs,
     createDoc,
-    deleteDocByID,
-    getDocsbyCat
+    deleteDocbyID,
+    getDocsbyCat,
+    searchDoc
 };

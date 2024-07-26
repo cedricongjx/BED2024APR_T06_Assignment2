@@ -346,3 +346,38 @@ button[type="submit"] {
     cursor: pointer;
     margin-top: 10px;
 }
+
+
+.search-filter-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    gap: 1rem; /* Add a gap between the search bar and the filter */
+}
+
+#search-bar {
+    flex: 2; /* Reduce the size of the search bar */
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-left: 20px;
+}
+
+.filter-container {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+#category-filter {
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-left: 1rem;
+    width: 200px;
+    margin-right: 20px;
+}

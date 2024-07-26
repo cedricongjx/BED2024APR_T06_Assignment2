@@ -8,25 +8,7 @@ async function generateSlides() {
     }
     const documentaries = await response.json();
     
-    let slider = document.querySelector('.slider');
-    slider.innerHTML = '';
-    for (let i = 0; i < documentaries.length; i++) {
-      console.log(documentaries[i])
-      const date = new Date(documentaries[i].docdate);
-      const formattedDate = date.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
-      let slide = `
-          <div class="slide ${i === 0 ? 'active' : ''}" style="background-image: url('${documentaries[i].image}');">
-              <div class="slide-content">
-                  <p class="id">${documentaries[i].docid}</p>
-                  <h2 class="title">${documentaries[i].title}</h2>
-                  <p class="date">${formattedDate}</p>
-                  <p class="cat">${documentaries[i].doccategory}</p>
-              </div>
-          </div>\n`;
-        slider.innerHTML += slide;
-    }
-    slider += '</div>';
-      console.log(slider);
+    displayDocumentaries(documentaries);
   } catch (error) {
       console.error('Error generating slides:', error);
   }
@@ -40,29 +22,49 @@ async function filterSlides(category) {
     }
     const documentaries = await response.json();
     
-    let slider = document.querySelector('.slider');
-    slider.innerHTML = '';
-    for (let i = 0; i < documentaries.length; i++) {
-      console.log(documentaries[i])
-      const date = new Date(documentaries[i].docdate);
-      const formattedDate = date.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
-      let slide = `
-          <div class="slide ${i === 0 ? 'active' : ''}" style="background-image: url('${documentaries[i].image}');">
-              <div class="slide-content">
-                  <p class="id">${documentaries[i].docid}</p>
-                  <h2 class="title">${documentaries[i].title}</h2>
-                  <p class="date">${formattedDate}</p>
-                  <p class="cat">${documentaries[i].doccategory}</p>
-              </div>
-          </div>\n`;
-        slider.innerHTML += slide;
-    }
-    slider += '</div>';
-      console.log(slider);
+    displayDocumentaries(documentaries);
   } catch (error) {
       console.error('Error generating slides:', error);
   }
 }
+
+async function searchDoc(){
+  try {
+    const searchTerm = document.getElementById('search-bar').value;
+    console.log(searchTerm)
+    const response = await fetch(`/documentary/search?searchTerm=${searchTerm}`);
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    const documentaries = await response.json();
+    console.log(documentaries)
+    displayDocumentaries(documentaries);
+  } catch (error) {
+      console.error('Error generating slides:', error);
+  }
+}
+function displayDocumentaries(documentaries) {
+  const slider = document.querySelector('.slider');
+  slider.innerHTML = '';
+
+  slider.innerHTML = '';
+  for (let i = 0; i < documentaries.length; i++) {
+    console.log(documentaries[i])
+    const date = new Date(documentaries[i].docdate);
+    const formattedDate = date.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
+    let slide = `
+        <div class="slide ${i === 0 ? 'active' : ''}" style="background-image: url('${documentaries[i].image}');">
+            <div class="slide-content">
+                <p class="id">${documentaries[i].docid}</p>
+                <h2 class="title">${documentaries[i].title}</h2>
+                <p class="date">${formattedDate}</p>
+                <p class="cat">${documentaries[i].doccategory}</p>
+            </div>
+        </div>\n`;
+      slider.innerHTML += slide;
+  }
+  slider += '</div>';
+};
 
 document.querySelector('.next').addEventListener('click', () => {
     const slides = document.querySelectorAll('.slide');
@@ -177,5 +179,10 @@ document.addEventListener('DOMContentLoaded', async function() {
       generateSlides();
     }
   });
+  document.getElementById('search-bar').addEventListener('keypress', function(event) {
+        if (event.key === 'Enter') {
+            searchDoc();
+        }
+    });
 });
 
