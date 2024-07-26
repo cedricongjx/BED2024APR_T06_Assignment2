@@ -32,7 +32,7 @@ const loginUser = async (req, res) => {
       return res.status(401).json({ error: "Incorrect password" });
     }
     const token = jwt.sign({ id: user.userId }, secretKey, { expiresIn: "1h" }); // Ensure user ID is included
-    res.status(200).json({ message: "Login successful", token });
+    res.status(200).json({ message: "Login successful", token, userid: user.userId});
   } catch (error) {
     console.error("Error logging in:", error);
     res.status(500).json({ error: "Error logging in" });

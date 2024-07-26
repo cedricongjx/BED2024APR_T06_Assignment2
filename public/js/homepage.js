@@ -88,6 +88,18 @@ function getId(){
 
 }
 
+function hideAdd(){
+  const token = localStorage.getItem('token');
+  if (token) {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      if (payload.role !== 'A') {
+          document.getElementById('add-button').style.display = 'none';
+      }
+  } else {
+      console.warn('Token not found in localStorage');
+  }
+}
+
 
 
 async function fetchDoc(id) {
@@ -152,6 +164,7 @@ async function createDoc(event) {
 }
 document.addEventListener('DOMContentLoaded', async function() {
   await generateSlides();
+  hideAdd();
   getId();
   showAddModal();
   document.getElementById('addDocForm').addEventListener('submit', createDoc);

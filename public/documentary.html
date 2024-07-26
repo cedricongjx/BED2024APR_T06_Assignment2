@@ -43,29 +43,36 @@
   </section>
 
 
-  <footer>
-    <div class="footer-content">
-        <h1>Increase Your Awareness</h1>
-        <h2>Join the Best Documentary Website in the World</h2>
-        <button id="join-now-button">Join Us Now</button>
+  <section class="reviews-section" style="display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 2rem; gap: 2rem;">
+    <div class="review-form-container" style="background-color: #fff; width: 100%; max-width: 24rem; border: 1px solid #e5e7eb; border-radius: 0.5rem; padding: 1.5rem;">
+      <h2 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem;">Write a Review</h2>
+      <label for="review" style="color: #6b7280; margin-bottom: 0.5rem;">Share your thoughts and experiences</label>
+      <textarea id="review" style="height: 8rem; margin-bottom: 1rem; border: 1px solid #d1d5db; padding: 0.5rem; border-radius: 0.375rem; width: 100%;"></textarea>
+      <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+        <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+          <!-- SVGs for Stars -->
+          <svg id="star-1" style="height: 2rem; width: 2rem; color: #3b82f6; fill: currentColor; cursor: pointer;" viewBox="0 0 24 24" onclick="setStars(1)"><path d="M12 .288l2.833 8.718h9.167l-7.417 5.391 2.833 8.718-7.416-5.39-7.417 5.39 2.833-8.718-7.416-5.39h9.167z"/></svg>
+          <svg id="star-2" style="height: 2rem; width: 2rem; color: #3b82f6; fill: currentColor; cursor: pointer;" viewBox="0 0 24 24" onclick="setStars(2)"><path d="M12 .288l2.833 8.718h9.167l-7.417 5.391 2.833 8.718-7.416-5.39-7.417 5.39 2.833-8.718-7.416-5.39h9.167z"/></svg>
+          <svg id="star-3" style="height: 2rem; width: 2rem; color: #3b82f6; fill: currentColor; cursor: pointer;" viewBox="0 0 24 24" onclick="setStars(3)"><path d="M12 .288l2.833 8.718h9.167l-7.417 5.391 2.833 8.718-7.416-5.39-7.417 5.39 2.833-8.718-7.416-5.39h9.167z"/></svg>
+          <svg id="star-4" style="height: 2rem; width: 2rem; color: #3b82f6; fill: currentColor; cursor: pointer;" viewBox="0 0 24 24" onclick="setStars(4)"><path d="M12 .288l2.833 8.718h9.167l-7.417 5.391 2.833 8.718-7.416-5.39-7.417 5.39 2.833-8.718-7.416-5.39h9.167z"/></svg>
+          <svg id="star-5" style="height: 2rem; width: 2rem; color: #3b82f6; fill: currentColor; cursor: pointer;" viewBox="0 0 24 24" onclick="setStars(5)"><path d="M12 .288l2.833 8.718h9.167l-7.417 5.391 2.833 8.718-7.416-5.39-7.417 5.39 2.833-8.718-7.416-5.39h9.167z"/></svg>       
+        </div>
+      </div>
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <label id="review-length" style="color: #6b7280;">Review length: 0</label>
+        <button id="submit-review" style="padding: 0.5rem 1rem; border-radius: 0.375rem; background-color: #3b82f6; color: #ffffff; cursor: pointer; border: none; transition: background-color 0.2s;">Submit</button>
+      </div>
     </div>
-  </footer>
 
-  <div id="email-popup" class="popup">
-    <div class="popup-content">
-        <h2>Subscribe to Our Newsletter</h2>
-        <form id="email-form">
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-            <button type="submit">Submit</button>
-        </form>
+    <div class="reviews-display" style="background-color: #fff; min-width: max-content; max-width: 90%; margin: 0 auto; padding: 1rem; border-radius: 0.5rem;">
+      <h2 style="font-size: 24px; font-weight: 700; margin-bottom: 24px;">Reviews</h2>
+      <div id="reviews-container" class="reviews-container">
+        <!-- Reviews will be dynamically inserted here -->
+      </div>
     </div>
-  </div>
-  
+  </section>
   
 
-
-  <script src="js/newsletterpopup.js"></script>
   <script src="js/documentarypage.js"></script>
 </body>
 </html>

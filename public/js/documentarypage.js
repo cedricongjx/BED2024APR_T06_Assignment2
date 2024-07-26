@@ -143,9 +143,187 @@ async function deleteDoc(id) {
   }
 }
 
+async function fetchReviews(id) {
+  try {
+      const response = await fetch(`/documentary/review/${id}`);
+      if (!response.ok) {
+          throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      return data;
+  } catch (error) {
+      console.error('Error:', error);
+      return [];
+  }
+}
+
+async function displayReviews(id) {
+  const reviews = await fetchReviews(id);
+  const reviewsContainer = document.getElementById('reviews-container');
+  reviewsContainer.innerHTML = ''; // Clear existing reviews
+  
+  if (reviews.length === 0) {
+    // No reviews available
+    const noReviewsDiv = document.createElement('div');
+    noReviewsDiv.textContent = 'No Reviews Yet';
+    noReviewsDiv.style.textAlign = 'center';
+    noReviewsDiv.style.marginTop = '20px';
+    noReviewsDiv.style.fontSize = '18px';
+    noReviewsDiv.style.color = '#6b7280';
+    reviewsContainer.appendChild(noReviewsDiv);
+  } else {
+    reviews.forEach(review => {
+      const reviewDiv = document.createElement('div');
+      reviewDiv.style.border = "1px solid #cbd5e1";
+      reviewDiv.style.borderRadius = "8px";
+      reviewDiv.style.padding = "16px";
+      reviewDiv.style.display = "flex";
+      reviewDiv.style.flexDirection = "column";
+      reviewDiv.style.gap = "8px";
+      reviewDiv.style.marginBottom = "8px";
+      
+      // Header with username and review date
+      const headerDiv = document.createElement('div');
+      headerDiv.style.display = "flex";
+      headerDiv.style.alignItems = "center";
+      headerDiv.style.gap = "8px";
+      headerDiv.innerHTML =`
+          <h3 style="font-size: 18px;">${review.username}</h3>
+          <p style="font-size: 14px; color: #6b7280;">${new Date(review.date).toLocaleDateString()}</p>`
+      ;
+      
+      // Star ratings
+      const starsDiv = document.createElement('div');
+      starsDiv.style.display = "flex";
+      starsDiv.style.alignItems = "center";
+      starsDiv.style.gap = "4px";
+
+      // Generate stars based on the review's rating
+      for (let i = 1; i <= 5; i++) {
+          const star = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+          star.setAttribute("viewBox", "0 0 24 24");
+          star.setAttribute("width", "20");
+          star.setAttribute("height", "20");
+          star.setAttribute("stroke-width", "2");
+          star.setAttribute("stroke", "#fab005");
+          star.setAttribute("fill", "none");
+          star.setAttribute("stroke-linecap", "round");
+          star.setAttribute("stroke-linejoin", "round");
+          star.innerHTML = '<path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 17.25l3.885 2.185 -1.503 -4.355l3.618 -3.45h-4.485l-1.515 -4.355l-1.515 4.355h-4.485l3.618 3.45l-1.503 4.355z"/>';
+          if (i > review.stars) {
+              star.setAttribute("stroke", "#e5e7eb"); // Change color if the star number is greater than the review rating
+          }
+          starsDiv.appendChild(star);
+      }
+      
+      const ratingText = document.createElement('p');
+      ratingText.style.fontSize = "14px";
+      ratingText.style.color = "#6b7280";
+      ratingText.textContent = `${review.stars} out of 5`;
+      starsDiv.appendChild(ratingText);
+      
+      // Review text
+      const reviewText = document.createElement('p');
+      reviewText.textContent = review.review;
+      
+      // Compose elements
+      reviewDiv.appendChild(headerDiv);
+      reviewDiv.appendChild(starsDiv);
+      reviewDiv.appendChild(reviewText);
+      
+      // Append the complete review div to the container
+      reviewsContainer.appendChild(reviewDiv);
+    });
+  }
+
+}; 
+
+
+async function addReview(id, review, stars, date, userid) {
+  try {
+      const response = await fetch(`/review/${id}`, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ review, stars, date, userid })
+      });
+
+      if (!response.ok) {
+          throw new Error('Network response was not ok');
+      }
+      
+      alert('Review added successfully!');
+      window.location.reload();// Refresh the reviews list
+  } catch (error) {
+      console.error('Error:', error);
+      alert('Failed to add review');
+  }
+}
+
+// Add a global variable to store the current star rating
+let selectedStars = 0;
+
+// Function to update star ratings
+function updateStarRating(rating) {
+  selectedStars = rating;
+  // Update star colors based on rating
+  for (let i = 1; i <= 5; i++) {
+    const star = document.getElementById(`star-${i}`);
+    if (i <= rating) {
+      star.style.color = '#FFD700'; // Gold color for selected stars
+    } else {
+      star.style.color = '#3b82f6'; // Default color
+    }
+  }
+}
+
+// Add event listeners to star SVGs
+for (let i = 1; i <= 5; i++) {
+  const star = document.getElementById(`star-${i}`);
+  star.addEventListener('click', () => updateStarRating(i));
+}
+
+// Function to handle review submission
+async function handleSubmitReview() {
+  const id = getCardIDFromURL();
+  const reviewText = document.getElementById('review').value;
+  const stars = selectedStars;
+  const userid = localStorage.getItem('userid');
+  const currentDate = new Date();
+
+  const date = currentDate.toLocaleDateString();
+
+  if (!reviewText || stars === 0) {
+    alert('Please provide a review and select a star rating.');
+    return;
+  }
+
+  await addReview(id, reviewText, stars, date, userid);
+}
+
+function hideAdmin(){
+  const token = localStorage.getItem('token');
+  if (token) {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      if (payload.role !== 'A') {
+          document.getElementById('edit-button').style.display = 'none';
+          document.getElementById('delete-button').style.display = 'none';
+      }
+      else{
+        document.querySelector('.review-form-container').style.display = 'none';
+      }
+  } else {
+      console.warn('Token not found in localStorage');
+  }
+}
+
 document.addEventListener('DOMContentLoaded', function() {
+    hideAdmin();
     const id = getCardIDFromURL();
     updateDoc(id);
+    displayReviews(id);
+    
     document.getElementById('edit-button').addEventListener('click', makeFieldsEditable);
     document.getElementById('ok-button').addEventListener('click', function() {
       saveDoc(id);
@@ -155,4 +333,6 @@ document.addEventListener('DOMContentLoaded', function() {
           deleteDoc(id);
       }
   });
-  });
+
+  document.getElementById('submit-review').addEventListener('click', handleSubmitReview);
+});

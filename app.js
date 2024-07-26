@@ -22,6 +22,7 @@ const usersController = require('./controllers/usersController'); // Ensure corr
 const newslettersController = require('./controllers/newslettersController');
 const documentarysController = require('./controllers/documentarysController');
 const validateEmail = require('./middlewares/validateEmail')
+const reviewContoller = require('./controllers/reviewController');
 
 const feedbackController = require('./controllers/feedbackController');
 
@@ -60,7 +61,9 @@ app.put('/documentary/:id', docUpload.single('image'), documentarysController.up
 app.get('/documentary', documentarysController.getAllDocs);
 app.post('/documentary', docUpload.single('image'), documentarysController.createDoc);
 app.delete('/documentary/:id', documentarysController.deleteDocByID);
-
+app.post('/review/:id', reviewContoller.createReview);
+app.get('/review/:id', reviewContoller.getReviewbyID);
+app.get('/documentary/review/:id', reviewContoller.getReviewsbyDoc);
 
 
 
