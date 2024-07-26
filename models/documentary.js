@@ -82,7 +82,7 @@ class Documentary {
     } 
   }
 
-  static async createDoc(title, documentary, docdate, image) {
+  static async createDoc(title, documentary, docdate, image, doccategory) {
     const connection = await sql.connect(dbConfig);
     try
     {

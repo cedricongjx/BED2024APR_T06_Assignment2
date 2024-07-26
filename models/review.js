@@ -108,8 +108,50 @@ class Review {
     }
 
   }
+  
+  static async getAverageStar(docid) {
+    const connection = await sql.connect(dbConfig);
+    try
+    {
+    const query = `
+    SELECT AVG(stars) as avgStars from review where docid = @id
+    `;
+    const request = connection.request();
+    request.input('id', docid);
+    const result = await request.query(query);
+    
+    return result.recordset[0].avgStars !== null ? result.recordset[0].avgStars : null;
 
+    
+    } catch (error) {
+    console.error('Error getting review:', error);
+    throw error;
+    } finally {
+    await connection.close();
+    }
+  }
 
+  static async getNumberofReviews(docid) {
+    const connection = await sql.connect(dbConfig);
+    try
+    {
+    const query = `
+    SELECT count(*) as total from review where docid = @id
+    `;
+    const request = connection.request();
+    request.input('id', docid);
+    const result = await request.query(query);
+    
+    return result.recordset[0].total !== null ? result.recordset[0].total : null;
+
+    
+    } catch (error) {
+    console.error('Error getting review:', error);
+    throw error;
+    } finally {
+    await connection.close();
+    }
+  }
 
 
 }

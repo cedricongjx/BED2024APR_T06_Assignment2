@@ -42,9 +42,31 @@ const createdReview = async (req, res) => {
   }
 };
 
+const getAverageStar = async (req, res) => {
+  const docid = req.params.id;
+  try {
+    const avgStar = await Review.getAverageStar(docid);
+    res.json(avgStar);
+    } catch (error) {
+    res.status(500).json({ error: 'Error getting reviews ' });
+  }
+}
+
+const getNumberofReviews = async (req, res) => {
+  const docid = req.params.id;
+  try {
+    const total = await Review.getNumberofReviews(docid);
+    res.json(total);
+    } catch (error) {
+    res.status(500).json({ error: 'Error getting reviews ' });
+  }
+}
+
 module.exports = {
     getReviewbyID,
     getReviewsbyDoc,
     createReview,
-    createdReview
+    createdReview,
+    getAverageStar,
+    getNumberofReviews
 };

@@ -43,14 +43,74 @@ async function searchDoc(){
       console.error('Error generating slides:', error);
   }
 }
-function displayDocumentaries(documentaries) {
+
+async function avgStars(id) {
+  try {
+    const response = await fetch(`/review/average/${id}`);
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    const stars = await response.json();
+    return stars !== null ? parseInt(stars) : 'No reviews yet';
+
+
+  } catch (error) {
+      console.error('Error generating slides:', error);
+  }
+}
+
+async function numOfReviews(id) {
+  try {
+    const response = await fetch(`/review/total/${id}`);
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    const total = await response.json();
+    return total != 0 ? `${total} Review(s)` : '';
+
+  } catch (error) {
+      console.error('Error generating slides:', error);
+  }
+}
+
+async function displayDocumentaries(documentaries) {
   const slider = document.querySelector('.slider');
   slider.innerHTML = '';
 
-  slider.innerHTML = '';
   for (let i = 0; i < documentaries.length; i++) {
     console.log(documentaries[i])
     const date = new Date(documentaries[i].docdate);
+    const stars = await avgStars(documentaries[i].docid);
+    const totalReviews = await numOfReviews(documentaries[i].docid);
+    const starsDiv = document.createElement('div');
+    starsDiv.style.display = "flex";
+    starsDiv.style.alignItems = "center";
+    starsDiv.style.gap = "4px";
+    if (stars != 'No reviews yet'){
+
+      // Generate stars based on the review's rating
+      const starsCount = parseFloat(stars);
+      for (let j = 1; j <= 5; j++) {
+          const star = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+          star.setAttribute("viewBox", "0 0 24 24");
+          star.setAttribute("width", "20");
+          star.setAttribute("height", "20");
+          star.setAttribute("stroke-width", "2");
+          star.setAttribute("stroke", "#fab005");
+          star.setAttribute("fill", "none");
+          star.setAttribute("stroke-linecap", "round");
+          star.setAttribute("stroke-linejoin", "round");
+          star.innerHTML = '<path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 17.25l3.885 2.185 -1.503 -4.355l3.618 -3.45h-4.485l-1.515 -4.355l-1.515 4.355h-4.485l3.618 3.45l-1.503 4.355z"/>';
+          if (j > starsCount) {
+              star.setAttribute("stroke", "#e5e7eb"); // Change color if the star number is greater than the review rating
+          }
+          starsDiv.appendChild(star);
+      }
+      starsDiv.append(totalReviews);
+    }
+    else{
+      starsDiv.append(stars);
+    }
     const formattedDate = date.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
     let slide = `
         <div class="slide ${i === 0 ? 'active' : ''}" style="background-image: url('${documentaries[i].image}');">
@@ -58,12 +118,13 @@ function displayDocumentaries(documentaries) {
                 <p class="id">${documentaries[i].docid}</p>
                 <h2 class="title">${documentaries[i].title}</h2>
                 <p class="date">${formattedDate}</p>
+                <p class="stars">${starsDiv.outerHTML}</p>
                 <p class="cat">${documentaries[i].doccategory}</p>
             </div>
         </div>\n`;
       slider.innerHTML += slide;
   }
-  slider += '</div>';
+  getId();
 };
 
 document.querySelector('.next').addEventListener('click', () => {
@@ -166,8 +227,7 @@ async function createDoc(event) {
 }
 document.addEventListener('DOMContentLoaded', async function() {
   await generateSlides();
-  hideAdd();
-  getId();
+  //hideAdd();
   showAddModal();
   document.getElementById('addDocForm').addEventListener('submit', createDoc);
   document.getElementById('category-filter').addEventListener('change', function() {

@@ -20,7 +20,7 @@ const validationMiddleware = require('./middlewares/validate');
 const dbConfig = require('./config/dbConfig');
 const usersController = require('./controllers/usersController'); // Ensure correct path
 const newslettersController = require('./controllers/newslettersController');
-const documentarysController = require('./controllers/documentarysController');
+const documentaryController = require('./controllers/documentaryController');
 const validateEmail = require('./middlewares/validateEmail')
 const reviewContoller = require('./controllers/reviewController');
 
@@ -57,17 +57,19 @@ app.delete('/api/users/:id', validationMiddleware.validateUserIdParam, usersCont
 
 
 app.post('/newsletter', validateEmail, newslettersController.joinNewsletter);
-app.get('/documentary/category/:doccategory', documentarysController.getDocsbyCat);
-app.get('/documentary/search', documentarysController.searchDoc);
-app.get('/documentary/:id', documentarysController.getDocbyID);
-app.put('/documentary/:id', docUpload.single('image'), documentarysController.updateDocByID);
-app.get('/documentary', documentarysController.getAllDocs);
-app.post('/documentary', docUpload.single('image'), documentarysController.createDoc);
-app.delete('/documentary/:id', documentarysController.deleteDocbyID);
+app.get('/documentary/category/:doccategory', documentaryController.getDocsbyCat);
+app.get('/documentary/search', documentaryController.searchDoc);
+app.get('/documentary/:id', documentaryController.getDocbyID);
+app.put('/documentary/:id', docUpload.single('image'), documentaryController.updateDocByID);
+app.get('/documentary', documentaryController.getAllDocs);
+app.post('/documentary', docUpload.single('image'), documentaryController.createDoc);
+app.delete('/documentary/:id', documentaryController.deleteDocbyID);
 app.post('/review/:id', reviewContoller.createReview);
 app.get('/review/:id', reviewContoller.getReviewbyID);
 app.get('/documentary/review/:id', reviewContoller.getReviewsbyDoc);
 app.get('/review/documentary/:id', reviewContoller.createdReview);
+app.get('/review/average/:id', reviewContoller.getAverageStar);
+app.get('/review/total/:id', reviewContoller.getNumberofReviews);
 
 
 
