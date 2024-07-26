@@ -31,8 +31,20 @@ const createReview = async (req, res) => {
     }
 };
 
+const createdReview = async (req, res) => {
+  const docid = req.params.id
+  const userid = req.query.userid
+  try {
+    const hasReview = await Review.createdReview(docid, userid);
+    res.json(hasReview);
+    } catch (error) {
+    res.status(500).json({ error: 'Error getting reviews ' });
+  }
+};
+
 module.exports = {
     getReviewbyID,
     getReviewsbyDoc,
-    createReview
+    createReview,
+    createdReview
 };

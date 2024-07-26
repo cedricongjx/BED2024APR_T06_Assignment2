@@ -90,6 +90,25 @@ class Review {
     }
   }
 
+  static async createdReview(docid, userid){
+    const connection = await sql.connect(dbConfig);
+    try
+    {
+    const query = `
+    select * from Review where docid = @docid and userid = @userid`;
+    ;
+    const request = connection.request();
+    request.input('docid', sql.Int, docid);
+    request.input('userid', sql.Int, userid)
+    const result = await request.query(query);
+    return result.recordset.length > 0;
+    } catch (error) {
+    console.error('Error creating review:', error);
+    throw error;
+    }
+
+  }
+
 
 
 

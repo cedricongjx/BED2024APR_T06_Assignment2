@@ -157,6 +157,28 @@ async function fetchReviews(id) {
   }
 }
 
+async function createdReview(id) {
+  try {
+    if (localStorage.getItem('userid') != null){
+      const response = await fetch(`/review/documentary/${id}?userid=${localStorage.getItem('userid')}`);
+      if (!response.ok) {
+          throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      if (data) {
+        document.getElementById('review-message').style.display = 'block';
+        document.getElementById('submit-review').style.display = 'none'; // Disable the submit button
+      } else {
+        document.getElementById('review-message').style.display = 'none';
+        document.getElementById('submit-review').display = 'block'; // Enable the submit button
+      }
+    }
+  } catch (error) {
+      console.error('Error:', error);
+      return [];
+  }
+}
+
 async function displayReviews(id) {
   const reviews = await fetchReviews(id);
   const reviewsContainer = document.getElementById('reviews-container');
@@ -298,7 +320,10 @@ async function handleSubmitReview() {
     alert('Please provide a review and select a star rating.');
     return;
   }
-
+  if (reviewText > 500) {
+    alert('Too many characters.');
+    return;
+  }
   await addReview(id, reviewText, stars, date, userid);
 }
 
@@ -319,8 +344,17 @@ function hideAdmin(){
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+    const reviewTextarea = document.getElementById('review');
+    const reviewLengthLabel = document.getElementById('review-length');
+
+    // Update review length label on input
+    reviewTextarea.addEventListener('input', function() {
+      reviewLengthLabel.textContent = `Review length: ${reviewTextarea.value.length}`;
+    });
+
     hideAdmin();
     const id = getCardIDFromURL();
+    createdReview(id);
     updateDoc(id);
     displayReviews(id);
     

@@ -64,6 +64,7 @@ app.delete('/documentary/:id', documentarysController.deleteDocByID);
 app.post('/review/:id', reviewContoller.createReview);
 app.get('/review/:id', reviewContoller.getReviewbyID);
 app.get('/documentary/review/:id', reviewContoller.getReviewsbyDoc);
+app.get('/review/documentary/:id', reviewContoller.createdReview);
 
 
 
