@@ -39,6 +39,7 @@ function handleSignup(event) {
   .catch(error => console.error('Error:', error));
 }
 
+
 // Handle login form submission
 function handleLogin(event) {
   event.preventDefault();
@@ -58,9 +59,17 @@ function handleLogin(event) {
     // Show appropriate message based on response
     if (data.message === 'Login successful') {
       localStorage.setItem('token', data.token); // Store the token
-      alert('Login successful');
-      // Redirect to homepage
-      window.location.href = "/index.html"; 
+
+      // Decode the token to get user information
+      const payload = JSON.parse(atob(data.token.split('.')[1]));
+      
+      if (payload.role === 'A') {
+        // Redirect to admin user management page if role is 'A'
+        window.location.href = "/adminUsers.html";
+      } else {
+        // Redirect to a different page if not an admin
+        window.location.href = "/index.html"; 
+      }
     } else {
       alert('Login failed: ' + data.error);
     }

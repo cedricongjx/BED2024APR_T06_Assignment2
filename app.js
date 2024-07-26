@@ -8,6 +8,7 @@ const bodyParser = require("body-parser");
 
 const validateEventDate = require("./middlewares/validateEventDate");
 const authenticateToken = require('./middlewares/authenticateToken');
+const authorizeAdmin = require('./middlewares/authorizeAdmin');
 const validationMiddleware = require('./middlewares/validate');
 const validateEmail = require('./middlewares/validateEmail');
 const validateDonation = require('./middlewares/validateDonation');
@@ -47,10 +48,10 @@ const testupload = multer({ dest: 'public/images/events' });
 // User routes
 app.post('/api/signup', validationMiddleware.validateSignup, usersController.createUser);
 app.post('/api/login', validationMiddleware.validateLogin, usersController.loginUser);
-app.get('/api/users', usersController.getAllUsers);
-app.get('/api/users/:id', validationMiddleware.validateUserIdParam, usersController.getUserById);
-app.put('/api/users/:id', validationMiddleware.validateUserIdParam, validationMiddleware.validateUserUpdate, usersController.updateUser);
-app.delete('/api/users/:id', validationMiddleware.validateUserIdParam, usersController.deleteUser);
+app.get('/api/users', authenticateToken, authorizeAdmin, usersController.getAllUsers);
+app.get('/api/users/:id', authenticateToken, authorizeAdmin, validationMiddleware.validateUserIdParam, usersController.getUserById);
+app.put('/api/users/:id', authenticateToken, authorizeAdmin, validationMiddleware.validateUserIdParam, validationMiddleware.validateUserUpdate, usersController.updateUser);
+app.delete('/api/users/:id', authenticateToken, authorizeAdmin, validationMiddleware.validateUserIdParam, usersController.deleteUser);
 
 // Newsletter routes
 app.post('/api/newsletter', validateEmail, newslettersController.joinNewsletter);
@@ -60,7 +61,7 @@ app.get('/api/documentary/:id', documentarysController.getDocbyID);
 app.put('/api/documentary/:id', documentarysController.updateDocByID);
 
 // Donation routes
-app.post('/api/donate', authenticateToken,validateDonation, donationsController.createDonation);
+app.post('/api/donate', authenticateToken, validateDonation, donationsController.createDonation);
 app.get('/api/top-donors', donationsController.getTopDonors); // Fetch top donors
 
 // Statistics routes

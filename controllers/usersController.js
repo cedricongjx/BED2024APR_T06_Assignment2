@@ -39,13 +39,17 @@ const loginUser = async (req, res) => {
 // Get all users
 const getAllUsers = async (req, res) => {
   try {
-    const users = await User.getAllUsers(); // Fetch all users from database
-    res.json(users);
+    const users = await User.getAllUsers();
+    res.json(users.map(user => ({
+      Userid: user.userId, // Ensure field name matches database schema
+      username: user.username
+    })));
   } catch (error) {
     console.error('Error retrieving users:', error);
     res.status(500).json({ error: 'Error retrieving users' });
   }
 };
+
 
 // Get a user by ID
 const getUserById = async (req, res) => {
@@ -59,12 +63,16 @@ const getUserById = async (req, res) => {
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
-    res.json(user);
+    res.json({
+      Userid: user.userId,
+      username: user.username
+    });
   } catch (error) {
     console.error('Error retrieving user:', error);
     res.status(500).json({ error: 'Error retrieving user' });
   }
 };
+
 
 // Update a user
 const updateUser = async (req, res) => {
@@ -79,12 +87,16 @@ const updateUser = async (req, res) => {
     if (!updatedUser) {
       return res.status(404).json({ error: 'User not found' });
     }
-    res.json(updatedUser);
+    res.json({
+      Userid: updatedUser.userId,
+      username: updatedUser.username
+    });
   } catch (error) {
     console.error('Error updating user:', error);
     res.status(500).json({ error: 'Error updating user' });
   }
 };
+
 
 // Delete a user
 const deleteUser = async (req, res) => {
@@ -105,6 +117,7 @@ const deleteUser = async (req, res) => {
   }
 };
 
+
 // Search for users
 const searchUsers = async (req, res) => {
   const searchTerm = req.query.q;
@@ -114,12 +127,16 @@ const searchUsers = async (req, res) => {
 
   try {
     const users = await User.searchUsers(searchTerm); // Search users by term
-    res.json(users);
+    res.json(users.map(user => ({
+      Userid: user.userId,
+      username: user.username
+    })));
   } catch (error) {
     console.error('Error searching users:', error);
     res.status(500).json({ error: 'Error searching users' });
   }
 };
+
 
 // Export functions for use in routes
 module.exports = {
