@@ -352,7 +352,7 @@ document.addEventListener('DOMContentLoaded', function() {
       reviewLengthLabel.textContent = `Review length: ${reviewTextarea.value.length}`;
     });
 
-    hideAdmin();
+    //hideAdmin();
     const id = getCardIDFromURL();
     createdReview(id);
     updateDoc(id);
