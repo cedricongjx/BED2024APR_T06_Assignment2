@@ -227,7 +227,7 @@ async function createDoc(event) {
 }
 document.addEventListener('DOMContentLoaded', async function() {
   await generateSlides();
-  //hideAdd();
+  hideAdd();
   showAddModal();
   document.getElementById('addDocForm').addEventListener('submit', createDoc);
   document.getElementById('category-filter').addEventListener('change', function() {
