@@ -1,24 +1,23 @@
+/* Global body styles */
 body {
   background-color: lightblue;
   font-family: 'Montserrat', sans-serif;
   margin: 0;
   padding: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 100vh;
 }
 
+/* Navigation bar styles */
 .navbar {
   width: 100%;
   background-color: #333;
   overflow: hidden;
   height: 80px;
   display: flex;
-  justify-content: center; /* Center align the content */
+  justify-content: center;
   align-items: center;
 }
 
+/* Container for navigation items */
 .nav-container {
   max-width: 1200px;
   width: 100%;
@@ -27,9 +26,10 @@ body {
   justify-content: space-between;
   align-items: center;
   height: 100%;
-  padding: 0 20px; /* Add padding to the sides */
+  padding: 0 20px;
 }
 
+/* Logo styles */
 .logo {
   color: white;
   font-size: 24px;
@@ -37,6 +37,7 @@ body {
   text-transform: uppercase;
 }
 
+/* Navigation links styles */
 .nav-links {
   list-style-type: none;
   margin: 0;
@@ -44,21 +45,66 @@ body {
   display: flex;
 }
 
+/* Individual navigation link styles */
 .nav-links li {
   padding: 14px 20px;
 }
 
+/* Anchor link styles */
 .nav-links a {
   text-decoration: none;
   color: white;
   font-size: 16px;
 }
 
+/* Hover effect for navigation links */
 .nav-links a:hover {
   background-color: #575757;
   border-radius: 4px;
 }
 
+/* Dropdown menu styles */
+.dropdown_menu {
+  position: relative;
+}
+
+/* Dropdown menu toggle */
+.dropdown_menu div {
+  color: white;
+  cursor: pointer;
+}
+
+/* Feedback dropdown content */
+.feedback_content {
+  display: none;
+  position: absolute;
+  z-index: 999;
+  background-color: #333;
+}
+
+/* Feedback dropdown links */
+.feedback_content a {
+  display: block;
+  color: yellow;
+  padding: 10px;
+  text-decoration: none;
+}
+
+/* Show dropdown content on hover */
+.dropdown_menu:hover .feedback_content {
+  display: block;
+}
+
+/* Main content styles */
+.main-content {
+  padding-top: 80px; /* Adjust to ensure content is below the navbar */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+/* Container for the leaderboard */
 .leaderboard-container {
   width: 80%;
   margin: 20px auto;
@@ -69,43 +115,51 @@ body {
   text-align: center;
 }
 
-.leaderboard-container h2 {
+/* Title styles */
+.leaderboard-container .title {
   margin-bottom: 20px;
   font-size: 24px;
   font-weight: bold;
   color: #333;
 }
 
+/* Styles for the top donors section */
 .top-donors {
   display: flex;
   justify-content: space-around;
   margin-bottom: 20px;
 }
 
+/* Card styles for top donors */
 .top-donor-card {
   background-color: #e0f7fa;
   border-radius: 8px;
   padding: 20px;
-  width: 30%;
   text-align: center;
+  width: 30%;
 }
 
+/* Image styles for top donors */
 .top-donor-card img {
-  border-radius: 50%;
   width: 100px;
   height: 100px;
+  border-radius: 50%;
+  margin-bottom: 10px;
 }
 
+/* Header styles for top donors */
 .top-donor-card h3 {
   margin: 10px 0;
   font-size: 20px;
 }
 
+/* Paragraph styles for top donors */
 .top-donor-card p {
   font-size: 18px;
   color: #00796b;
 }
 
+/* Styles for search and sort section */
 .search-sort {
   display: flex;
   justify-content: space-between;
@@ -113,49 +167,55 @@ body {
   margin-bottom: 20px;
 }
 
-.search-sort input {
+/* Search input styles */
+#searchDonor {
   padding: 10px;
-  font-size: 16px;
-  border-radius: 4px;
+  width: 70%;
   border: 1px solid #ccc;
-  width: 60%;
+  border-radius: 4px;
 }
 
-.sort-buttons {
-  display: flex;
-}
-
+/* Styles for sort buttons */
 .sort-buttons button {
   background-color: #00796b;
   color: white;
   border: none;
   padding: 10px 20px;
-  margin-left: 10px;
   border-radius: 4px;
   cursor: pointer;
 }
 
+/* Hover effect for sort buttons */
 .sort-buttons button:hover {
   background-color: #004d40;
 }
 
-#leaderboard {
+/* Table styles */
+table {
   width: 100%;
   border-collapse: collapse;
-  margin-bottom: 20px;
+  margin-top: 20px;
 }
 
-#leaderboard th, #leaderboard td {
+/* Table header and cell styles */
+table th, table td {
   padding: 10px;
-  border: 1px solid #ddd;
+  border: 1px solid #ccc;
   text-align: left;
 }
 
-#leaderboard th {
-  background-color: #c1d82f;
-  color: white;
+/* Table header styles */
+table th {
+  background-color: #d4edda;
+  color: #333;
 }
 
-#leaderboard tbody tr:nth-child(even) {
-  background-color: #f9f9f9;
+/* Table cell styles */
+table td {
+  background-color: #fff;
+}
+
+/* Alternating row styles for table */
+table tr:nth-child(even) {
+  background-color: #f2f2f2;
 }

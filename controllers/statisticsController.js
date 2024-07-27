@@ -2,42 +2,68 @@ const sql = require("mssql");
 const dbConfig = require("../config/dbConfig");
 
 const getStatistics = async (req, res) => {
-  const period = req.query.period || 'weekly';
+  const connection = await sql.connect(dbConfig);
+  const { month } = req.query;
 
   try {
-    const connection = await sql.connect(dbConfig);
-
-    const oneTimeQuery = `
-      SELECT 'one-time' AS donationType, SUM(Amount) AS totalAmount
+    let query = `
+      SELECT DonationType, SUM(Amount * ISNULL(Months, 1)) AS TotalAmount
       FROM Donations
-      WHERE DonationType = 'one-time'
-        AND DonationDate >= DATEADD(${period === 'weekly' ? 'WEEK' : 'MONTH'}, -1, GETDATE())
     `;
 
-    const monthlyQuery = `
-      SELECT 'monthly' AS donationType, SUM(Amount * ISNULL(Months, 1)) AS totalAmount
-      FROM Donations
-      WHERE DonationType = 'monthly'
-        AND DonationDate >= DATEADD(${period === 'weekly' ? 'WEEK' : 'MONTH'}, -1, GETDATE())
-    `;
+    if (month && month !== 'all') {
+      query += ` WHERE MONTH(DonationDate) = @month `;
+    }
 
-    const [oneTimeResult, monthlyResult] = await Promise.all([
-      connection.request().query(oneTimeQuery),
-      connection.request().query(monthlyQuery)
-    ]);
+    query += ` GROUP BY DonationType `;
 
-    const statistics = [
-      oneTimeResult.recordset[0],
-      monthlyResult.recordset[0]
-    ].filter(record => record.donationType !== null);
+    const request = connection.request();
+    if (month && month !== 'all') {
+      request.input('month', sql.Int, month);
+    }
 
-    res.json(statistics);
+    const result = await request.query(query);
+    res.json(result.recordset);
   } catch (error) {
     console.error("Error fetching statistics:", error);
     res.status(500).json({ error: "Error fetching statistics" });
+  } finally {
+    await connection.close();
+  }
+};
+
+const getAverageDonations = async (req, res) => {
+  const connection = await sql.connect(dbConfig);
+  const { month } = req.query;
+
+  try {
+    let query = `
+      SELECT DonationType, AVG(Amount * ISNULL(Months, 1)) AS AverageAmount
+      FROM Donations
+    `;
+
+    if (month && month !== 'all') {
+      query += ` WHERE MONTH(DonationDate) = @month `;
+    }
+
+    query += ` GROUP BY DonationType `;
+
+    const request = connection.request();
+    if (month && month !== 'all') {
+      request.input('month', sql.Int, month);
+    }
+
+    const result = await request.query(query);
+    res.json(result.recordset);
+  } catch (error) {
+    console.error("Error fetching average donations:", error);
+    res.status(500).json({ error: "Error fetching average donations" });
+  } finally {
+    await connection.close();
   }
 };
 
 module.exports = {
   getStatistics,
+  getAverageDonations,
 };

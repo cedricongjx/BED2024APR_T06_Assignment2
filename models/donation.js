@@ -1,6 +1,7 @@
 const sql = require("mssql");
 const dbConfig = require("../config/dbConfig");
 
+// Donation class definition
 class Donation {
   constructor(donationId, donatorId, name, amount, donationDate, donationType, months) {
     this.donationId = donationId;
@@ -12,8 +13,9 @@ class Donation {
     this.months = months;
   }
 
+  // Method to create a new donation record in the database
   static async createDonation(donation) {
-    const connection = await sql.connect(dbConfig);
+    const connection = await sql.connect(dbConfig); // Connect to the database
     try {
       const query = `
         INSERT INTO Donations (DonatorID, Name, Amount, DonationDate, DonationType, Months)
@@ -33,7 +35,7 @@ class Donation {
       const donationId = result.recordset[0]?.DonationID;
 
       if (!donationId) {
-        throw new Error("Failed to retrieve the DonationID");
+        throw new Error("Failed to retrieve the DonationID"); // Throw error if DonationID is not retrieved
       }
 
       return new Donation(
@@ -46,14 +48,15 @@ class Donation {
         donation.Months
       );
     } catch (error) {
-      throw error;
+      throw error; // Rethrow any errors for further handling
     } finally {
-      await connection.close();
+      await connection.close(); // Close the database connection
     }
   }
 
+  // Method to get top donors by donation type
   static async getTopDonorsByType(donationType) {
-    const connection = await sql.connect(dbConfig);
+    const connection = await sql.connect(dbConfig); // Connect to the database
     try {
       let query = `
         SELECT Name, SUM(Amount * ISNULL(Months, 1)) AS TotalAmount
@@ -67,16 +70,17 @@ class Donation {
       request.input("DonationType", sql.VarChar, donationType);
 
       const result = await request.query(query);
-      return result.recordset;
+      return result.recordset; // Return the result set
     } catch (error) {
-      throw error;
+      throw error; // Rethrow any errors for further handling
     } finally {
-      await connection.close();
+      await connection.close(); // Close the database connection
     }
   }
 
+  // Method to get donation statistics over a period (weekly or monthly)
   static async getStatistics(period) {
-    const connection = await sql.connect(dbConfig);
+    const connection = await sql.connect(dbConfig); // Connect to the database
     try {
       let query = `
         SELECT DonationType, SUM(Amount * ISNULL(Months, 1)) AS TotalAmount
@@ -86,17 +90,14 @@ class Donation {
       `;
 
       const result = await connection.request().query(query);
-      return result.recordset;
+      return result.recordset; // Return the result set
     } catch (error) {
-      throw error;
+      throw error; // Rethrow any errors for further handling
     } finally {
-      await connection.close();
+      await connection.close(); // Close the database connection
     }
   }
 }
 
-  
-
-
-
+// Export the Donation class for use in other modules
 module.exports = Donation;

@@ -7,7 +7,9 @@
   <title>Signup/Login</title>
 </head>
 <body>
+  <!-- Container for the signup and login forms -->
   <div class="auth-container">
+    <!-- Signup form box -->
     <div class="auth-box">
       <div class="title">Signup</div>
       <form id="signupForm" onsubmit="handleSignup(event)">
@@ -18,6 +20,7 @@
       <p>Already have an account? <a href="#" onclick="toggleAuthForms()">Login</a></p>
     </div>
 
+    <!-- Login form box, hidden by default -->
     <div class="auth-box" id="loginBox" style="display: none;">
       <div class="title">Login</div>
       <form id="loginForm" onsubmit="handleLogin(event)">
