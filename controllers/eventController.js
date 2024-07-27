@@ -110,10 +110,10 @@ const removeCategoryFromEvent = async (req, res) => {
         if (!success) {
             return res.status(404).send("Event or Category not found");
         }
-        res.status(204).send();
+        res.status(204).send("Category removed successfully");
     } catch (error) {
         console.error('Error deleting category for event:', error);
-        res.status(500).send("Error deleting category for event");
+        res.status(500).send("Error deleting category for event"+ error.message);
     }
 };
 const getEventsByCategory = async(req,res) =>{
@@ -129,6 +129,16 @@ const getEventsByCategory = async(req,res) =>{
         res.status(500).send("Error retreiving event by category")
     }
 }
+const getCategoryForEvent = async (req,res)=>{
+    const id = parseInt(req.params.id);
+    try{
+        const category = await Event.getCategoryForEvent(id);
+        res.status(200).json(category);
+    }catch (error){
+        console.error('Error fetching categories for event:', error);
+        res.status(500).send("Error fetching categories for event"); 
+    }
+}
 module.exports={
     getAllEvent,
     getEventById,
@@ -141,4 +151,5 @@ module.exports={
     addCategoryToEvent,
     removeCategoryFromEvent,
     getEventsByCategory,
+    getCategoryForEvent,
 }

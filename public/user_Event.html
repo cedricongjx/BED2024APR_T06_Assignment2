@@ -21,25 +21,23 @@
       </ul>
     </div>
   </nav>
-
+  <!-- <img src="/public/images/event/1720851551183-Untitled.png" style="width: 50px; height: 50px;" alt="Event Image"/> -->
   <div class="search-container">
     <input type="text" id="searchInput" placeholder="Search events by name">
     <button onclick="searchEvent()">Search</button>
   </div>
-  
   <div class="category-filters">
     <h3>Filter by Category:</h3>
     <div id="categoryFilterContainer"></div>
+    <!-- <button id="showAllButton" class="show-all-button">All</button> -->
   </div>
 
   <div id="noResultsMessage" style="display: none; text-align: center; font-size: 1.2em; color: #555;">
     No events found.
   </div>
-
-  <div class="banner" id="latestEventBanner">
-    <p>Events List</p>
-  </div>
-  
+  <!-- <div class="banner" id="latestEventBanner">
+    <p>Latest Event</p>
+  </div> -->
   <!-- <div class="card latest-event-card" id="latestEventCard">
     <div class="card-img-container">
       <img src="https://via.placeholder.com/400x300" alt="Card Image" class="card-img" id="eventImage">
@@ -50,15 +48,17 @@
       <p id="eventDateTime">Event Date & Time</p>
     </div>
   </div> -->
-  
-  <div class="events-grid" id="cardContainer"></div>
 
-  <div class="newEvent">
-    <a href="AddEvent.html">
-      <button>Add New Event</button>
-    </a>
+  <div id="userEventsContainer">
+    <h2>User Events</h2>
+    <div class = "userevent" id="userEventsList"></div>
+    <div id="noUserEventsMessage" style="display: none; text-align: center; font-size: 1.2em; color: #555;">
+      No registered events.
+    </div>
   </div>
+  <h2>Events List</h2>
+  <div class="events-grid" id="cardContainer"></div>
   
-  <script src="js/event.js"></script>
+  <script src="js/user_event.js"></script>
 </body>
 </html>

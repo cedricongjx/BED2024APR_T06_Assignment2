@@ -18,16 +18,25 @@ const userController = require("./controllers/userController");
 const categoryController = require("./controllers/categoryController");
 const donationsController = require('./controllers/donationsController');
 const statisticsController = require('./controllers/statisticsController');
-const usersController = require('./controllers/usersController'); // Ensure correct path
+
+const authenticateToken = require('./middlewares/authenticateToken');
+const validationMiddleware = require('./middlewares/validate');
+const dbConfig = require('./config/dbConfig');
+//const usersController = require('./controllers/usersController'); // Ensure correct path
+
 const newslettersController = require('./controllers/newslettersController');
 const documentaryController = require('./controllers/documentaryController');
 const validateEmail = require('./middlewares/validateEmail')
 const reviewContoller = require('./controllers/reviewController');
 
 const feedbackController = require('./controllers/feedbackController');
+
+const { user } = require('./dbConfig');
+
 const validateFeedback = require("./middlewares/validateFeedback");
 
 const dbConfig = require('./config/dbConfig');
+
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -49,6 +58,18 @@ const storage = multer.diskStorage({
 
 
 
+app.post('/api/signup', validationMiddleware.validateSignup, userController.createUser);
+app.post('/api/login', validationMiddleware.validateLogin, userController.loginUser);
+app.get('/api/users', userController.getAllUsers);
+app.get('/api/users/:id', validationMiddleware.validateUserIdParam, userController.getUserById);
+app.put('/api/users/:id', validationMiddleware.validateUserIdParam, validationMiddleware.validateUserUpdate, userController.updateUser);
+app.delete('/api/users/:id', validationMiddleware.validateUserIdParam, userController.deleteUser);
+app.post('/api/newsletter', validateEmail, newslettersController.joinNewsletter);
+app.get('/api/documentary/:id', documentarysController.getDocbyID);
+app.put('/api/documentary/:id', documentarysController.updateDocByID);
+
+app.post('/api/donate', authenticateToken, donationsController.createDonation);
+
 const upload = multer({ storage: storage });
 const testupload = multer({ dest: 'public/images/events' });
 const docUpload = multer({ dest: 'public/images/documentary' });
@@ -60,6 +81,7 @@ app.get('/api/users', authenticateToken, authorizeAdmin, usersController.getAllU
 app.get('/api/users/:id', authenticateToken, authorizeAdmin, validationMiddleware.validateUserIdParam, usersController.getUserById);
 app.put('/api/users/:id', authenticateToken, authorizeAdmin, validationMiddleware.validateUserIdParam, validationMiddleware.validateUserUpdate, usersController.updateUser);
 app.delete('/api/users/:id', authenticateToken, authorizeAdmin, validationMiddleware.validateUserIdParam, usersController.deleteUser);
+
 
 // Newsletter routes
 app.post('/api/newsletter', validateEmail, newslettersController.joinNewsletter);
@@ -90,7 +112,11 @@ app.get('/api/top-donors', donationsController.getTopDonors); // Fetch top donor
 app.get('/api/statistics', statisticsController.getStatistics);
 app.get('/api/average-donations', statisticsController.getAverageDonations);
 
-// Event routes
+
+app.get("/testgetalluserforevent/:id",userController.getUsersForEvent);
+
+//------EVENTS------//
+
 app.get("/event", eventController.getAllEvent);
 app.get("/event/:id", eventController.getEventById);
 app.post("/event", testupload.single('image'), validateEventDate, eventController.createEvent);
@@ -102,6 +128,27 @@ app.post("/upload", upload.single('image'), (req, res) => {
 });
 app.get("/latestEvent", eventController.latestEvent);
 app.get("/events/search", eventController.getEventByName);
+
+app.put('/event/:id', upload.single('image'), eventController.updateEvent);
+app.post("/upload", upload.single('image'), (req, res) => {
+  if (!req.file) {
+    return res.status(400).send({ message: 'No file uploaded' });
+  }
+  res.status(200).send({ message: 'File uploaded successfully', file: req.file });
+});
+app.get("/userwithevent", userController.getAllUserWithEvents);
+app.get("/userwithevent/:id", userController.getUserWithEventsById);
+app.get("/eventWithCategory",eventController.getEventsWithCategories);
+app.get("/eventWithCategory/:id",eventController.detailedEventById);
+app.get("/category",categoryController.getAllCategories);
+app.get("/category/:id",categoryController.getCategoryById);
+app.post("/category",categoryController.addCategory)
+app.delete("/category/:id",categoryController.deleteCategory);
+app.post("/addcategoryforevent",eventController.addCategoryToEvent);
+app.delete("/removeCategoryFromEvent",eventController.removeCategoryFromEvent);
+app.get("/events/category/:id",eventController.getEventsByCategory);
+app.get("/getCategoryForEvent/:id",eventController.getCategoryForEvent);
+
 app.put("/event/:id", eventController.updateEvent);
 
 // User with event routes
@@ -122,27 +169,15 @@ app.delete("/removeCategoryFromEvent", eventController.removeCategoryFromEvent);
 app.get("/events/category/:id", eventController.getEventsByCategory);
 
 // Feedback routes
-app.put("/feedback/response", feedbackController.editResponse);
-app.get("/feedback/name", feedbackController.getFeedbackByName);
-app.get("/feedback", authenticateToken, feedbackController.getAllFeedback);
-app.get("/feedback/notverified", feedbackController.getAllNotVerifiedFeedback);
-app.get("/feedback/verified", feedbackController.getAllVerifiedFeedback);
-app.get("/feedback/bug", feedbackController.getAllBugFeedback);
-app.get("/feedback/customerservice", feedbackController.getAllCustomerServiceFeedback);
-app.get("/feedback/feedback", feedbackController.getAllfeedbackFeedback);
-app.get("/feedback/other", feedbackController.getAllOtherFeedback);
-app.post("/feedback", feedbackController.createFeedback);
-app.put("/feedback/:id", feedbackController.updateFeedback);
-app.delete("/feedback/:id", feedbackController.deleteFeedback);
-app.post("/feedback/verified", feedbackController.addJustification);
-app.get("/feedback/response/:id", feedbackController.getResponse);
+
 
 // Static file routes
+
 app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use('/images', express.static(path.join(__dirname, 'public/images/event')));
-
-
-
+app.post("/testadduser",userController.registerUserEvent);
+app.delete("/testremoveuser",userController.removeUserFromEvent);
+app.post("/testcheck",userController.isUserRegisteredForEvent);
 
 //Feedback
 app.put("/feedback/response",authenticateToken,feedbackController.editResponse);
@@ -161,6 +196,7 @@ app.delete("/feedback/delete/:id",authenticateToken,feedbackController.deleteFee
 app.post("/feedback/verified",validateFeedback.validateJustification,authenticateToken,feedbackController.addJustification);
 app.get("/feedback/response/:id",authenticateToken,feedbackController.getResponse);
 app.get("/feedback/categorycount",authenticateToken, feedbackController.getFeedbackCountByAllCategory);
+
 
 
 

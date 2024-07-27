@@ -65,17 +65,17 @@ body {
 }
 
 .card-container {
-  display: flex;
+  display: grid;
+  
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 20px;
   padding: 20px;
-  overflow-x: auto;
-  scroll-behavior: smooth;
+  width: 100%;
   max-width: 80%;
-  scrollbar-width: none; /* Hide scrollbar for Firefox */
 }
 
 .card-container::-webkit-scrollbar {
-  display: none; /* Hide scrollbar for Chrome, Safari, and Opera */
+  display: none; 
 }
 
 .card {
@@ -94,14 +94,19 @@ body {
 .card:hover {
   transform: scale(1.02); 
 }
-
+.card img{
+  height: 125px;
+}
 .card-img {
   width: 100%;
+  height: 125px;
   height: auto;
+  object-fit: cover;
 }
 
 .card-content {
   padding: 16px;
+  flex: 1;
 }
 
 .card-title {
@@ -178,8 +183,8 @@ body {
 
 .latest-event-card .card-img {
   width: 200px;
-  height: 100px; /* Ensures the image covers its container */
-  object-fit: cover; /* Ensures the image is properly fitted */
+  height: 100px;
+  object-fit: cover; 
 }
 
 .latest-event-card .card-content {
@@ -192,7 +197,7 @@ body {
 
 .latest-event-card .card-title {
   margin: 0;
-  font-size: 1.5em; /* Slightly larger font size */
+  font-size: 1.5em;
   margin-bottom: 8px;
 }
 
@@ -219,26 +224,26 @@ body {
   border-radius: 4px;
 }
 .banner p {
-  font-size: 2em; /* Increase font size */
-  font-weight: bold; /* Make the text bold */
-  color: #333; /* Optional: change text color */
+  font-size: 2em; 
+  font-weight: bold; 
+  color: #333; 
 }
 /* Style the search container */
 .search-container {
   display: flex;
-  justify-content: center; /* Center align the search bar and button */
-  margin: 20px 0; /* Add margin to separate from other elements */
+  justify-content: center; 
+  margin: 20px 0;
 }
 
 /* Style the search input */
 .search-container input[type="text"] {
-  width: 300px; /* Set the width of the search input */
-  padding: 10px; /* Add padding inside the input */
-  font-size: 16px; /* Set font size for text inside input */
-  border: 1px solid #ccc; /* Border color and style */
-  border-radius: 4px; /* Rounded corners */
-  outline: none; /* Remove default outline */
-  transition: border-color 0.3s ease; /* Smooth transition for border color change */
+  width: 300px; 
+  padding: 10px; 
+  font-size: 16px; 
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none; 
+  transition: border-color 0.3s ease;
 }
 
 /* Style the search input focus state */
@@ -246,17 +251,17 @@ body {
   border-color: #007bff; /* Border color when input is focused */
 }
 
-/* Style the search button */
+
 .search-container button {
-  padding: 10px 20px; /* Add padding inside the button */
-  margin-left: 10px; /* Space between input and button */
-  font-size: 16px; /* Set font size */
-  background-color: #007bff; /* Button background color */
-  color: white; /* Button text color */
-  border: none; /* Remove default border */
-  border-radius: 4px; /* Rounded corners */
-  cursor: pointer; /* Show pointer cursor on hover */
-  transition: background-color 0.3s ease; /* Smooth transition for background color change */
+  padding: 10px 20px; 
+  margin-left: 10px; 
+  font-size: 16px; 
+  background-color: #007bff; 
+  color: white; 
+  border: none; 
+  border-radius: 4px; 
+  cursor: pointer;
+  transition: background-color 0.3s ease; 
 }
 
 /* Style the search button hover state */
@@ -319,32 +324,105 @@ body {
 .show-all-button:hover {
   background-color: #0056b3; /* Darker shade for hover effect */
 }
-/* /////////////////////////////////////////// */
-/* #categoryFilterContainer {
+
+.events-grid {
   display: flex;
-  flex-direction: column; 
-  align-items: flex-start; 
-  padding: 20px;
- 
-  width: 200px; 
-  position: absolute; 
-  top: 20px; 
-  left: 20px; 
-  margin-top: 50px;
+  flex-wrap: wrap;
+  gap: 20px; 
+  justify-content: center; 
+  padding: 20px; 
+  margin-left: 100px;
+  margin-right: 100px;
 }
 
-.show-all-button, .category-button {
-  padding: 10px 20px;
-  font-size: 14px;
+/* Style for each event card */
+.card {
+  flex: 1 1 200px; 
+  max-width: 300px; 
+  box-sizing: border-box; 
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
   cursor: pointer;
-  border: none;
-  border-radius: 5px;
-  background-color: #007bff;
-  color: white;
-  margin-bottom: 10px;
-  transition: background-color 0.3s ease;
+  transition: transform 0.3s;
 }
 
-.show-all-button:hover, .category-button:hover {
-  background-color: #0056b3;
-} */
+.card:hover {
+  transform: scale(1.02); /* Scale effect on hover */
+}
+
+.card-img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  background-image: url('http://via.placeholder.com/500x500');
+  background-size: cover;
+  background-position: center;
+}
+.card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block; 
+}
+
+.card-content {
+  padding: 16px;
+}
+
+.card-title {
+  margin: 0;
+  font-size: 1.2em;
+  margin-bottom: 8px;
+}
+
+.card-description {
+  margin: 0;
+  font-size: 1em;
+  color: #555;
+}
+.edit-button {
+  position: absolute;
+  bottom: 10px; 
+  right: 10px; 
+  background-color: #007bff;
+  color: white; 
+  border: none; 
+  padding: 10px 20px; 
+  font-size: 16px; 
+  border-radius: 5px; 
+  cursor: pointer;
+  z-index: 1000; 
+  transition: background-color 0.3s ease; 
+}
+
+.edit-button:hover {
+  background-color: #0056b3; /* Darker background color on hover */
+}
+
+#userEventsContainer {
+  padding: 20px;
+  margin: 0 auto;
+  text-align: center;
+  max-width: 1200px; /* Adjust based on your layout */
+}
+#userEventsList {
+  display: flex;
+  flex-wrap: wrap; /* Allow cards to wrap to the next line */
+  gap: 20px; /* Space between cards */
+  justify-content: center; /* Center align cards horizontally */
+}
+h2{
+  text-align: center;
+}
+.selected-category {
+  background-color: red;
+  color: white;
+}
+
+.normal-category {
+  background-color: blue; 
+  color: initial;
+}
