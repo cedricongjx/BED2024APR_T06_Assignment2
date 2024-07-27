@@ -23,6 +23,7 @@ const newslettersController = require('./controllers/newslettersController');
 const documentarysController = require('./controllers/documentarysController');
 const validateEmail = require('./middlewares/validateEmail')
 const feedbackController = require('./controllers/feedbackController');
+const validateFeedback = require("./middlewares/validateFeedback");
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -99,23 +100,22 @@ app.use('/images', express.static(path.join(__dirname, 'public/images/event')));
 
 
 //Feedback
-app.put("/feedback/response",feedbackController.editResponse);
+app.put("/feedback/response",authenticateToken,feedbackController.editResponse);
 
-app.get("/feedback/name",feedbackController.getFeedbackByName);
+app.get("/feedback/name",authenticateToken,feedbackController.getFeedbackByName);
 app.get("/feedback",authenticateToken,feedbackController.getAllFeedback);
-app.get("/feedback/notverified",feedbackController.getAllNotVerifiedFeedback);
-app.get("/feedback/verified",feedbackController.getAllVerifiedFeedback);
-app.get("/feedback/bug",feedbackController.getAllBugFeedback);
-app.get("/feedback/customerservice",feedbackController.getAllCustomerServiceFeedback);
-app.get("/feedback/feedback",feedbackController.getAllfeedbackFeedback)
-app.get("/feedback/other",feedbackController.getAllOtherFeedback);
-app.post("/feedback",feedbackController.createFeedback)
-app.put("/feedback/:id",feedbackController.updateFeedback)
-app.delete("/feedback/:id",feedbackController.deleteFeedback);
-
-app.post("/feedback/verified",feedbackController.addJustification);
-app.get("/feedback/response/:id",feedbackController.getResponse);
-
+app.get("/feedback/notverified",authenticateToken,feedbackController.getAllNotVerifiedFeedback);
+app.get("/feedback/verified",authenticateToken,feedbackController.getAllVerifiedFeedback);
+app.get("/feedback/bug",authenticateToken,feedbackController.getAllBugFeedback);
+app.get("/feedback/customerservice",authenticateToken,feedbackController.getAllCustomerServiceFeedback);
+app.get("/feedback/feedback",authenticateToken,feedbackController.getAllfeedbackFeedback)
+app.get("/feedback/other",authenticateToken,feedbackController.getAllOtherFeedback);
+app.post("/feedback/create",validateFeedback.validateFeedback,authenticateToken,feedbackController.createFeedback)
+app.put("/feedback/update/:id",authenticateToken,feedbackController.updateFeedback)
+app.delete("/feedback/delete/:id",authenticateToken,feedbackController.deleteFeedback);
+app.post("/feedback/verified",validateFeedback.validateJustification,authenticateToken,feedbackController.addJustification);
+app.get("/feedback/response/:id",authenticateToken,feedbackController.getResponse);
+app.get("/feedback/categorycount",authenticateToken, feedbackController.getFeedbackCountByAllCategory);
 
 
 

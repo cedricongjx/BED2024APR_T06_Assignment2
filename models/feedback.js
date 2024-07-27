@@ -118,12 +118,13 @@ class Feedback
     static async createFeedback(newFeedbackData)
     {
         const connection = await sql.connect(dbConfig)
-        const sqlQuery = `INSERT INTO Feedback(title, description,category,verified) VALUES (@title,@description,@category,@verified); SELECT SCOPE_IDENTITY() AS id;`;
+        const sqlQuery = `INSERT INTO Feedback(title, description,category,verified, user_id) VALUES (@title,@description,@category,@verified, @user_id); SELECT SCOPE_IDENTITY() AS id;`;
         const request = connection.request();
         request.input('title',newFeedbackData.title);
         request.input('description',newFeedbackData.description);
         request.input('category',newFeedbackData.category);
         request.input('verified','N');
+        request.input('user_id',newFeedbackData.user_id);
         const result = await request.query(sqlQuery);
     }
 
@@ -195,7 +196,18 @@ class Feedback
         const result = await request.query(sqlQuery);
         connection.close();
         return result.recordset;
-    } 
+    }
+
+    static async getFeedbackCountByAllCategory()
+    {
+        const connection = await sql.connect(dbConfig);
+        const sqlQuery = `SELECT category ,Count(category) AS 'Feedback_Count' FROM Feedback GROUP BY category`
+        const request = connection.request();
+        const result = await request.query(sqlQuery);
+        connection.close();
+        return result.recordset;
+    }
+
 }
 
 module.exports = Feedback;

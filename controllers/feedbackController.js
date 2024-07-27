@@ -225,6 +225,24 @@ const getResponse = async(req,res) =>
 
     }
 
+const getFeedbackCountByAllCategory = async(req,res) =>
+    {
+        try
+        {
+            const response = await Feedback.getFeedbackCountByAllCategory()
+            if(!(response.length > 0))
+            {
+                return res.status(404).send("No feedback");
+            }
+            res.json(response);
+        }
+        catch(error)
+        {
+            console.error(error);
+            res.status(500).send("Error getting feedback count by category");
+        }
+    }
+
 module.exports =
 {
     createFeedback,
@@ -241,5 +259,6 @@ module.exports =
     addJustification,
     editResponse,
     getResponse,
+    getFeedbackCountByAllCategory,
 };
 

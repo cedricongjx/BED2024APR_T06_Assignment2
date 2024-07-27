@@ -49,6 +49,7 @@ function handleLogin(event) {
   .then(data => {
     if (data.message === 'Login successful') {
       localStorage.setItem('token', data.token); // Store the token
+      localStorage.setItem("userid", data.user_id);
       alert('Login successful');
       // window.location.href = '/donation.html'; // Redirect to donation page
       window.location.href = "/index.html"; 
