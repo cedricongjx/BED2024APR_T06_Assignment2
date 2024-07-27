@@ -1,3 +1,4 @@
+/* Global body styles */
 body {
   background-color: lightblue;
   font-family: 'Montserrat', sans-serif;
@@ -5,6 +6,7 @@ body {
   padding: 0;
 }
 
+/* Navigation bar styles */
 .navbar {
   width: 100%;
   background-color: #333;
@@ -15,6 +17,7 @@ body {
   align-items: center;
 }
 
+/* Container for navigation items */
 .nav-container {
   max-width: 1200px;
   width: 100%;
@@ -26,6 +29,7 @@ body {
   padding: 0 20px;
 }
 
+/* Logo styles */
 .logo {
   color: white;
   font-size: 24px;
@@ -33,6 +37,7 @@ body {
   text-transform: uppercase;
 }
 
+/* Navigation links styles */
 .nav-links {
   list-style-type: none;
   margin: 0;
@@ -40,21 +45,57 @@ body {
   display: flex;
 }
 
+/* Individual navigation link styles */
 .nav-links li {
   padding: 14px 20px;
 }
 
+/* Anchor link styles */
 .nav-links a {
   text-decoration: none;
   color: white;
   font-size: 16px;
 }
 
+/* Hover effect for navigation links */
 .nav-links a:hover {
   background-color: #575757;
   border-radius: 4px;
 }
 
+/* Dropdown menu styles */
+.dropdown_menu {
+  position: relative;
+}
+
+/* Dropdown menu toggle */
+.dropdown_menu div {
+  color: white;
+  cursor: pointer;
+}
+
+/* Feedback dropdown content */
+.feedback_content {
+  display: none;
+  position: absolute;
+  z-index: 999;
+  background-color: #333;
+}
+
+/* Feedback dropdown links */
+.feedback_content a {
+  display: block;
+  color: yellow;
+  padding: 10px;
+  text-decoration: none;
+}
+
+/* Show dropdown content on hover */
+.dropdown_menu:hover .feedback_content {
+  display: block;
+}
+
+/* Main content styles */
 .main-content {
   padding-top: 80px; /* Adjust to ensure content is below the navbar */
   display: flex;
@@ -63,6 +104,7 @@ body {
   width: 100%;
 }
 
+/* Container for the statistics */
 .statistics-container {
   width: 80%;
   margin: 20px auto;
@@ -73,6 +115,7 @@ body {
   text-align: center;
 }
 
+/* Title styles */
 .statistics-container .title {
   margin-bottom: 20px;
   font-size: 24px;
@@ -80,12 +123,14 @@ body {
   color: #333;
 }
 
+/* Styles for filter buttons */
 .filter-buttons {
   display: flex;
   justify-content: center;
   margin-bottom: 20px;
 }
 
+/* Styles for the filter select element */
 .filter-buttons select {
   background-color: #00796b;
   color: white;
@@ -96,6 +141,7 @@ body {
   cursor: pointer;
 }
 
+/* Styles for the filter apply button */
 .filter-buttons button {
   background-color: #00796b;
   color: white;
@@ -106,16 +152,19 @@ body {
   cursor: pointer;
 }
 
+/* Hover effect for filter apply button */
 .filter-buttons button:hover {
   background-color: #004d40;
 }
 
+/* Styles for statistics container */
 .statistics {
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
 }
 
+/* Styles for individual statistic cards */
 .statistic-card {
   background-color: #e0f7fa;
   border-radius: 8px;
@@ -125,16 +174,19 @@ body {
   margin: 10px;
 }
 
+/* Header styles for statistic cards */
 .statistic-card h3 {
   margin: 10px 0;
   font-size: 20px;
 }
 
+/* Paragraph styles for statistic cards */
 .statistic-card p {
   font-size: 18px;
   color: #00796b;
 }
 
+/* Styles for charts */
 canvas#totalDonationsChart,
 canvas#averageDonationsChart {
   max-width: 100%;
