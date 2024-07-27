@@ -59,7 +59,8 @@ function handleLogin(event) {
     // Show appropriate message based on response
     if (data.message === 'Login successful') {
       localStorage.setItem('token', data.token); // Store the token
-
+      localStorage.setItem("userid", data.userid);
+      
       // Decode the token to get user information
       const payload = JSON.parse(atob(data.token.split('.')[1]));
       

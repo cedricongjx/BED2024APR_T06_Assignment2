@@ -20,7 +20,10 @@ const donationsController = require('./controllers/donationsController');
 const statisticsController = require('./controllers/statisticsController');
 const usersController = require('./controllers/usersController'); // Ensure correct path
 const newslettersController = require('./controllers/newslettersController');
-const documentarysController = require('./controllers/documentarysController');
+const documentaryController = require('./controllers/documentaryController');
+const validateEmail = require('./middlewares/validateEmail')
+const reviewContoller = require('./controllers/reviewController');
+
 const feedbackController = require('./controllers/feedbackController');
 
 const dbConfig = require('./config/dbConfig');
@@ -42,8 +45,12 @@ const storage = multer.diskStorage({
     cb(null, Date.now() + path.extname(file.originalname));
   }
 });
+
+
+
 const upload = multer({ storage: storage });
 const testupload = multer({ dest: 'public/images/events' });
+const docUpload = multer({ dest: 'public/images/documentary' });
 
 // User routes
 app.post('/api/signup', validationMiddleware.validateSignup, usersController.createUser);
@@ -57,8 +64,22 @@ app.delete('/api/users/:id', authenticateToken, authorizeAdmin, validationMiddle
 app.post('/api/newsletter', validateEmail, newslettersController.joinNewsletter);
 
 // Documentary routes
-app.get('/api/documentary/:id', documentarysController.getDocbyID);
-app.put('/api/documentary/:id', documentarysController.updateDocByID);
+app.get('/documentary/category/:doccategory', documentaryController.getDocsbyCat);
+app.get('/documentary/search', documentaryController.searchDoc);
+app.get('/documentary/:id', documentaryController.getDocbyID);
+app.put('/documentary/:id', docUpload.single('image'), documentaryController.updateDocByID);
+app.get('/documentary', documentaryController.getAllDocs);
+app.post('/documentary', docUpload.single('image'), documentaryController.createDoc);
+app.delete('/documentary/:id', documentaryController.deleteDocbyID);
+
+//Review routes
+app.post('/review/:id', reviewContoller.createReview);
+app.get('/review/:id', reviewContoller.getReviewbyID);
+app.get('/documentary/review/:id', reviewContoller.getReviewsbyDoc);
+app.get('/review/documentary/:id', reviewContoller.createdReview);
+app.get('/review/average/:id', reviewContoller.getAverageStar);
+app.get('/review/total/:id', reviewContoller.getNumberofReviews);
+
 
 // Donation routes
 app.post('/api/donate', authenticateToken, validateDonation, donationsController.createDonation);

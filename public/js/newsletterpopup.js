@@ -18,12 +18,12 @@ async function joinNewsletter(event) {
     event.preventDefault();
     const email = document.getElementById('email').value;
   
-    const res = await fetch('/api/newsletter', {
+    const res = await fetch('/newsletter', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ email: email })
+      body: JSON.stringify({ email })
     })
     .then(res => res.json())
     .then(data => {
