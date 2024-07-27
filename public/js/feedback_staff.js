@@ -1,6 +1,6 @@
 
 const token = localStorage.getItem('token');
-console.log(token);
+
 async function fetchBugFeedback(value)
 {
     const response = await fetch("/feedback/bug",
@@ -17,21 +17,39 @@ async function fetchBugFeedback(value)
 
 async function fetchCustomerServiceFeedback(value)
 {
-    const response = await fetch("/feedback/customerservice");
+    const response = await fetch("/feedback/customerservice",{
+        headers:
+        {
+            'Authorization' : `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        }
+    });
     const data = await response.json();
     createHTMLDOMFeedback(data,value);
 }
 
 async function fetchfeedbackFeedback(value)
 {
-    const response = await fetch("/feedback/feedback");
+    const response = await fetch("/feedback/feedback",{
+        headers:
+        {
+            'Authorization' : `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        }
+    });
     const data = await response.json();
     createHTMLDOMFeedback(data,value);
 }
 
 async function fetchOtherFeedback(value)
 {
-    const response = await fetch("/feedback/other");
+    const response = await fetch("/feedback/other",{
+        headers:
+        {
+            'Authorization' : `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        }
+    });
     const data = await response.json();
     createHTMLDOMFeedback(data,value);
 }
@@ -121,21 +139,39 @@ async function fetchAllFeedback(value)
 
 async function fetchAllVerifiedFeedback(value)
 {
-    const response = await fetch("/feedback/verified");
+    const response = await fetch("/feedback/verified",{
+        headers:
+        {
+            'Authorization' : `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        }
+    });
     const data = await response.json();
     createHTMLDOMFeedback(data,value);
 }
 
 async function fetchAllNotVerifiedFeedback(value)
 {
-    const response = await fetch("/feedback/notverified");
+    const response = await fetch("/feedback/notverified",{
+        headers:
+        {
+            'Authorization' : `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        }
+    });
     const data = await response.json();
     createHTMLDOMFeedback(data,value);
 }
 
 async function fetchFeedbackByName(name)
 {
-    const response = await fetch(`/feedback/name?searchTermFeedback=${name}`)
+    const response = await fetch(`/feedback/name?searchTermFeedback=${name}`,{
+        headers:
+        {
+            'Authorization' : `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        }
+    });
     const data = await response.json();
     createHTMLDOMFeedback(data,"All");
 

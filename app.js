@@ -25,6 +25,7 @@ const validateEmail = require('./middlewares/validateEmail')
 const reviewContoller = require('./controllers/reviewController');
 
 const feedbackController = require('./controllers/feedbackController');
+const validateFeedback = require("./middlewares/validateFeedback");
 
 const dbConfig = require('./config/dbConfig');
 
@@ -139,6 +140,31 @@ app.get("/feedback/response/:id", feedbackController.getResponse);
 // Static file routes
 app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use('/images', express.static(path.join(__dirname, 'public/images/event')));
+
+
+
+
+//Feedback
+app.put("/feedback/response",authenticateToken,feedbackController.editResponse);
+
+app.get("/feedback/name",authenticateToken,feedbackController.getFeedbackByName);
+app.get("/feedback",authenticateToken,feedbackController.getAllFeedback);
+app.get("/feedback/notverified",authenticateToken,feedbackController.getAllNotVerifiedFeedback);
+app.get("/feedback/verified",authenticateToken,feedbackController.getAllVerifiedFeedback);
+app.get("/feedback/bug",authenticateToken,feedbackController.getAllBugFeedback);
+app.get("/feedback/customerservice",authenticateToken,feedbackController.getAllCustomerServiceFeedback);
+app.get("/feedback/feedback",authenticateToken,feedbackController.getAllfeedbackFeedback)
+app.get("/feedback/other",authenticateToken,feedbackController.getAllOtherFeedback);
+app.post("/feedback/create",validateFeedback.validateFeedback,authenticateToken,feedbackController.createFeedback)
+app.put("/feedback/update/:id",authenticateToken,feedbackController.updateFeedback)
+app.delete("/feedback/delete/:id",authenticateToken,feedbackController.deleteFeedback);
+app.post("/feedback/verified",validateFeedback.validateJustification,authenticateToken,feedbackController.addJustification);
+app.get("/feedback/response/:id",authenticateToken,feedbackController.getResponse);
+app.get("/feedback/categorycount",authenticateToken, feedbackController.getFeedbackCountByAllCategory);
+
+
+
+
 
 // Start the server and connect to the database
 app.listen(port, async () => {

@@ -1,5 +1,7 @@
 
 const button = document.getElementById("submit_button_feedback");
+const token = localStorage.getItem('token');
+const user_id = localStorage.getItem("userid");
 
 async function postInfo()
 {
@@ -10,18 +12,22 @@ async function postInfo()
     const description = document.getElementById("feedbackDescription").value;
 
     const cateogry  = document.getElementById("feedback_category").value;
-    const res = await fetch("/feedback",
+
+
+    const res = await fetch("/feedback/create",
         {
             method:'POST',
             headers:
             {
+                'Authorization' : `Bearer ${token}`,
                 "Content-Type":'application/json'
             },
             body: JSON.stringify
             ({
                 title: title,
                 description: description,
-                category:cateogry
+                category:cateogry,
+                user_id:user_id
             })
         }
     )

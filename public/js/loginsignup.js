@@ -59,7 +59,13 @@ function handleLogin(event) {
     // Show appropriate message based on response
     if (data.message === 'Login successful') {
       localStorage.setItem('token', data.token); // Store the token
-      localStorage.setItem("userid", data.userid);
+
+      localStorage.setItem("userid", data.user_id);
+      alert('Login successful');
+      // window.location.href = '/donation.html'; // Redirect to donation page
+      window.location.href = "/index.html"; 
+
+//       localStorage.setItem("userid", data.userid);
       
       // Decode the token to get user information
       const payload = JSON.parse(atob(data.token.split('.')[1]));
@@ -71,6 +77,7 @@ function handleLogin(event) {
         // Redirect to a different page if not an admin
         window.location.href = "/index.html"; 
       }
+
     } else {
       alert('Login failed: ' + data.error);
     }

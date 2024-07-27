@@ -21,13 +21,46 @@ const authenticateToken = (req, res, next) => {
       console.log('Token verification failed:', err);
       return res.sendStatus(403); // Forbidden
     }
+
+    req.user = user; // Attach user info to request object
+    // console.log("Authenticated user ID:", user.id); // Log the user ID
+    // console.log(user.role);
     
-    // If token is valid, attach user info to the request object
-    req.user = user;
-    console.log("Authenticated user ID:", user.id); // Log the authenticated user ID
-    
-    // Pass control to the next middleware or route handler
-    next();
+    const authorizedRoles = 
+    {
+      "/feedback":["A"],
+      "/feedback/name":["A"],
+      "/feedback/notverified":["A"],
+      "/feedback/verified": ["A"],
+      "/feedback/bug":["A"],
+      "/feedback/customerservice":["A"],
+      "/feedback/feedback":["A"],
+      "/feedback/other":["A"],
+      "/feedback/delete/[0-9]+":["A"],
+      "/feedback/update/[0-9]+":["A"],
+      "/feedback/verified":["A"],
+      "/feedback/response": ["A"],
+      "/feedback/create": ["U","A"],
+      "/feedback/response": ["U","A"],
+      "/feedback/response/[0-9]+":["U","A"],
+      "/feedback/categorycount":["A"],
+    }
+
+
+    const requestedEndpoint = req.url.split('?')[0];
+    const authorizedRole = Object.entries(authorizedRoles).find(
+      ([endpoint, roles]) => {
+        const regex = new RegExp(`^${endpoint}$`); // Create RegExp from endpoint
+        return regex.test(requestedEndpoint) && roles.includes(user.role);
+      }
+    );
+    if(!authorizedRole)
+    {
+      return res.status(403).json({ message: "Forbidden" });
+    }
+
+    next(); // Pass control to the next handler
+
   });
 };
 

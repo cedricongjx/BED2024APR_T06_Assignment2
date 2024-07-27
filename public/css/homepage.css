@@ -212,36 +212,7 @@ footer {
 .id {
     display: none;
 }
-/* .dropdown_menu
-{
-    position: absolute;
-    border-style: solid;
-    background-color: #000;
-    z-index: 999;
-}
 
-.dropdown_menu a
-{
-    display:block;
-     color:yellow; 
-} */
-/* .dropdown_menu a
-{
-    color:yellow;
-} */
-/* .feedback_content
-{
-    position:absolute;
-    z-index: 999;
-
-}
-
-.feedback_content a
-{
-    display:block;
-    background-color: #000;
-    color:yellow;
-} */
 
 .dropdown_menu 
 {

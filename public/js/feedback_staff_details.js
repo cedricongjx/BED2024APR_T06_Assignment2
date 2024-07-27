@@ -2,14 +2,16 @@
 let feedback_id = sessionStorage.getItem('feedback_id');
 let feedback_type = sessionStorage.getItem('feedback_type');
 let feedback_category = sessionStorage.getItem("feedback_category");
+const token = localStorage.getItem('token');
 
 async function fetchDeleteFeedback(feedback_id)
 {
-    const response = await fetch(`/feedback/${feedback_id}`,
+    const response = await fetch(`/feedback/delete/${feedback_id}`,
         {
             method:'DELETE',
             headers:
             {
+                'Authorization' : `Bearer ${token}`,
                 "Content-Type":'application/json'
             }
         }
@@ -28,6 +30,7 @@ async function fetchAddJustification(justification,feedback_id)
             method:'POST',
             headers:
             {
+                'Authorization' : `Bearer ${token}`,
                 "Content-Type":'application/json'
             },
             body: JSON.stringify
@@ -58,6 +61,7 @@ async function fetchUpdateResponse(response1,feedback_id)
             method:'PUT',
             headers:
             {
+                'Authorization' : `Bearer ${token}`,
                 "Content-Type" : 'application/json'
             },
             body : JSON.stringify
@@ -84,11 +88,12 @@ async function fetchUpdateResponse(response1,feedback_id)
 
 async function fetchUpdateFeedback(feedback_id)
 {
-    const response = await fetch(`/feedback/${feedback_id}`,
+    const response = await fetch(`/feedback/update/${feedback_id}`,
         {
             method:'PUT',
             headers:
             {
+                'Authorization' : `Bearer ${token}`,
                 "Content-Type":'application/json'
             }
         }
@@ -106,46 +111,88 @@ async function fetchUpdateFeedback(feedback_id)
 
 async function fetchSpecificFeedback(feedback_id)
 {
-    const response = await fetch("/feedback");
+    const response = await fetch("/feedback",{
+        headers:
+        {
+            'Authorization' : `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        }
+    });
     const data = await response.json();
     fetchSpecificFeedback1(feedback_id,data);
 }
 
 async function fetchSpecificVerifiedFeedback(feedback_id)
 {
-    const response = await fetch("/feedback/verified");
+    const response = await fetch("/feedback/verified",{
+        headers:
+        {
+            'Authorization' : `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        }
+    });
     const data = await response.json();
     fetchSpecificFeedback1(feedback_id,data);
 }
 
 async function fetchSpecificNotVerifiedFeeedback(feedback_id)
 {
-    const response = await fetch("/feedback/notverified");
+    const response = await fetch("/feedback/notverified",{
+        headers:
+        {
+            'Authorization' : `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        }
+    });
     const data = await response.json();
     fetchSpecificFeedback1(feedback_id,data);
 }
 
 async function fetchSpecificBugFeedback(feedback_id,)
 {
-    const response = await fetch("/feedback/bug");
+    const response = await fetch("/feedback/bug",{
+        headers:
+        {
+            'Authorization' : `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        }
+    });
     const data = await response.json();
     fetchSpecificFeedback1(feedback_id,data);
 }
 async function fetchSpecificCustomerServiceFeedback(feedback_id)
 {
-    const response = await fetch("/feedback/customerservice");
+    const response = await fetch("/feedback/customerservice",{
+        headers:
+        {
+            'Authorization' : `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        }
+    });
     const data = await response.json();
     fetchSpecificFeedback1(feedback_id,data);
 }
 async function fetchSpecificfeedbackFeedback(feedback_id)
 {
-    const response = await fetch("/feedback/feedback");
+    const response = await fetch("/feedback/feedback",{
+        headers:
+        {
+            'Authorization' : `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        }
+    });
     const data = await response.json();
     fetchSpecificFeedback1(feedback_id,data);
 }
 async function fetchSpecificOtherFeedback(feedback_id)
 {
-    const response = await fetch("/feedback/other");
+    const response = await fetch("/feedback/other",{
+        headers:
+        {
+            'Authorization' : `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        }
+    });
     const data = await response.json();
     fetchSpecificFeedback1(feedback_id,data);
 }
