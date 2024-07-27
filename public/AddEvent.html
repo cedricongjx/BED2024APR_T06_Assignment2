@@ -1,3 +1,4 @@
+<!-- UI CREATE EVENTS THAT WORKS -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,35 +26,36 @@
     </div>
   </nav>
   <div class="container min-vh-100 d-flex justify-content-center">
-    <form id="eventForm" method="POST" enctype="multipart/form-data" class="form-container">
+    <form id="eventForm" method="POST" enctype="multipart/form-data" class="form-container" style="width: 100%; max-width: 28rem; background: white; padding: 1.5rem; border-radius: 0.5rem; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);">
+      <h1 style="margin-bottom: 1.5rem; font-size: 1.875rem; font-weight: 800; color: #111827;">Create Event</h1>
       <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-12">
           <div class="form-group">
-            <label for="eventname" class="form-label">Event Name</label>
-            <input type="text" class="form-control" id="eventInputName" aria-describedby="eventHelp" placeholder="Enter event name">
+            <label for="eventInputName" class="form-label">Event Name</label>
+            <input type="text" class="form-control" id="eventInputName" aria-describedby="eventHelp" placeholder="Enter event name" style="margin-bottom: 1rem; padding: 0.75rem; font-size: 1rem; border: 1px solid #d1d5db; border-radius: 0.375rem;">
           </div>
           <div id="dateTimeFields" class="mb-3">
             <label for="eventDateTime1" class="form-label">Event Times</label>
-            <input type="datetime-local" class="form-control" id="eventDateTime1" name="eventDateTime[]">
+            <input type="datetime-local" class="form-control" id="eventDateTime1" name="eventDateTime[]" style="margin-bottom: 1rem; padding: 0.75rem; font-size: 1rem; border: 1px solid #d1d5db; border-radius: 0.375rem;">
             <button type="button" class="btn btn-secondary mt-2" onclick="addDateTimeField()">
               <i class="fas fa-plus"></i>
             </button>
           </div>
-          <div class="Dform-group">
+          <div class="form-group">
             <label for="eventInputDescription" class="form-label">Event Description</label>
-            <textarea class="form-control" id="eventInputDescription" rows="5"></textarea>
+            <textarea class="form-control" id="eventInputDescription" rows="5" style="margin-bottom: 1rem; padding: 0.75rem; font-size: 1rem; border: 1px solid #d1d5db; border-radius: 0.375rem;"></textarea>
           </div>
           <div class="form-group">
-            <label for="eventlocation" class="form-label">Event Location</label>
-            <input type="text" class="form-control" id="eventInputlocation" aria-describedby="eventHelp" placeholder="Enter event location">
+            <label for="eventInputLocation" class="form-label">Event Location</label>
+            <input type="text" class="form-control" id="eventInputlocation" aria-describedby="eventHelp" placeholder="Enter event location" style="margin-bottom: 1rem; padding: 0.75rem; font-size: 1rem; border: 1px solid #d1d5db; border-radius: 0.375rem;">
           </div>
           <div class="form-group">
-            <label for="eventInputImage">Event Banner</label>
-            <input type="file" class="form-control-file" id="eventInputImage" name="image" accept="image/*" required>
+            <label for="eventInputImage" class="form-label">Event Banner</label>
+            <input type="file" class="form-control-file" id="eventInputImage" name="image" accept="image/*" required style="margin-bottom: 1rem;">
           </div>
           <div class="form-group">
             <label for="categoryInput" class="form-label">Event Categories</label>
-            <input type="text" class="form-control" id="categoryInput" placeholder="Enter category">
+            <input type="text" class="form-control" id="categoryInput" placeholder="Enter category" style="margin-bottom: 1rem; padding: 0.75rem; font-size: 1rem; border: 1px solid #d1d5db; border-radius: 0.375rem;">
             <button type="button" class="btn btn-secondary mt-2" onclick="addCategory()">Add Category</button>
             <div id="categoryList" class="mt-3"></div>
           </div>
@@ -61,9 +63,8 @@
             <label for="existingCategories" class="form-label">Select Existing Categories</label>
             <div id="existingCategories" class="mt-3"></div>
           </div>
-
           <div class="button-container">
-            <button type="button" class="btn btn-danger btn-submit">Submit</button>
+            <button type="button" class="btn btn-danger btn-submit" style="background: #3b82f6; padding: 0.75rem 1.5rem; border-radius: 0.375rem; color: white; text-align: center; cursor: pointer; font-weight: 500;">Create Event</button>
           </div>
         </div>
       </div>

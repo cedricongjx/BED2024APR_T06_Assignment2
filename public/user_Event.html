@@ -35,9 +35,9 @@
   <div id="noResultsMessage" style="display: none; text-align: center; font-size: 1.2em; color: #555;">
     No events found.
   </div>
-  <div class="banner" id="latestEventBanner">
+  <!-- <div class="banner" id="latestEventBanner">
     <p>Latest Event</p>
-  </div>
+  </div> -->
   <!-- <div class="card latest-event-card" id="latestEventCard">
     <div class="card-img-container">
       <img src="https://via.placeholder.com/400x300" alt="Card Image" class="card-img" id="eventImage">
@@ -49,10 +49,15 @@
     </div>
   </div> -->
 
-  
-    <!-- <button class="scroll-button scroll-prev" onclick="scrollPrev()">❮</button> -->
-    <div class="events-grid" id="cardContainer"></div>
-    <!-- <button class="scroll-button scroll-next" onclick="scrollNext()">❯</button> -->
+  <div id="userEventsContainer">
+    <h2>User Events</h2>
+    <div class = "userevent" id="userEventsList"></div>
+    <div id="noUserEventsMessage" style="display: none; text-align: center; font-size: 1.2em; color: #555;">
+      No registered events.
+    </div>
+  </div>
+  <h2>Events List</h2>
+  <div class="events-grid" id="cardContainer"></div>
   
   <script src="js/user_event.js"></script>
 </body>

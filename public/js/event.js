@@ -1,4 +1,4 @@
-
+let selectedCategoryId  = null;
 
 async function fetchEvents() {
   try {
@@ -142,26 +142,27 @@ async function fetchCategories() {
 }
 
 async function filterByCategory(categoryId) {
-  try {
-    const response = await fetch(`http://localhost:3000/events/category/${categoryId}`);
-    if (!response.ok) {
-      throw new Error('Failed to fetch filtered events');
+  if (selectedCategoryId === categoryId) {
+    selectedCategoryId = null; // Unselect the category
+    await fetchEvents(); // Fetch all events
+  } else {
+    selectedCategoryId = categoryId; // Select the new category
+    try {
+      const response = await fetch(`http://localhost:3000/events/category/${categoryId}`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch filtered events');
+      }
+      const events = await response.json();
+      renderEvents(events);
+    } catch (error) {
+      console.error('Error fetching filtered events:', error);
     }
-    const events = await response.json();
-    renderEvents(events);
-  } catch (error) {
-    console.error('Error fetching filtered events:', error);
   }
 }
 
 async function removeCategoryFilter() {
-  // Clear the filter category (optional, if you have any UI to indicate selected categories)
-  document.getElementById('categoryFilterContainer').querySelectorAll('button').forEach(button => {
-    button.classList.remove('active'); // Remove active class if used
-  });
-
-  // Fetch and display all events
-  await fetchEvents();
+  selectedCategoryId = null; // Clear the selected category
+  await fetchEvents(); // Fetch and display all events
 }
 
 // Initialize the page

@@ -1,4 +1,4 @@
-const userid = 1; 
+const userid = 6; 
 
 document.addEventListener('DOMContentLoaded', async function () {
     const event = JSON.parse(localStorage.getItem('selectedEvent'));
@@ -28,7 +28,6 @@ document.addEventListener('DOMContentLoaded', async function () {
         } catch (error) {
             console.error('Error fetching categories:', error);
         }
-
         // Fetch event users
         try {
             const userResponse = await fetch(`http://localhost:3000/testgetalluserforevent/${event.Eventid}`);
@@ -47,10 +46,8 @@ document.addEventListener('DOMContentLoaded', async function () {
         } catch (error) {
             console.error('Error fetching users:', error);
         }
-
         // Check initial registration status and update button visibility
         await updateButtonVisibility(event.Eventid, userid);
-
         // Register user
         document.getElementById('registerButton').addEventListener('click', async function () {
             try {
@@ -68,14 +65,13 @@ document.addEventListener('DOMContentLoaded', async function () {
                     throw new Error('Failed to register user for event');
                 } else {
                     alert('User registered successfully');
-                    updateUserList();
+                    await updateUserList();
                     await updateButtonVisibility(event.Eventid, userid); // Recheck button visibility
                 }
             } catch (error) {
                 console.error('Error registering user:', error);
             }
         });
-
         // Remove user
         document.getElementById('removeButton').addEventListener('click', async function () {
             try {
@@ -93,16 +89,17 @@ document.addEventListener('DOMContentLoaded', async function () {
                     throw new Error('Failed to remove user from event');
                 } else {
                     alert('User removed successfully');
-                    updateUserList();
+                    await updateUserList();
                     await updateButtonVisibility(event.Eventid, userid); // Recheck button visibility
                 }
             } catch (error) {
                 console.error('Error removing user:', error);
             }
         });
-
         // Function to update user list
         async function updateUserList() {
+            const userList = document.getElementById('userList');
+            userList.innerHTML = '';
             try {
                 const userResponse = await fetch(`http://localhost:3000/testgetalluserforevent/${event.Eventid}`);
                 if (!userResponse.ok) {
@@ -111,7 +108,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                 const users = await userResponse.json();
 
                 const userList = document.getElementById('userList');
-                userList.innerHTML = ''; // Clear existing user list
+                //userList.innerHTML = ''; // Clear existing user list
                 users.forEach(user => {
                     const li = document.createElement('li');
                     li.textContent = user.username;
@@ -121,7 +118,6 @@ document.addEventListener('DOMContentLoaded', async function () {
                 console.error('Error fetching users:', error);
             }
         }
-
         // Function to update button visibility
         async function updateButtonVisibility(eventId, userId) {
             try {

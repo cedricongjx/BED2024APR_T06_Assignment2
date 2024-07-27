@@ -402,3 +402,18 @@ body {
   background-color: #0056b3; /* Darker background color on hover */
 }
 
+#userEventsContainer {
+  padding: 20px;
+  margin: 0 auto;
+  text-align: center;
+  max-width: 1200px; /* Adjust based on your layout */
+}
+#userEventsList {
+  display: flex;
+  flex-wrap: wrap; /* Allow cards to wrap to the next line */
+  gap: 20px; /* Space between cards */
+  justify-content: center; /* Center align cards horizontally */
+}
+h2{
+  text-align: center;
+}

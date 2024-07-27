@@ -1,16 +1,18 @@
 let categories = [];
-
+let dateTimeCount = 1;
 function addDateTimeField() {
   dateTimeCount++;
   const newDateTimeDiv = document.createElement('div');
   newDateTimeDiv.className = 'mb-3';
   newDateTimeDiv.innerHTML = `
-    <label for="eventDateTime${dateTimeCount}" class="form-label">Event Times</label>
-    <input type="datetime-local" class="form-control" id="eventDateTime${dateTimeCount}" name="eventDateTime[]">
-    <button type="button" class="btn btn-danger" onclick="removeDateTimeField(this)">
-      <i class="fas fa-times"></i> <!-- X icon -->
-    </button>
-  `;
+            <div id="dateTimeFields" class="mb-3">
+              <label for="eventDateTime1" class="form-label">Event Times</label>
+              <input type="datetime-local" class="form-control" id="eventDateTime1" name="eventDateTime[]" style="margin-bottom: 1rem; padding: 0.75rem; font-size: 1rem; border: 1px solid #d1d5db; border-radius: 0.375rem;">
+              <button type="button" class="btn btn-danger" style="margin-left: 10px;" onclick="removeDateTimeField(this)">
+          <i class="fas fa-times"></i>
+        </button>
+            </div>
+            `;
   document.getElementById('dateTimeFields').appendChild(newDateTimeDiv);
 }
 

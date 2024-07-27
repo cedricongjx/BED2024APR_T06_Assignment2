@@ -1,6 +1,6 @@
 // Fetch events from the server and display them
 //const image = require('../images/event/172')
-
+const token = localStorage.getItem('token')
 async function fetchEvents() {
     try {
       const response = await fetch('http://localhost:3000/event');
@@ -163,13 +163,76 @@ async function fetchEvents() {
     // Fetch and display all events
     await fetchEvents();
   }
+  async function fetchUserEvents(userId) {
+    try {
+      const response = await fetch(`http://localhost:3000/userwithevent/${userId}`);
+      if (!response) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
   
+      const contentType = response.headers.get("content-type");
+      let userData;
+  
+      if (contentType && contentType.indexOf("application/json") !== -1) {
+        userData = await response.json();
+      } else {
+        const text = await response.text();
+        throw new Error(`Server returned non-JSON response: ${text}`);
+      }
+      
+      console.log('Fetched user data:', userData);  
+  
+      if (userData.length > 0 && userData[0].events) {
+        const userEvents = userData[0].events;
+        renderUserEvents(userEvents);
+      } else {
+        renderUserEvents([]);  // No events found
+      }
+    } catch (error) {
+      console.error('Failed to fetch user events:', error);
+    }
+  }
+  
+
+  function renderUserEvents(userEvents) {
+    const userEventsList = document.getElementById('userEventsList');
+    userEventsList.innerHTML = '';  // Clear previous user events
+  
+    if (userEvents.length === 0) {
+      document.getElementById('noUserEventsMessage').style.display = 'block';
+    } else {
+      document.getElementById('noUserEventsMessage').style.display = 'none';
+  
+      userEvents.forEach(event => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        console.log(event.imageURL)
+        // Assuming event.Image exists, if not, remove the image or handle it accordingly
+        const imageURL = event.imageURL ? `/public/images/event/${event.imageURL}` : 'https://via.placeholder.com/400x300';
+        console.log(imageURL)
+        card.innerHTML = `
+          <img src="${imageURL}" alt="${event.eventName}">
+          <h3 class="card-name">${event.eventName}</h3>
+          <p class="card-description">${event.eventDescription}</p>
+          <p class="card-datetime">${new Date(event.eventDateTime).toLocaleString()}</p>
+        `;
+        card.addEventListener('click', () => viewEvent(event.Eventid, userEvents));
+        userEventsList.appendChild(card);
+      });
+    }
+  }
+  function viewEvent(eventId, events) {
+    const event = events.find(e => e.Eventid === eventId);
+    localStorage.setItem('selectedEvent', JSON.stringify(event));
+    window.location.href = 'user_event_details.html';
+  }
   // Initialize the page
   document.addEventListener('DOMContentLoaded', function() {
     fetchEvents();
-    fetchLatestEvent();
+    //fetchLatestEvent();
     fetchCategories();
-  
+    const userId = 1;
+    fetchUserEvents(userId);
     document.getElementById('showAllButton').addEventListener('click', () => {
       fetchEvents()
     });
