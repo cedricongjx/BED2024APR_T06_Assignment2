@@ -95,4 +95,19 @@ body {
 .button-container{
     display: flex;
     justify-content: center;
+
+}
+.category-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f8f8f8;
+}
+#existingCategories .form-check {
+  margin-bottom: 5px;
+
 }
