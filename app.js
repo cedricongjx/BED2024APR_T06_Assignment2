@@ -10,7 +10,6 @@ const validateEventDate = require("./middlewares/validateEventDate");
 const authenticateToken = require('./middlewares/authenticateToken');
 const authorizeAdmin = require('./middlewares/authorizeAdmin');
 const validationMiddleware = require('./middlewares/validate');
-const validateEmail = require('./middlewares/validateEmail');
 const validateDonation = require('./middlewares/validateDonation');
 
 const eventController = require("./controllers/eventController");
@@ -19,8 +18,6 @@ const categoryController = require("./controllers/categoryController");
 const donationsController = require('./controllers/donationsController');
 const statisticsController = require('./controllers/statisticsController');
 
-const authenticateToken = require('./middlewares/authenticateToken');
-const validationMiddleware = require('./middlewares/validate');
 const dbConfig = require('./config/dbConfig');
 //const usersController = require('./controllers/usersController'); // Ensure correct path
 
@@ -35,7 +32,6 @@ const { user } = require('./dbConfig');
 
 const validateFeedback = require("./middlewares/validateFeedback");
 
-const dbConfig = require('./config/dbConfig');
 
 
 const app = express();
@@ -58,17 +54,6 @@ const storage = multer.diskStorage({
 
 
 
-app.post('/api/signup', validationMiddleware.validateSignup, userController.createUser);
-app.post('/api/login', validationMiddleware.validateLogin, userController.loginUser);
-app.get('/api/users', userController.getAllUsers);
-app.get('/api/users/:id', validationMiddleware.validateUserIdParam, userController.getUserById);
-app.put('/api/users/:id', validationMiddleware.validateUserIdParam, validationMiddleware.validateUserUpdate, userController.updateUser);
-app.delete('/api/users/:id', validationMiddleware.validateUserIdParam, userController.deleteUser);
-app.post('/api/newsletter', validateEmail, newslettersController.joinNewsletter);
-app.get('/api/documentary/:id', documentarysController.getDocbyID);
-app.put('/api/documentary/:id', documentarysController.updateDocByID);
-
-app.post('/api/donate', authenticateToken, donationsController.createDonation);
 
 const upload = multer({ storage: storage });
 const testupload = multer({ dest: 'public/images/events' });
