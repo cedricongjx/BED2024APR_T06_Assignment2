@@ -25,9 +25,10 @@ const authenticateToken = (req, res, next) => {
     req.user = user; // Attach user info to request object
     // console.log("Authenticated user ID:", user.id); // Log the user ID
     // console.log(user.role);
-    
+    console.log("User role:", user.role);
     const authorizedRoles = 
     {
+      //feedback
       "/feedback":["A"],
       "/feedback/name":["A"],
       "/feedback/notverified":["A"],
@@ -46,6 +47,28 @@ const authenticateToken = (req, res, next) => {
       "/feedback/categorycount":["A"],
       "/api/donate":["U","A"],
       "/api/user/:id":["A"],
+      //events
+      "/event":["U","A"],
+      "/events/search":["U","A"],
+      "/events/category/:id":["U","A"],
+      "/latestEvent":["U","A"],
+      "/category":["U","A"],
+      "/eventWithCategory/:id":["U","A"],
+      "/testgetalluserforevent/:id":["U","A"],
+      "/userwithevent/:id":["U"],
+      "/testremoveuser":["U"],
+      "/testcheck":["U"],
+      "/testadduser":["U"],
+      "/addcategoryforevent":["A"],
+      "/category":["A"],
+      "/category/:id":["A"],
+      "/eventpost":["A"],
+      "/categorypost":["A"],
+      "/categorydelete/:id":["A"],
+      "/removeCategoryForEvent":["A"],
+      "/addcategoryforevent":["A"],
+      "/categorydelete/:id":["A"],
+
     }
 
 

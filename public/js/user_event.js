@@ -98,7 +98,7 @@ async function fetchEvents() {
       }
       const event = await response.json();
       const imageURL = `/public/images/event/${event.Image}`;
-      document.getElementById('eventTitle').textContent = event.EventName;
+      document.getElementById('eventTitle').textContent = event.eventName;
       document.getElementById('eventDescription').textContent = event.eventDescription;
       document.getElementById('eventDateTime').textContent = new Date(event.eventDateTime).toLocaleString();
       document.getElementById('eventImage').src = imageURL;
@@ -212,9 +212,9 @@ async function fetchEvents() {
       userEvents.forEach(event => {
         const card = document.createElement('div');
         card.className = 'card';
-        console.log(event.imageURL)
+        console.log(event.Image)
         // Assuming event.Image exists, if not, remove the image or handle it accordingly
-        const imageURL = event.imageURL ? `/public/images/event/${event.imageURL}` : 'https://via.placeholder.com/400x300';
+        const imageURL = event.Image ? `/public/images/event/${event.Image}` : 'https://via.placeholder.com/400x300';
         console.log(imageURL)
         card.innerHTML = `
           <img src="${imageURL}" alt="${event.eventName}">

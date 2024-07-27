@@ -66,7 +66,8 @@ class User {
           ev.eventName, 
           ev.eventDescription, 
           ev.eventDateTime,
-          ev.Image
+          ev.Image,
+          ev.location
       FROM 
           users u
       LEFT JOIN 
@@ -99,7 +100,7 @@ class User {
                   eventName,
                   eventDescription,
                   eventDateTime,
-                  imageURL: Image ? `${Image}` : 'https://via.placeholder.com/400x300' // Properly assign the image URL
+                  Image: Image ? `${Image}` : 'https://via.placeholder.com/400x300' // Properly assign the image URL
               });
           }
       });

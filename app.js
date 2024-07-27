@@ -122,7 +122,7 @@ app.get("/testgetalluserforevent/:id",userController.getUsersForEvent);
 
 app.get("/event", eventController.getAllEvent);
 app.get("/event/:id", eventController.getEventById);
-app.post("/event", testupload.single('image'), validateEventDate, eventController.createEvent);
+app.post("/eventpost", testupload.single('image'), validateEventDate, authenticateToken,eventController.createEvent);
 app.post("/upload", upload.single('image'), (req, res) => {
   if (!req.file) {
     return res.status(400).send({ message: 'No file uploaded' });
@@ -132,7 +132,7 @@ app.post("/upload", upload.single('image'), (req, res) => {
 app.get("/latestEvent", eventController.latestEvent);
 app.get("/events/search", eventController.getEventByName);
 
-app.put('/event/:id', upload.single('image'), eventController.updateEvent);
+app.put('/eventupdate/:id', upload.single('image'), eventController.updateEvent);
 app.post("/upload", upload.single('image'), (req, res) => {
   if (!req.file) {
     return res.status(400).send({ message: 'No file uploaded' });
@@ -145,10 +145,10 @@ app.get("/eventWithCategory",eventController.getEventsWithCategories);
 app.get("/eventWithCategory/:id",eventController.detailedEventById);
 app.get("/category",categoryController.getAllCategories);
 app.get("/category/:id",categoryController.getCategoryById);
-app.post("/category",categoryController.addCategory)
-app.delete("/category/:id",categoryController.deleteCategory);
-app.post("/addcategoryforevent",eventController.addCategoryToEvent);
-app.delete("/removeCategoryFromEvent",eventController.removeCategoryFromEvent);
+app.post("/categorypost",authenticateToken,categoryController.addCategory)
+app.delete("/categorydelete/:id",authenticateToken,categoryController.deleteCategory);
+app.post("/addcategoryforevent",authenticateToken,eventController.addCategoryToEvent);
+app.delete("/removeCategoryFromEvent",authenticateToken,eventController.removeCategoryFromEvent);
 app.get("/events/category/:id",eventController.getEventsByCategory);
 app.get("/getCategoryForEvent/:id",eventController.getCategoryForEvent);
 
@@ -172,8 +172,6 @@ app.delete("/removeCategoryFromEvent", eventController.removeCategoryFromEvent);
 app.get("/events/category/:id", eventController.getEventsByCategory);
 
 // Feedback routes
-
-
 // Static file routes
 
 app.use('/public', express.static(path.join(__dirname, 'public')));
