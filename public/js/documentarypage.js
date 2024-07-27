@@ -159,8 +159,11 @@ async function fetchReviews(id) {
 
 async function createdReview(id) {
   try {
-    if (localStorage.getItem('userid') != null){
-      const response = await fetch(`/review/documentary/${id}?userid=${localStorage.getItem('userid')}`);
+    const token = localStorage.getItem('token');
+    if (token != null){
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      const userid = payload.id;
+      const response = await fetch(`/review/documentary/${id}?userid=${userid}`);
       if (!response.ok) {
           throw new Error('Network response was not ok');
       }
@@ -308,23 +311,31 @@ for (let i = 1; i <= 5; i++) {
 
 // Function to handle review submission
 async function handleSubmitReview() {
-  const id = getCardIDFromURL();
-  const reviewText = document.getElementById('review').value;
-  const stars = selectedStars;
-  const userid = localStorage.getItem('userid');
-  const currentDate = new Date();
-
-  const date = currentDate.toLocaleDateString();
-
-  if (!reviewText || stars === 0) {
-    alert('Please provide a review and select a star rating.');
-    return;
+  const token = localStorage.getItem('token');
+  if (token == null){
+    alert("Please log in before making a review.");
+    window.location.href = 'loginsignup.html';
   }
-  if (reviewText > 500) {
-    alert('Too many characters.');
-    return;
+  else{
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    const userid = payload.id
+    const id = getCardIDFromURL();
+    const reviewText = document.getElementById('review').value;
+    const stars = selectedStars;
+    const currentDate = new Date();
+
+    const date = currentDate.toLocaleDateString();
+
+    if (!reviewText || stars === 0) {
+      alert('Please provide a review and select a star rating.');
+      return;
+    }
+    if (reviewText > 500) {
+      alert('Too many characters.');
+      return;
+    }
+    await addReview(id, reviewText, stars, date, userid);
   }
-  await addReview(id, reviewText, stars, date, userid);
 }
 
 function hideAdmin(){
@@ -352,7 +363,7 @@ document.addEventListener('DOMContentLoaded', function() {
       reviewLengthLabel.textContent = `Review length: ${reviewTextarea.value.length}`;
     });
 
-    //hideAdmin();
+    hideAdmin();
     const id = getCardIDFromURL();
     createdReview(id);
     updateDoc(id);
