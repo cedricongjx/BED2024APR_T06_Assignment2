@@ -27,23 +27,29 @@ function displayTopDonors(data) {
   const topDonorsContainer = document.getElementById('topDonors');
   topDonorsContainer.innerHTML = '';
 
-  topDonors.forEach(donor => {
-    const card = document.createElement('div');
-    card.className = 'top-donor-card';
+  // Reorder the top donors to: second highest, highest, third highest
+  const orderedDonors = [topDonors[1], topDonors[0], topDonors[2]];
 
-    const img = document.createElement('img');
-    img.src = `images/avatar-placeholder.png`; // Placeholder image, replace with actual avatar
+  orderedDonors.forEach((donor, index) => {
+    if (donor) {
+      const card = document.createElement('div');
+      card.className = 'top-donor-card';
 
-    const name = document.createElement('h3');
-    name.textContent = donor.Name;
+      const rank = document.createElement('div');
+      rank.className = 'donor-rank';
+      rank.textContent = `${index === 0 ? '2nd' : index === 1 ? '1st' : '3rd'}`;
 
-    const amount = document.createElement('p');
-    amount.textContent = `$${donor.TotalAmount.toFixed(2)}`;
+      const name = document.createElement('h3');
+      name.textContent = donor.Name;
 
-    card.appendChild(img);
-    card.appendChild(name);
-    card.appendChild(amount);
-    topDonorsContainer.appendChild(card);
+      const amount = document.createElement('p');
+      amount.textContent = `$${donor.TotalAmount.toFixed(2)}`;
+
+      card.appendChild(rank);
+      card.appendChild(name);
+      card.appendChild(amount);
+      topDonorsContainer.appendChild(card);
+    }
   });
 }
 
