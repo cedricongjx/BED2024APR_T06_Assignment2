@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
   <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,700italic,400italic' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" href="css/event.css">
+  <link rel="stylesheet" href="css/addevent.css">
   <title>Edit Event</title>
 </head>
 <body>
@@ -22,35 +22,41 @@
     </div>
   </nav>
   
-  <div class="edit-event-container">
-    <h1>Edit Event</h1>
-    <form id="editEventForm">
-      <div class="form-group">
-        <label for="eventName">Event Name:</label>
-        <input type="text" id="eventName" name="eventName" required>
+  <div class="container min-vh-100 d-flex justify-content-center">
+    <form id="eventForm" method="POST" enctype="multipart/form-data" class="form-container" style="width: 100%; max-width: 28rem; background: white; padding: 1.5rem; border-radius: 0.5rem; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);">
+      <h1 style="margin-bottom: 1.5rem; font-size: 1.875rem; font-weight: 800; color: #111827;">Edit Event</h1>
+      <div class="row">
+        <div class="col-md-12">
+          <input type="text" id="eventInputName" placeholder="Event Name" style="margin-bottom: 1rem; padding: 0.75rem; font-size: 1rem; border: 1px solid #d1d5db; border-radius: 0.375rem; width: 90%;">
+          <textarea id="eventInputDescription" placeholder="Event Description" rows="3" style="margin-bottom: 1rem; padding: 0.75rem; font-size: 1rem; border: 1px solid #d1d5db; border-radius: 0.375rem; width: 90%;"></textarea>
+          <div id="dateTimeFields" class="mb-3">
+            <label for="eventDateTime1" class="form-label">Event Times</label>
+            <input type="datetime-local" class="form-control" id="eventDateTime1" name="eventDateTime[]" style="margin-bottom: 1rem; padding: 0.75rem; font-size: 1rem; border: 1px solid #d1d5db; border-radius: 0.375rem;">
+              <i class="fas fa-plus"></i>
+            </button>
+          </div>
+          <input type="text" id="eventInputlocation" placeholder="Location" style="margin-bottom: 1rem; padding: 0.75rem; font-size: 1rem; border: 1px solid #d1d5db; border-radius: 0.375rem; width: 90%;">
+          <div class="form-group mb-3">
+            <label for="eventInputImage" class="form-label">Event Banner</label>
+            <input type="file" class="form-control-file" id="eventInputImage" name="image" accept="image/*" required style="margin-bottom: 1rem;">
+          </div>
+          <div class="form-group mb-3">
+            <label for="categoryInput" class="form-label">Event Categories</label>
+            <div class="input-group">
+              <input type="text" class="form-control" id="categoryInput" placeholder="Enter category" style="border-radius: 0.375rem 0 0 0.375rem; padding: 0.75rem; font-size: 1rem; border: 1px solid #d1d5db;">
+              <button type="button" class="btn btn-secondary" onclick="addCategory()" style="border-radius: 0 0.375rem 0.375rem 0; padding: 0.75rem; font-size: 1rem; border: 1px solid #d1d5db;">
+                Add Category
+              </button>
+            </div>
+            <div id="categoryList" class="mt-3"></div>
+          </div>
+          <label for="existingCategories" class="form-label">Select Existing Categories</label>
+          <div id="existingCategories" class="mt-3"></div>
+          <div class="button-container">
+            <button type="submit" class="btn btn-danger btn-submit" style="background: #3b82f6; padding: 0.75rem 1.5rem; border-radius: 0.375rem; color: white; text-align: center; cursor: pointer; font-weight: 500;">Edit Event</button>
+          </div>
+        </div>
       </div>
-      <div class="form-group">
-        <label for="eventDescription">Event Description:</label>
-        <textarea id="eventDescription" name="eventDescription" required></textarea>
-      </div>
-      <div class="form-group">
-        <label for="eventDateTime">Event Date & Time:</label>
-        <input type="datetime-local" id="eventDateTime" name="eventDateTime" required>
-      </div>
-      <div class="form-group">
-        <label for="eventImage">Event Image URL:</label>
-        <input type="file" id="eventImage" name="eventImage">
-      </div>
-      <div class="form-group">
-        <label for="eventLocation">Event Location:</label>
-        <input type="text" id="eventLocation" name="eventLocation">
-      </div>
-      <div class="form-group">
-        <label for="existingCategories" class="form-label">Select Existing Categories</label>
-        <div id="existingCategories" class="mt-3"></div>
-      </div>
-      </select>
-      <button type="submit">Save Changes</button>
     </form>
   </div>
   

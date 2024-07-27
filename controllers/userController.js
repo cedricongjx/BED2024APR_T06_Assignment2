@@ -1,10 +1,10 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const user = require("../models/user")
+const User = require("../models/user")
 const secretKey = process.env.JWT_SECRET || "your-secret-key";
 const getAllUserWithEvents = async (req,res) =>{
     try{
-        const userWithEvent = await user.getAllUserWithEvents();
+        const userWithEvent = await User.getAllUserWithEvents();
         res.json(userWithEvent);
     }catch(error){
         console.log(error);
@@ -14,7 +14,7 @@ const getAllUserWithEvents = async (req,res) =>{
 const getUserWithEventsById = async (req,res) =>{
     const userId = parseInt(req.params.id);
     try{
-        const userwithevent = await user.getUserWithEventsById(userId);
+        const userwithevent = await User.getUserWithEventsById(userId);
         if (!userwithevent){
             return res.status(404).send("Event not found");
         }
@@ -53,7 +53,7 @@ const createUser = async (req, res) => {
         return res.status(401).json({ error: "Incorrect password" });
       }
       const token = jwt.sign({ id: user.userId }, secretKey, { expiresIn: "1h" }); // Ensure user ID is included
-      res.status(200).json({ message: "Login successful", token });
+      res.status(200).json({ message: "Login successful", token: token , user_id: user.userId});
     } catch (error) {
       console.error("Error logging in:", error);
       res.status(500).json({ error: "Error logging in" });
@@ -153,7 +153,7 @@ const createUser = async (req, res) => {
     const id = parseInt(req.params.id);
     console.log(id)
     try {
-      const usersForEvent = await user.getUsersForEvent(id);
+      const usersForEvent = await User.getUsersForEvent(id);
       if (usersForEvent.length === 0) {
         return res.status(404).send("No users found for this event");
       }
@@ -166,7 +166,7 @@ const createUser = async (req, res) => {
   const registerUserEvent = async(req,res) =>{
     const userdetails = req.body;
     try{
-      const success = await user.registerUserEvent(userdetails);
+      const success = await User.registerUserEvent(userdetails);
       if(success){
         res.status(200).send("User registered for the event successfully.")
       }else{
@@ -180,7 +180,7 @@ const createUser = async (req, res) => {
   const removeUserFromEvent = async(req,res)=>{
     const userdetails = req.body;
     try{
-      const success = await user.removeUserFromEvent(userdetails);
+      const success = await User.removeUserFromEvent(userdetails);
       if(success){
         res.status(200).send("User removed for the event successfully.")
       }else{
@@ -193,7 +193,7 @@ const createUser = async (req, res) => {
   const isUserRegisteredForEvent = async(req,res)=>{
     const userdetails = req.body;
     try{
-      const isRegistered  = await user.isUserRegisteredForEvent(userdetails);
+      const isRegistered  = await User.isUserRegisteredForEvent(userdetails);
       if (isRegistered) {
         res.status(200).send({ message: "User is registered for the event" });
       }else {

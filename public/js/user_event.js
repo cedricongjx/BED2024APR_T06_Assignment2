@@ -1,6 +1,8 @@
 // Fetch events from the server and display them
 //const image = require('../images/event/172')
+let selectedCategoryId  = null;
 const token = localStorage.getItem('token')
+const userid = localStorage.getItem('userid')
 async function fetchEvents() {
     try {
       const response = await fetch('http://localhost:3000/event');
@@ -142,26 +144,30 @@ async function fetchEvents() {
   }
   
   async function filterByCategory(categoryId) {
-    try {
-      const response = await fetch(`http://localhost:3000/events/category/${categoryId}`);
-      if (!response.ok) {
-        throw new Error('Failed to fetch filtered events');
+    if (selectedCategoryId === categoryId) {
+      selectedCategoryId = null; // Unselect the category
+      await fetchEvents(); // Fetch all events
+      document.getElementById("userEventsContainer").style.display = 'block'; // Show user events container
+    } else {
+      selectedCategoryId = categoryId; // Select the new category
+      try {
+        const response = await fetch(`http://localhost:3000/events/category/${categoryId}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch filtered events');
+        }
+        const events = await response.json();
+        renderEvents(events);
+        document.getElementById("userEventsContainer").style.display = 'none';
+      } catch (error) {
+        console.error('Error fetching filtered events:', error);
       }
-      const events = await response.json();
-      renderEvents(events);
-    } catch (error) {
-      console.error('Error fetching filtered events:', error);
     }
   }
   
   async function removeCategoryFilter() {
-    // Clear the filter category (optional, if you have any UI to indicate selected categories)
-    document.getElementById('categoryFilterContainer').querySelectorAll('button').forEach(button => {
-      button.classList.remove('active'); // Remove active class if used
-    });
-  
-    // Fetch and display all events
-    await fetchEvents();
+    selectedCategoryId = null; // Clear the selected category
+    document.getElementById("userEventsContainer").style.display = 'block';
+    await fetchEvents(); // Fetch and display all events
   }
   async function fetchUserEvents(userId) {
     try {
@@ -229,14 +235,16 @@ async function fetchEvents() {
   // Initialize the page
   document.addEventListener('DOMContentLoaded', function() {
     fetchEvents();
-    //fetchLatestEvent();
     fetchCategories();
-    const userId = 1;
-    fetchUserEvents(userId);
+    fetchUserEvents(userid);
     document.getElementById('showAllButton').addEventListener('click', () => {
       fetchEvents()
     });
-  });
   
+    // Listen for the popstate event to detect when the user navigates back
+    window.addEventListener('popstate', () => {
+      fetchUserEvents(userid);
+    });
+  });
   
   

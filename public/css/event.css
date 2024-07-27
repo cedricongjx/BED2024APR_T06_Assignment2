@@ -251,17 +251,17 @@ body {
   border-color: #007bff; /* Border color when input is focused */
 }
 
-/* Style the search button */
+
 .search-container button {
-  padding: 10px 20px; /* Add padding inside the button */
-  margin-left: 10px; /* Space between input and button */
-  font-size: 16px; /* Set font size */
-  background-color: #007bff; /* Button background color */
-  color: white; /* Button text color */
-  border: none; /* Remove default border */
-  border-radius: 4px; /* Rounded corners */
-  cursor: pointer; /* Show pointer cursor on hover */
-  transition: background-color 0.3s ease; /* Smooth transition for background color change */
+  padding: 10px 20px; 
+  margin-left: 10px; 
+  font-size: 16px; 
+  background-color: #007bff; 
+  color: white; 
+  border: none; 
+  border-radius: 4px; 
+  cursor: pointer;
+  transition: background-color 0.3s ease; 
 }
 
 /* Style the search button hover state */
@@ -416,4 +416,13 @@ body {
 }
 h2{
   text-align: center;
+}
+.selected-category {
+  background-color: red;
+  color: white;
+}
+
+.normal-category {
+  background-color: blue; 
+  color: initial;
 }

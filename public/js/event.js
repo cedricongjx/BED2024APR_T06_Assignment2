@@ -154,6 +154,7 @@ async function filterByCategory(categoryId) {
       }
       const events = await response.json();
       renderEvents(events);
+      
     } catch (error) {
       console.error('Error fetching filtered events:', error);
     }

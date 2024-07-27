@@ -37,7 +37,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const selectedCategories = Array.from(document.querySelectorAll('input[name="categories"]:checked')).map(input => input.value);
 
     const fetchPromises = [];
-
     if (file) {
       const formData = new FormData();
       formData.append('image', file);

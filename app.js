@@ -18,7 +18,7 @@ const statisticsController = require('./controllers/statisticsController');
 const authenticateToken = require('./middlewares/authenticateToken');
 const validationMiddleware = require('./middlewares/validate');
 const dbConfig = require('./config/dbConfig');
-const usersController = require('./controllers/usersController'); // Ensure correct path
+//const usersController = require('./controllers/usersController'); // Ensure correct path
 const newslettersController = require('./controllers/newslettersController');
 const documentarysController = require('./controllers/documentarysController');
 const validateEmail = require('./middlewares/validateEmail')
@@ -46,12 +46,12 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 
-app.post('/api/signup', validationMiddleware.validateSignup, usersController.createUser);
-app.post('/api/login', validationMiddleware.validateLogin, usersController.loginUser);
-app.get('/api/users', usersController.getAllUsers);
-app.get('/api/users/:id', validationMiddleware.validateUserIdParam, usersController.getUserById);
-app.put('/api/users/:id', validationMiddleware.validateUserIdParam, validationMiddleware.validateUserUpdate, usersController.updateUser);
-app.delete('/api/users/:id', validationMiddleware.validateUserIdParam, usersController.deleteUser);
+app.post('/api/signup', validationMiddleware.validateSignup, userController.createUser);
+app.post('/api/login', validationMiddleware.validateLogin, userController.loginUser);
+app.get('/api/users', userController.getAllUsers);
+app.get('/api/users/:id', validationMiddleware.validateUserIdParam, userController.getUserById);
+app.put('/api/users/:id', validationMiddleware.validateUserIdParam, validationMiddleware.validateUserUpdate, userController.updateUser);
+app.delete('/api/users/:id', validationMiddleware.validateUserIdParam, userController.deleteUser);
 app.post('/api/newsletter', validateEmail, newslettersController.joinNewsletter);
 app.get('/api/documentary/:id', documentarysController.getDocbyID);
 app.put('/api/documentary/:id', documentarysController.updateDocByID);

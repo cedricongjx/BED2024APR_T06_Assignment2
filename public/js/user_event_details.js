@@ -1,4 +1,4 @@
-const userid = 6; 
+const userid = localStorage.getItem('userid'); 
 
 document.addEventListener('DOMContentLoaded', async function () {
     const event = JSON.parse(localStorage.getItem('selectedEvent'));
