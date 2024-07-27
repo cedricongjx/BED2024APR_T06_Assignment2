@@ -1,3 +1,13 @@
+document.addEventListener('DOMContentLoaded', function() {
+  const token = localStorage.getItem('token');
+  if (!token) {
+    alert('You must be logged in to access the donation page.');
+    window.location.href = 'loginsignup.html';
+  } else {
+    document.getElementById('donationContainer').style.display = 'block';
+  }
+});
+
 function handleDonation(event) {
   event.preventDefault();
   const firstName = document.getElementById('firstName').value;
@@ -5,7 +15,6 @@ function handleDonation(event) {
   const donationType = document.getElementById('donationType').value;
   const months = donationType === 'monthly' ? document.getElementById('months').value : null;
 
-  // Remove any dollar signs and convert to a number
   amount = amount.replace(/\$/g, '');
   amount = parseFloat(amount);
 
@@ -19,13 +28,13 @@ function handleDonation(event) {
     return;
   }
 
-  const token = localStorage.getItem('token'); // Get the stored token
+  const token = localStorage.getItem('token');
 
   fetch('/api/donate', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}` // Include the token in the request headers
+      'Authorization': `Bearer ${token}`
     },
     body: JSON.stringify({ firstName, amount, donationType, months })
   })

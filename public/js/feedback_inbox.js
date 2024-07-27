@@ -1,6 +1,18 @@
+// const { user } = require("../../dbConfig");
+
+const token = localStorage.getItem('token');
+const user_id = localStorage.getItem("userid");
+
 async function fetchResponse(userid)
 {
-    const response = await fetch(`/feedback/response/${userid}`);
+    const response = await fetch(`/feedback/response/${userid}`,
+        {
+            headers:
+            {
+                'Authorization' : `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
     const data = await response.json();
     createHTML(data);
 }
@@ -32,4 +44,4 @@ function createHTML(data)
 }
 
 
-fetchResponse(2);
+fetchResponse(user_id);

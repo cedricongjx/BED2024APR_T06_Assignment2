@@ -8,12 +8,14 @@ body {
     height: 100vh;
 }
 
+/* Container for forms */
 .auth-container {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
+/* Form box styles */
 .auth-box {
     background-color: #ffffff;
     padding: 40px;
@@ -31,6 +33,7 @@ body {
     color: #333;
 }
 
+/* Input field styles */
 input[type="text"],
 input[type="password"] {
     width: 100%;
@@ -57,6 +60,7 @@ button:hover {
     background-color: #004d40;
 }
 
+/* Paragraph styles */
 p {
     font-size: 16px;
     color: #333;

@@ -82,20 +82,20 @@ CREATE TABLE Feedback
 ??admin_id INT FOREIGN KEY REFERENCES Admin(Adminid) 
 ); 
 
-CREATE TABLE Documentary ( 
+CREATE TABLE Documentary (  
 
- docid INT PRIMARY KEY IDENTITY, 
+docid INT PRIMARY KEY IDENTITY,  
 
- title varchar(100) NOT NULL, 
+title varchar(100) NOT NULL,  
 
- documentary varchar(max) NOT NULL, 
+documentary varchar(max) NOT NULL,  
 
- docdate date, 
+docdate date,  
 
- image varchar(500) 
+image varchar(max), 
 
+doccategory varchar(50) 
 ) 
-
   
 
 CREATE TABLE Newsletter( 
@@ -105,3 +105,20 @@ CREATE TABLE Newsletter(
  email varchar(255) NOT NULL UNIQUE 
 
 ) 
+
+create table Review(
+  reviewid INT IDENTITY Primary key, 
+
+  docid INT NOT NULL, 
+
+  review VARCHAR(500),
+
+  stars INT NOT NULL,
+
+  date date NOT NULL,
+  
+  userid INT NOT NULL,
+
+  FOREIGN KEY (docid) REFERENCES Documentary(docid),
+  FOREIGN KEY (userid) REFERENCES Users(userid)
+)

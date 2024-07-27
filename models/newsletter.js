@@ -13,13 +13,13 @@ class Newsletter {
         const query = `
             INSERT INTO Newsletter (email)
             VALUES (@email)
-            SELECT SCOPE_IDENTITY() AS id;
+            SELECT SCOPE_IDENTITY() AS newsid;
         `;
         const request = connection.request();
         request.input('email', email);
         const result = await request.query(query);
-        const Newsid = result.recordset[0].id;
-        return new Newsletter(Newsid, email);
+        const newsId = result.recordset[0].id;
+        return new Newsletter(newsId, email);
         } catch (error) {
         console.error('Error adding email:', error);
         throw error;

@@ -1,0 +1,164 @@
+/* Global body styles */
+body {
+  background-color: lightblue;
+  font-family: 'Montserrat', sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Navigation bar styles */
+.navbar {
+  width: 100%;
+  background-color: #333;
+  overflow: hidden;
+  height: 80px;
+}
+
+/* Container for navigation items */
+.nav-container {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+}
+
+/* Logo styles */
+.logo {
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-right: 20px;
+}
+
+/* Navigation links styles */
+.nav-links {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+/* Individual navigation link styles */
+.nav-links li {
+  padding: 14px 20px;
+}
+
+/* Anchor link styles */
+.nav-links a {
+  text-decoration: none;
+  color: white;
+  font-size: 16px;
+}
+
+/* Hover effect for navigation links */
+.nav-links a:hover {
+  background-color: #575757;
+  border-radius: 4px;
+}
+
+/* Dropdown menu styles */
+.dropdown_menu {
+  position: relative;
+}
+
+/* Dropdown menu toggle */
+.dropdown_menu div {
+  color: white;
+  cursor: pointer;
+}
+
+/* Feedback dropdown content */
+.feedback_content {
+  display: none;
+  position: absolute;
+  z-index: 999;
+  background-color: #333;
+}
+
+/* Feedback dropdown links */
+.feedback_content a {
+  display: block;
+  color: yellow;
+  padding: 10px;
+  text-decoration: none;
+}
+
+/* Show dropdown content on hover */
+.dropdown_menu:hover .feedback_content {
+  display: block;
+}
+
+/* Donation container styles */
+.donation-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  margin-top: 20px;
+}
+
+/* Donation box styles */
+.donation-box {
+  width: 600px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 30px;
+  box-shadow: 0 4px 8px rgba(49, 168, 236, 0.1);
+}
+
+/* Title styles */
+.title {
+  background-color: #7bccfa;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  border-radius: 8px 8px 0 0;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+/* Input and select field styles */
+.fields input,
+.fields select {
+  width: calc(100% - 32px);
+  padding: 15px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 18px;
+}
+
+/* Confirmation message styles */
+.confirm {
+  display: none;
+  font-size: 18px;
+  text-align: center;
+  margin-top: 10px;
+}
+
+/* Donate button styles */
+.donate-button {
+  background-color: #ffcc22;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  border-radius: 4px;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+/* Hover effect for donate button */
+.donate-button:hover {
+  background-color: #ffbc03;
+}

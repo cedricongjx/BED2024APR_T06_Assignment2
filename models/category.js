@@ -1,6 +1,5 @@
 const sql = require("mssql");
 const dbConfig = require("../dbConfig");
-const { number } = require("joi");
 
 class category{
     constructor(catId,categoryName)

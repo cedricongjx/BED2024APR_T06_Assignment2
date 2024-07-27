@@ -12,7 +12,7 @@ body {
   .navbar {
     width: 100%;
     background-color: #333;
-    overflow: hidden;
+    /* overflow: hidden; */
     height: 80px;
   }
   
@@ -378,4 +378,46 @@ body {
   background-color: rgba(19, 67, 199, 0.3);
   transition: ease-in 0.1s;
   color:white; 
+}
+
+.dropdown_menu 
+ {
+    color:white;
+ }
+.dropdown_menu a
+{
+    display:block;
+    
+}
+
+.feedback_content 
+{
+    display: none;
+    position:absolute;
+    
+
+}
+.feedback_content a
+{
+  
+    padding:15%;
+    padding-left:0px;
+    z-index: 999;
+    /* border-style:solid;  */
+
+}
+
+.dropdown_menu:hover .feedback_content
+{
+    display: block;
+    background-color: #333;
+    
+}
+
+#feedback_chart_container
+{
+  /* border-style:solid; */
+  width:35%;
+  height:auto;
+  margin-top:1.5%;
 }
