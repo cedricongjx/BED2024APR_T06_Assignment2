@@ -56,7 +56,7 @@ class User {
         });
         return Object.values(usersWithEvents);
     }
-static async getUserWithEventsById(userId) {
+static async getUserWithEventsById(userId) {// gets the events that the user have 
     const connection = await sql.connect(dbConfig);
     const sqlQuery = `
     SELECT 

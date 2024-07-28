@@ -1,7 +1,7 @@
 let categories = [];
 let dateTimeCount = 1;
-const token = localStorage.getItem("token")
-function addDateTimeField() {
+const token = localStorage.getItem("token")// token for authorization
+function addDateTimeField() {// Allows the user to add more time fields to create more events 
   dateTimeCount++;
   const newDateTimeDiv = document.createElement('div');
   newDateTimeDiv.className = 'mb-3';
@@ -17,14 +17,14 @@ function addDateTimeField() {
   document.getElementById('dateTimeFields').appendChild(newDateTimeDiv);
 }
 
-function removeDateTimeField(button) {
+function removeDateTimeField(button) {// remove the extra time fields
   const dateTimeField = button.parentNode;
   dateTimeField.parentNode.removeChild(dateTimeField);
 }
 
 document.addEventListener('DOMContentLoaded', function() {
   fetchExistingCategories();
-
+  //gets the form field 
   const submitButton = document.querySelector('.btn-submit');
   submitButton.addEventListener('click', async function(event) {
     event.preventDefault(); // Prevent form submission
@@ -38,12 +38,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const selectedCategories = Array.from(document.querySelectorAll('input[name="categories"]:checked')).map(input => input.value);
 
     const fetchPromises = [];
-    if (file) {
+    if (file) {//if image file exist
       const formData = new FormData();
       formData.append('image', file);
 
       try {
-        const uploadResponse = await fetch('http://localhost:3000/upload', {
+        const uploadResponse = await fetch('http://localhost:3000/upload', {// multer image post to local
           method: 'POST',
           body: formData
         });
@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const fileDetails = uploadData.file.filename;
 
-        for (const field of dateTimeFields) {
+        for (const field of dateTimeFields) {//post once to the database for each datetime
           const date = new Date(field.value);
           if (!isNaN(date.getTime())) {
             const eventDateTime = date.toISOString();
@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             console.log(JSON.stringify(eventData));
 
-            const fetchPromise = fetch('http://localhost:3000/eventpost', {
+            const fetchPromise = fetch('http://localhost:3000/eventpost', {//posting event details to the database
               method: 'POST',
               headers: {
                 'Authorization' : `Bearer ${token}`,
@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', function() {
               const eventId = data.Eventid;
 
               const categoryPromises = selectedCategories.map(catId => {
-                return fetch('http://localhost:3000/addcategoryforevent', {
+                return fetch('http://localhost:3000/addcategoryforevent', {// adding category for event to the database
                   method: 'POST',
                   headers: {
                     'Authorization' : `Bearer ${token}`,
@@ -124,8 +124,8 @@ document.addEventListener('DOMContentLoaded', function() {
       } catch (error) {
         console.error('Failed to upload image:', error);
       }
-    } else {
-      for (const field of dateTimeFields) {
+    } else {//if image file does not exist
+      for (const field of dateTimeFields) {//post once to the database for each datetime
         const date = new Date(field.value);
         if (!isNaN(date.getTime())) {
           const eventDateTime = date.toISOString();
@@ -140,7 +140,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
           console.log(JSON.stringify(eventData));
 
-          const fetchPromise = fetch('http://localhost:3000/eventpost', {
+          const fetchPromise = fetch('http://localhost:3000/eventpost', {// posting event data to the database
             method: 'POST',
             headers: {
               'Authorization' : `Bearer ${token}`,
@@ -159,7 +159,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const eventId = data.Eventid;
 
             const categoryPromises = selectedCategories.map(catId => {
-              return fetch('http://localhost:3000/addcategoryforevent', {
+              return fetch('http://localhost:3000/addcategoryforevent', {// adding category for event to the database
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json'
@@ -191,7 +191,7 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 
-async function addCategory() {
+async function addCategory() {// allows the admin to create new category
   const categoryInput = document.getElementById('categoryInput');
   const categoryName = categoryInput.value.trim();
 
@@ -220,7 +220,7 @@ async function addCategory() {
   }
 }
 
-function renderExistingCategories(categories) {
+function renderExistingCategories(categories) {// upload the category dynamically to the form
   const existingCategoriesContainer = document.getElementById('existingCategories');
   existingCategoriesContainer.innerHTML = '';
   categories.forEach(category => {
@@ -239,7 +239,7 @@ function renderExistingCategories(categories) {
   });
 }
 
-async function fetchExistingCategories() {
+async function fetchExistingCategories() {// fetches all the categories from the database
   try {
     const response = await fetch('http://localhost:3000/category');
     if (!response.ok) {
@@ -252,7 +252,7 @@ async function fetchExistingCategories() {
   }
 }
 
-async function deleteCategory(categoryId) {
+async function deleteCategory(categoryId) {// allows the admin to delete categories that they created provided that there are no events using them
   if (confirm('Are you sure you want to delete this category?')) {
     try {
       const response = await fetch(`http://localhost:3000/categorydelete/${categoryId}`, {

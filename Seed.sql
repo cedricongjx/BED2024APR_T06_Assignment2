@@ -9,6 +9,7 @@ CREATE TABLE Users (
 ); 
 
 
+
 CREATE TABLE Donations (  
 
     DonationID INT PRIMARY KEY IDENTITY,  
