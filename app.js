@@ -58,11 +58,41 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 const testupload = multer({ dest: 'public/images/events' });
-const docUpload = multer({ dest: 'public/images/documentary' });
+
+
 
 //donataion
 app.post('/api/donate', authenticateToken,  donationsController.createDonation);
 app.get('/api/top-donors', donationsController.getTopDonors); // Fetch top donors
+
+
+const docStorage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'public/images/documentary');
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + path.extname(file.originalname));
+  }
+});
+
+const fileFilter = (req, file, cb) => {
+  const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+  if (!allowedTypes.includes(file.mimetype)) {
+    const error = new Error('Invalid file type');
+    error.code = 'INVALID_FILE_TYPE';
+    console.error('File upload error: Invalid file type');
+    return cb(error, false);
+  }
+  cb(null, true);
+};
+
+const docUpload = multer({
+  storage: docStorage,
+  fileFilter: fileFilter
+}).single('image');
+
+
+ 
 
 // User routes
 app.post('/api/signup', validationMiddleware.validateSignup, userController.createUser);
@@ -79,13 +109,35 @@ app.post('/api/newsletter', validateEmail, newslettersController.joinNewsletter)
 app.get('/documentary/category/:doccategory', documentaryController.getDocsbyCat);
 app.get('/documentary/search', documentaryController.searchDoc);
 app.get('/documentary/:id', documentaryController.getDocbyID);
-app.put('/documentary/:id', docUpload.single('image'), documentaryController.updateDocByID);
+app.put('/documentary/:id', authenticateToken, (req, res, next) => {
+  docUpload(req, res, function (err) {
+    if (err) {
+      if (err.code === 'INVALID_FILE_TYPE') {
+        console.error('Invalid file type. Only JPG, PNG, and GIF are allowed');
+        return res.status(400).json({ message: 'Invalid file type. Only JPG, PNG, and GIF are allowed' });
+      }
+      console.error('File upload error:', err.message);
+      return res.status(500).json({ message: 'File upload error', error: err.message });
+    }
+    next();
+  });}, documentaryController.updateDocByID);
 app.get('/documentary', documentaryController.getAllDocs);
-app.post('/documentary', docUpload.single('image'), documentaryController.createDoc);
-app.delete('/documentary/:id', documentaryController.deleteDocbyID);
+app.post('/documentary', authenticateToken, (req, res, next) => {
+  docUpload(req, res, function (err) {
+    if (err) {
+      if (err.code === 'INVALID_FILE_TYPE') {
+        console.error('Invalid file type. Only JPG, PNG, and GIF are allowed');
+        return res.status(400).json({ message: 'Invalid file type. Only JPG, PNG, and GIF are allowed' });
+      }
+      console.error('File upload error:', err.message);
+      return res.status(500).json({ message: 'File upload error', error: err.message });
+    }
+    next();
+  });}, documentaryController.createDoc);
+app.delete('/documentary/:id', authenticateToken, documentaryController.deleteDocbyID);
  
 //Review routes
-app.post('/review/:id', reviewContoller.createReview);
+app.post('/review/:id', authenticateToken, reviewContoller.createReview);
 app.get('/review/:id', reviewContoller.getReviewbyID);
 app.get('/documentary/review/:id', reviewContoller.getReviewsbyDoc);
 app.get('/review/documentary/:id', reviewContoller.createdReview);

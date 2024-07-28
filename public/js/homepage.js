@@ -209,6 +209,10 @@ async function createDoc(event) {
 
   try {
     const response = await fetch('/documentary', {
+      headers:
+      {
+        'Authorization' : `Bearer ${localStorage.getItem('token')}`
+      },
       method: 'POST',
       body: formData
     });

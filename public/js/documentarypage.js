@@ -103,6 +103,10 @@ async function saveDoc(id) {
 
   try {
       const response = await fetch(`/documentary/${id}`, {
+          headers:
+          {
+            'Authorization' : `Bearer ${localStorage.getItem('token')}`
+          },
           method: 'PUT',
           body: formData
       });
@@ -128,6 +132,10 @@ async function saveDoc(id) {
 async function deleteDoc(id) {
   try {
     const response = await fetch(`/documentary/${id}`, {
+      headers:
+      {
+        'Authorization' : `Bearer ${localStorage.getItem('token')}`
+      },
       method: 'DELETE'
   });
     if (!response.ok) {
@@ -269,6 +277,7 @@ async function addReview(id, review, stars, date, userid) {
       const response = await fetch(`/review/${id}`, {
           method: 'POST',
           headers: {
+              'Authorization' : `Bearer ${localStorage.getItem('token')}`,
               'Content-Type': 'application/json'
           },
           body: JSON.stringify({ review, stars, date, userid })

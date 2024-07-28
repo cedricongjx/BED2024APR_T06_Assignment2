@@ -27,7 +27,9 @@ const authenticateToken = (req, res, next) => {
     console.log("User role:", user.role);
 
     const authorizedRoles = {
+      
       //feedback
+      
       "/feedback": ["A"],
       "/feedback/name": ["A"],
       "/feedback/notverified": ["A"],
@@ -42,11 +44,15 @@ const authenticateToken = (req, res, next) => {
       "/feedback/create": ["U", "A"],
       "/feedback/response/[0-9]+": ["U", "A"],
       "/feedback/categorycount": ["A"],
+      
       //Loginsignup
+      
       "/api/donate": ["U", "A"],
       "/api/users": ["A"],
       "/api/users/[0-9]+": ["A"],
+      
       //events
+      
       "/categorydelete/[0-9]+": ["A"],
       "/event": ["U", "A"],
       "/events/search": ["U", "A"],
@@ -67,7 +73,15 @@ const authenticateToken = (req, res, next) => {
       "/removeCategoryFromEvent": ["A"],
       "/testcheck": ["U"],
       "/eventupdate/[0-9]+": ["A"],
-    };
+      
+      //documentary
+      
+      "/documentary/[0-9]+":["A"],
+      "/documentary":["A"],
+      "/review/[0-9]+":["U"],
+    }
+
+
 
     const requestedEndpoint = req.url.split('?')[0];
     console.log("Requested Endpoint:", requestedEndpoint); // Log the requested endpoint

@@ -23,7 +23,7 @@ const getDocbyID = async (req, res) => {
 const updateDocByID = async (req, res) => {
   const id = parseInt(req.params.id);
   const { title, documentary, docdate, doccategory } = req.body;
-  let image = req.file ? `/images/documentary/${req.file.filename}` : null;
+  let image = req.file ? `/public/images/documentary/${req.file.filename}` : null;
 
   if (!image && req.body.image) {
     image = req.body.image; // Use the existing image URL if no new file is uploaded
