@@ -2,6 +2,9 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user")
 const secretKey = process.env.JWT_SECRET || "your-secret-key";
+
+
+
 const getAllUserWithEvents = async (req,res) =>{
     try{
         const userWithEvent = await User.getAllUserWithEvents();
@@ -70,7 +73,6 @@ const getAllUsers = async (req, res) => {
   }
 };
 
-
 // Get a user by ID
 const getUserById = async (req, res) => {
   const userId = parseInt(req.params.id);
@@ -92,7 +94,6 @@ const getUserById = async (req, res) => {
     res.status(500).json({ error: 'Error retrieving user' });
   }
 };
-
 
 // Update a user
 const updateUser = async (req, res) => {
@@ -117,17 +118,18 @@ const updateUser = async (req, res) => {
   }
 };
 
-
 // Delete a user
 const deleteUser = async (req, res) => {
   const userId = parseInt(req.params.id);
   if (isNaN(userId)) {
+    console.error('Invalid user ID:', req.params.id);
     return res.status(400).json({ error: 'Invalid user ID' });
   }
 
   try {
     const success = await User.deleteUser(userId); // Delete user from database
     if (!success) {
+      console.error('User not found:', userId);
       return res.status(404).json({ error: 'User not found' });
     }
     res.status(204).send();
@@ -136,6 +138,8 @@ const deleteUser = async (req, res) => {
     res.status(500).json({ error: 'Error deleting user' });
   }
 };
+
+
 
 
 // Search for users

@@ -159,156 +159,158 @@ class User {
       }
     }
     
-      static async getAllUsers() {
-        const connection = await sql.connect(dbConfig);
-        try {
-          const query = `SELECT * FROM Users`;
-          const result = await connection.request().query(query);
-          return result.recordset.map(row => new User(row.UserID, row.username, row.password));
-        } catch (error) {
-          console.error('Error retrieving users:', error);
-          throw error;
-        } finally {
-          await connection.close();
-        }
+    static async getAllUsers() {
+      const connection = await sql.connect(dbConfig);
+      try {
+        const query = `SELECT * FROM Users`;
+        const result = await connection.request().query(query);
+        return result.recordset.map(row => new User(row.Userid, row.username, row.password));
+      } catch (error) {
+        console.error('Error retrieving users:', error);
+        throw error;
+      } finally {
+        await connection.close();
       }
-    
-      static async getUserById(userId) {
-        const connection = await sql.connect(dbConfig);
-        try {
-          const query = `SELECT * FROM Users WHERE UserID = @userId`;
-          const request = connection.request();
-          request.input('userId', sql.Int, userId);
-          const result = await request.query(query);
-          if (result.recordset.length === 0) {
-            return null;
-          }
-          const user = result.recordset[0];
-          return new User(user.UserID, user.username, user.password); // Ensure column names match database schema
-        } catch (error) {
-          console.error('Error retrieving user by ID:', error);
-          throw error;
-        } finally {
-          await connection.close();
+    }
+  
+    static async getUserById(userId) {
+      const connection = await sql.connect(dbConfig);
+      try {
+        const query = `SELECT * FROM Users WHERE Userid = @userId`;
+        const request = connection.request();
+        request.input('userId', sql.Int, userId);
+        const result = await request.query(query);
+        if (result.recordset.length === 0) {
+          return null;
         }
+        const user = result.recordset[0];
+        return new User(user.Userid, user.username, user.password, user.role);
+      } catch (error) {
+        console.error('Error retrieving user by ID:', error);
+        throw error;
+      } finally {
+        await connection.close();
       }
-    
-      static async updateUser(userId, newUserData) {
-        const connection = await sql.connect(dbConfig);
-        try {
-          const query = `
-            UPDATE Users
-            SET username = @username, password = @password
-            WHERE UserID = @userId;
-            SELECT * FROM Users WHERE UserID = @userId;
-          `;
-          const request = connection.request();
-          request.input('userId', sql.Int, userId);
-          request.input('username', sql.VarChar, newUserData.username);
-          request.input('password', sql.VarChar, newUserData.password);
-          const result = await request.query(query);
-          if (result.recordset.length === 0) {
-            return null;
-          }
-          const updatedUser = result.recordset[0];
-          return new user(updatedUser.UserID, updatedUser.username, updatedUser.password); // Ensure column names match database schema
-        } catch (error) {
-          console.error('Error updating user:', error);
-          throw error;
-        } finally {
-          await connection.close();
-        }
-      }
-    
-      static async deleteUser(userId) {
-        const connection = await sql.connect(dbConfig);
-        try {
-          const query = `
-            DELETE FROM Users
-            WHERE UserID = @userId;
-          `;
-          const request = connection.request();
-          request.input('userId', sql.Int, userId);
-          const result = await request.query(query);
-          return result.rowsAffected[0] > 0;
-        } catch (error) {
-          console.error('Error deleting user:', error);
-          throw error;
-        } finally {
-          await connection.close();
-        }
-      }
-    
-      static async searchUsers(searchTerm) {
-        const connection = await sql.connect(dbConfig);
-        try {
-          const query = `
-            SELECT * FROM Users
-            WHERE username LIKE @searchTerm
-          `;
-          const request = connection.request();
-          request.input('searchTerm', sql.VarChar, `%${searchTerm}%`);
-          const result = await request.query(query);
-          return result.recordset.map(row => new User(row.UserID, row.username, row.password));
-        } catch (error) {
-          console.error('Error searching users:', error);
-          throw error;
-        } finally {
-          await connection.close();
-        }
-      }
-      static async getUsersForEvent(id) {
-        const connection = await sql.connect(dbConfig);
-        const sqlQuery = `
-          SELECT 
-              u.username
-          FROM 
-              EventWithUsers  eu
-          JOIN 
-              Users u ON eu.userid = u.userid
-          WHERE 
-              eu.Eventid = @Eventid;
+    }
+  
+    static async updateUser(userId, newUserData) {
+      const connection = await sql.connect(dbConfig);
+      try {
+        const query = `
+          UPDATE Users
+          SET username = @username, password = @password
+          WHERE Userid = @userId;
+          SELECT * FROM Users WHERE Userid = @userId;
         `;
         const request = connection.request();
-        request.input("Eventid", sql.Int, id); 
-        const result = await request.query(sqlQuery);
-        connection.close();
-        return result.recordset;
+        request.input('userId', sql.Int, userId);
+        request.input('username', sql.VarChar, newUserData.username);
+        request.input('password', sql.VarChar, newUserData.password);
+        const result = await request.query(query);
+        if (result.recordset.length === 0) {
+          return null;
+        }
+        const updatedUser = result.recordset[0];
+        return new User(updatedUser.Userid, updatedUser.username, updatedUser.password, updatedUser.role);
+      } catch (error) {
+        console.error('Error updating user:', error);
+        throw error;
+      } finally {
+        await connection.close();
       }
-      static async registerUserEvent(details){
-        const connection = await sql.connect(dbConfig);
-        const sqlQuery = `Insert into EventWithUsers (Eventid,userid) values (@Eventid,@userid)`
+    }
+  
+    static async deleteUser(userId) {
+      const connection = await sql.connect(dbConfig);
+      try {
+        const query = `
+          DELETE FROM Users
+          WHERE Userid = @userId;
+        `;
         const request = connection.request();
-        request.input("Eventid",details.eventid);
-        request.input("userid",details.userid)
-        await request.query(sqlQuery);
-        connection.close();
-        return true;
+        request.input('userId', sql.Int, userId);
+        const result = await request.query(query);
+        return result.rowsAffected[0] > 0;
+      } catch (error) {
+        console.error('Error deleting user in database:', error);
+        throw error;
+      } finally {
+        await connection.close();
       }
-      static async removeUserFromEvent(details){
-        const connection = await sql.connect(dbConfig);
-        const sqlQuery = `Delete from EventWithUsers where userid = @userid and Eventid = @Eventid`
-        const request = connection.request();
-        request.input("Eventid", sql.Int, details.eventid);
-        request.input("userid", sql.Int, details.userid);
-        await request.query(sqlQuery);
-        connection.close();
-        return true;
-      }
-      static async isUserRegisteredForEvent(details) {
-        const connection = await sql.connect(dbConfig);
-        const sqlQuery = `SELECT COUNT(*) AS count
-                          FROM EventWithUsers
-                          WHERE userid = @userid AND Eventid = @Eventid`;
-        const request = connection.request();
-        request.input("Eventid", sql.Int, details.eventid);
-        request.input("userid", sql.Int, details.userid);
-        
-        const result = await request.query(sqlQuery);
-        connection.close();
-        return result.recordset[0].count > 0;
     }
     
+  
+    static async searchUsers(searchTerm) {
+      const connection = await sql.connect(dbConfig);
+      try {
+        const query = `
+          SELECT * FROM Users
+          WHERE username LIKE @searchTerm
+        `;
+        const request = connection.request();
+        request.input('searchTerm', sql.VarChar, `%${searchTerm}%`);
+        const result = await request.query(query);
+        return result.recordset.map(row => new User(row.Userid, row.username, row.password, row.role));
+      } catch (error) {
+        console.error('Error searching users:', error);
+        throw error;
+      } finally {
+        await connection.close();
+      }
+    }
+    
+    static async getUsersForEvent(id) {
+      const connection = await sql.connect(dbConfig);
+      const sqlQuery = `
+        SELECT 
+            u.username
+        FROM 
+            EventWithUsers  eu
+        JOIN 
+            Users u ON eu.userid = u.userid
+        WHERE 
+            eu.Eventid = @Eventid;
+      `;
+      const request = connection.request();
+      request.input("Eventid", sql.Int, id); 
+      const result = await request.query(sqlQuery);
+      connection.close();
+      return result.recordset;
+    }
+    static async registerUserEvent(details){
+      const connection = await sql.connect(dbConfig);
+      const sqlQuery = `Insert into EventWithUsers (Eventid,userid) values (@Eventid,@userid)`
+      const request = connection.request();
+      request.input("Eventid",details.eventid);
+      request.input("userid",details.userid)
+      await request.query(sqlQuery);
+      connection.close();
+      return true;
+    }
+    static async removeUserFromEvent(details){
+      const connection = await sql.connect(dbConfig);
+      const sqlQuery = `Delete from EventWithUsers where userid = @userid and Eventid = @Eventid`
+      const request = connection.request();
+      request.input("Eventid", sql.Int, details.eventid);
+      request.input("userid", sql.Int, details.userid);
+      await request.query(sqlQuery);
+      connection.close();
+      return true;
+    }
+    static async isUserRegisteredForEvent(details) {
+      const connection = await sql.connect(dbConfig);
+      const sqlQuery = `SELECT COUNT(*) AS count
+                        FROM EventWithUsers
+                        WHERE userid = @userid AND Eventid = @Eventid`;
+      const request = connection.request();
+      request.input("Eventid", sql.Int, details.eventid);
+      request.input("userid", sql.Int, details.userid);
+      
+      const result = await request.query(sqlQuery);
+      connection.close();
+      return result.recordset[0].count > 0;
+  }
+  
 }     
 module.exports = User;
 
