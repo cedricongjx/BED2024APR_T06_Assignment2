@@ -56,58 +56,58 @@ class User {
         });
         return Object.values(usersWithEvents);
     }
-    static async getUserWithEventsById(userId) {
-      const connection = await sql.connect(dbConfig);
-      const sqlQuery = `
-      SELECT 
-          u.Userid AS userid, 
-          u.username, 
-          ev.Eventid AS Eventid, 
-          ev.eventName, 
-          ev.eventDescription, 
-          ev.eventDateTime,
-          ev.Image,
-          ev.location
-      FROM 
-          users u
-      LEFT JOIN 
-          EventWithUsers ewu ON ewu.userid = u.Userid
-      LEFT JOIN 
-          Event ev ON ev.eventid = ewu.eventid
-      WHERE u.Userid = @userId
-      ORDER BY 
-          u.Userid;
-      `;
-      
-      const result = await connection.request()
-          .input('userId', sql.Int, userId)
-          .query(sqlQuery);
-      
-      const usersWithEvents = {};
-      
-      result.recordset.forEach(row => {
-          const { userid, username, Eventid, eventName, eventDescription, eventDateTime, Image, location } = row;
-          if (!usersWithEvents[userid]) {
-              usersWithEvents[userid] = {
-                  userid,
-                  username,
-                  events: []
-              };
-          }
-          if (Eventid) {
-              usersWithEvents[userid].events.push({
-                  Eventid,
-                  EventName: eventName, // Change the key to EventName
-                  eventDescription,
-                  eventDateTime,
-                  Image: Image ? `${Image}` : 'https://via.placeholder.com/400x300', // Properly assign the image URL
-                  location // Include the location in the event object
-              });
-          }
-      });
-      
-      return Object.values(usersWithEvents);
-  }
+static async getUserWithEventsById(userId) {
+    const connection = await sql.connect(dbConfig);
+    const sqlQuery = `
+    SELECT 
+        u.Userid AS userid, 
+        u.username, 
+        ev.Eventid AS Eventid, 
+        ev.eventName, 
+        ev.eventDescription, 
+        ev.eventDateTime,
+        ev.Image,
+        ev.location
+    FROM 
+        users u
+    LEFT JOIN 
+        EventWithUsers ewu ON ewu.userid = u.Userid
+    LEFT JOIN 
+        Event ev ON ev.eventid = ewu.eventid
+    WHERE u.Userid = @userId
+    ORDER BY 
+        u.Userid;
+    `;
+    
+    const result = await connection.request()
+        .input('userId', sql.Int, userId)
+        .query(sqlQuery);
+    
+    const usersWithEvents = {};
+    
+    result.recordset.forEach(row => {
+        const { userid, username, Eventid, eventName, eventDescription, eventDateTime, Image, location } = row;
+        if (!usersWithEvents[userid]) {
+            usersWithEvents[userid] = {
+                userid,
+                username,
+                events: []
+            };
+        }
+        if (Eventid) {
+            usersWithEvents[userid].events.push({
+                Eventid,
+                EventName: eventName, // Change the key to EventName
+                eventDescription,
+                eventDateTime,
+                Image: Image ? `${Image}` : 'https://via.placeholder.com/400x300', // Properly assign the image URL
+                location // Include the location in the event object
+            });
+        }
+    });
+    
+    return Object.values(usersWithEvents);
+}
   
     static async createUser({ username, password, role = 'U' }) {
       const connection = await sql.connect(dbConfig);

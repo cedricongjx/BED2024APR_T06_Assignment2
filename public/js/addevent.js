@@ -117,7 +117,7 @@ document.addEventListener('DOMContentLoaded', function() {
         try {
           await Promise.all(fetchPromises);
           console.log('All events processed successfully');
-          //window.location.href = 'events.html';
+          window.location.href = 'events.html';
         } catch (error) {
           console.error('Error processing events:', error);
         }
@@ -183,7 +183,7 @@ document.addEventListener('DOMContentLoaded', function() {
       try {
         await Promise.all(fetchPromises);
         console.log('All events processed successfully');
-        //window.location.href = 'events.html';
+        window.location.href = 'events.html';
       } catch (error) {
         console.error('Error processing events:', error);
       }
@@ -258,13 +258,16 @@ async function deleteCategory(categoryId) {
       const response = await fetch(`http://localhost:3000/categorydelete/${categoryId}`, {
         method: 'DELETE',
         headers: {
-          'Authorization' : `Bearer ${token}`,
+          'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
         },
       });
+
       if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
+        const errorText = await response.text();
+        throw new Error(`HTTP error! Status: ${response.status}, Message: ${errorText}`);
       }
+
       categories = categories.filter(category => category.catId !== categoryId);
       renderExistingCategories(categories);
     } catch (error) {
@@ -272,3 +275,5 @@ async function deleteCategory(categoryId) {
     }
   }
 }
+
+

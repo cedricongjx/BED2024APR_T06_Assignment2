@@ -211,13 +211,16 @@ async function deleteCategory(categoryId) {
         },
       });
       if (!response.ok) {
+        if (response===403){
+          alert('no authorization');
+        }
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
       categories = categories.filter(category => category.catId !== categoryId);
       renderExistingCategories(categories);
     } catch (error) {
       console.error('Error deleting category:', error);
-      alert('Category used in other events');
+      //alert('Category used in other events');
     }
   }
 }
