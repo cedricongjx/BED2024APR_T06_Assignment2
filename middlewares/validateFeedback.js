@@ -24,6 +24,8 @@ const validateJustification = (req,res,next) =>
 {
     const schema = Joi.object({
         justification: Joi.string().min(1).max(250).required(),
+        feedback_id : Joi.number().min(1).required(),
+        
     })
     const validation = schema.validate(req.body, {abortEarly: false});
 
