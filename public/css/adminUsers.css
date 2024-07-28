@@ -66,3 +66,66 @@ form button:hover {
 #userDetails {
   margin-top: 10px;
 }
+.navbar {
+  width: 100%;
+  background-color: #333;
+  overflow: hidden;
+  height: 80px;
+}
+ 
+/* Container for navigation items */
+.nav-container {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+}
+ 
+/* Logo styles */
+.logo {
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-right: 20px;
+}
+ 
+/* Navigation links styles */
+.nav-links {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+ 
+/* Individual navigation link styles */
+.nav-links li {
+  padding: 14px 20px;
+}
+ 
+/* Anchor link styles */
+.nav-links a {
+  text-decoration: none;
+  color: white;
+  font-size: 16px;
+}
+ 
+/* Hover effect for navigation links */
+.nav-links a:hover {
+  background-color: #575757;
+  border-radius: 4px;
+}
+ 
+/* Dropdown menu styles */
+.dropdown_menu {
+  position: relative;
+}
+ 
+/* Dropdown menu toggle */
+.dropdown_menu div {
+  color: white;
+  cursor: pointer;
+}
