@@ -205,28 +205,29 @@ async function fetchEvents() {
     userEventsList.innerHTML = '';  // Clear previous user events
   
     if (userEvents.length === 0) {
-      document.getElementById('noUserEventsMessage').style.display = 'block';
+        document.getElementById('noUserEventsMessage').style.display = 'block';
     } else {
-      document.getElementById('noUserEventsMessage').style.display = 'none';
+        document.getElementById('noUserEventsMessage').style.display = 'none';
   
-      userEvents.forEach(event => {
-        const card = document.createElement('div');
-        card.className = 'card';
-        console.log(event.Image)
-        // Assuming event.Image exists, if not, remove the image or handle it accordingly
-        const imageURL = event.Image ? `/public/images/event/${event.Image}` : 'https://via.placeholder.com/400x300';
-        console.log(imageURL)
-        card.innerHTML = `
-          <img src="${imageURL}" alt="${event.eventName}">
-          <h3 class="card-name">${event.eventName}</h3>
-          <p class="card-description">${event.eventDescription}</p>
-          <p class="card-datetime">${new Date(event.eventDateTime).toLocaleString()}</p>
-        `;
-        card.addEventListener('click', () => viewEvent(event.Eventid, userEvents));
-        userEventsList.appendChild(card);
-      });
+        userEvents.forEach(event => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            console.log(event.Image);
+            // Assuming event.Image exists, if not, remove the image or handle it accordingly
+            const imageURL = event.Image ? `/public/images/event/${event.Image}` : 'https://via.placeholder.com/400x300';
+            console.log(imageURL);
+            card.innerHTML = `
+                <img src="${imageURL}" alt="${event.EventName}">
+                <h3 class="card-name">${event.EventName}</h3>
+                <p class="card-description">${event.eventDescription}</p>
+                <p class="card-datetime">${new Date(event.eventDateTime).toLocaleString()}</p>
+            `;
+            card.addEventListener('click', () => viewEvent(event.Eventid, userEvents));
+            userEventsList.appendChild(card);
+        });
     }
   }
+
   function viewEvent(eventId, events) {
     const event = events.find(e => e.Eventid === eventId);
     localStorage.setItem('selectedEvent', JSON.stringify(event));

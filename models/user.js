@@ -86,7 +86,7 @@ class User {
       const usersWithEvents = {};
       
       result.recordset.forEach(row => {
-          const { userid, username, Eventid, eventName, eventDescription, eventDateTime, Image } = row;
+          const { userid, username, Eventid, eventName, eventDescription, eventDateTime, Image, location } = row;
           if (!usersWithEvents[userid]) {
               usersWithEvents[userid] = {
                   userid,
@@ -97,16 +97,18 @@ class User {
           if (Eventid) {
               usersWithEvents[userid].events.push({
                   Eventid,
-                  eventName,
+                  EventName: eventName, // Change the key to EventName
                   eventDescription,
                   eventDateTime,
-                  Image: Image ? `${Image}` : 'https://via.placeholder.com/400x300' // Properly assign the image URL
+                  Image: Image ? `${Image}` : 'https://via.placeholder.com/400x300', // Properly assign the image URL
+                  location // Include the location in the event object
               });
           }
       });
       
       return Object.values(usersWithEvents);
   }
+  
     static async createUser({ username, password, role = 'U' }) {
       const connection = await sql.connect(dbConfig);
       try {
