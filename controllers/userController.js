@@ -35,7 +35,7 @@ const createUser = async (req, res) => {
     res.status(500).json({ error: "Error creating user" });
   }
 };
-
+ 
 // Log in a user
 const loginUser = async (req, res) => {
   const { username, password } = req.body;
@@ -49,13 +49,14 @@ const loginUser = async (req, res) => {
       return res.status(401).json({ error: "Incorrect password" });
     }
     const token = jwt.sign({ id: user.userId, role: user.role }, secretKey, { expiresIn: "1h" }); // Generate JWT token
-    res.status(200).json({ message: "Login successful", token: token , user_id: user.userId,userrole: user.role});
+    //res.status(200).json({ message: "Login successful", token });
+    res.status(200).json({ message: "Login successful", token: token , user_id: user.userId});
   } catch (error) {
     console.error("Error logging in:", error);
     res.status(500).json({ error: "Error logging in" });
   }
 };
-
+ 
 // Get all users
 const getAllUsers = async (req, res) => {
   try {
@@ -69,15 +70,14 @@ const getAllUsers = async (req, res) => {
     res.status(500).json({ error: 'Error retrieving users' });
   }
 };
-
-
+ 
 // Get a user by ID
 const getUserById = async (req, res) => {
   const userId = parseInt(req.params.id);
   if (isNaN(userId)) {
     return res.status(400).json({ error: 'Invalid user ID' });
   }
-
+ 
   try {
     const user = await User.getUserById(userId); // Fetch user by ID
     if (!user) {
@@ -92,8 +92,7 @@ const getUserById = async (req, res) => {
     res.status(500).json({ error: 'Error retrieving user' });
   }
 };
-
-
+ 
 // Update a user
 const updateUser = async (req, res) => {
   const userId = parseInt(req.params.id);
@@ -101,7 +100,7 @@ const updateUser = async (req, res) => {
   if (isNaN(userId)) {
     return res.status(400).json({ error: 'Invalid user ID' });
   }
-
+ 
   try {
     const updatedUser = await User.updateUser(userId, newUserData); // Update user data
     if (!updatedUser) {
@@ -116,18 +115,19 @@ const updateUser = async (req, res) => {
     res.status(500).json({ error: 'Error updating user' });
   }
 };
-
-
+ 
 // Delete a user
 const deleteUser = async (req, res) => {
   const userId = parseInt(req.params.id);
   if (isNaN(userId)) {
+    console.error('Invalid user ID:', req.params.id);
     return res.status(400).json({ error: 'Invalid user ID' });
   }
-
+ 
   try {
     const success = await User.deleteUser(userId); // Delete user from database
     if (!success) {
+      console.error('User not found:', userId);
       return res.status(404).json({ error: 'User not found' });
     }
     res.status(204).send();
@@ -136,15 +136,17 @@ const deleteUser = async (req, res) => {
     res.status(500).json({ error: 'Error deleting user' });
   }
 };
-
-
+ 
+ 
+ 
+ 
 // Search for users
 const searchUsers = async (req, res) => {
   const searchTerm = req.query.q;
   if (!searchTerm) {
     return res.status(400).json({ error: 'Search term is required' });
   }
-
+ 
   try {
     const users = await User.searchUsers(searchTerm); // Search users by term
     res.json(users.map(user => ({

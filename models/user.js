@@ -109,157 +109,158 @@ static async getUserWithEventsById(userId) {
     return Object.values(usersWithEvents);
 }
   
-    static async createUser({ username, password, role = 'U' }) {
-      const connection = await sql.connect(dbConfig);
-      try {
-        const query = `
-          INSERT INTO Users (username, password, role)
-          VALUES (@username, @password, @role);
-          SELECT SCOPE_IDENTITY() AS Userid;
-        `;
-  
-        const request = connection.request();
-        request.input("username", sql.VarChar, username);
-        request.input("password", sql.VarChar, password);
-        request.input("role", sql.Char, role);
-  
-        const result = await request.query(query);
-        const userId = result.recordset[0].Userid;
-  
-        return new User(userId, username, password, role);
-      } catch (error) {
-        console.error("Error creating user:", error);
-        throw error;
-      } finally {
-        await connection.close();
-      }
+static async createUser({ username, password, role = 'U' }) {
+  const connection = await sql.connect(dbConfig);
+  try {
+    const query = `
+      INSERT INTO Users (username, password, role)
+      VALUES (@username, @password, @role);
+      SELECT SCOPE_IDENTITY() AS Userid;
+    `;
+
+    const request = connection.request();
+    request.input("username", sql.VarChar, username);
+    request.input("password", sql.VarChar, password);
+    request.input("role", sql.Char, role);
+
+    const result = await request.query(query);
+    const userId = result.recordset[0].Userid;
+
+    return new User(userId, username, password, role);
+  } catch (error) {
+    console.error("Error creating user:", error);
+    throw error;
+  } finally {
+    await connection.close();
+  }
+}
+
+static async getUserByUsername(username) {
+  const connection = await sql.connect(dbConfig);
+  try {
+    const query = `
+      SELECT Userid, username, password, role
+      FROM Users
+      WHERE username = @username;
+    `;
+
+    const request = connection.request();
+    request.input("username", sql.VarChar, username);
+
+    const result = await request.query(query);
+    if (result.recordset.length > 0) {
+      const user = result.recordset[0];
+      return new User(user.Userid, user.username, user.password, user.role);
+    } else {
+      return null;
     }
-  
-    static async getUserByUsername(username) {
-      const connection = await sql.connect(dbConfig);
-      try {
-        const query = `
-          SELECT Userid, username, password, role
-          FROM Users
-          WHERE username = @username;
-        `;
-  
-        const request = connection.request();
-        request.input("username", sql.VarChar, username);
-  
-        const result = await request.query(query);
-        if (result.recordset.length > 0) {
-          const user = result.recordset[0];
-          return new User(user.Userid, user.username, user.password, user.role);
-        } else {
-          return null;
-        }
-      } catch (error) {
-        console.error("Error fetching user:", error);
-        throw error;
-      } finally {
-        await connection.close();
-      }
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    throw error;
+  } finally {
+    await connection.close();
+  }
+}
+
+static async getAllUsers() {
+  const connection = await sql.connect(dbConfig);
+  try {
+    const query = `SELECT * FROM Users`;
+    const result = await connection.request().query(query);
+    return result.recordset.map(row => new User(row.Userid, row.username, row.password));
+  } catch (error) {
+    console.error('Error retrieving users:', error);
+    throw error;
+  } finally {
+    await connection.close();
+  }
+}
+
+static async getUserById(userId) {
+  const connection = await sql.connect(dbConfig);
+  try {
+    const query = `SELECT * FROM Users WHERE Userid = @userId`;
+    const request = connection.request();
+    request.input('userId', sql.Int, userId);
+    const result = await request.query(query);
+    if (result.recordset.length === 0) {
+      return null;
     }
-    
-      static async getAllUsers() {
-        const connection = await sql.connect(dbConfig);
-        try {
-          const query = `SELECT * FROM Users`;
-          const result = await connection.request().query(query);
-          return result.recordset.map(row => new User(row.UserID, row.username, row.password));
-        } catch (error) {
-          console.error('Error retrieving users:', error);
-          throw error;
-        } finally {
-          await connection.close();
-        }
-      }
-    
-      static async getUserById(userId) {
-        const connection = await sql.connect(dbConfig);
-        try {
-          const query = `SELECT * FROM Users WHERE UserID = @userId`;
-          const request = connection.request();
-          request.input('userId', sql.Int, userId);
-          const result = await request.query(query);
-          if (result.recordset.length === 0) {
-            return null;
-          }
-          const user = result.recordset[0];
-          return new User(user.UserID, user.username, user.password); // Ensure column names match database schema
-        } catch (error) {
-          console.error('Error retrieving user by ID:', error);
-          throw error;
-        } finally {
-          await connection.close();
-        }
-      }
-    
-      static async updateUser(userId, newUserData) {
-        const connection = await sql.connect(dbConfig);
-        try {
-          const query = `
-            UPDATE Users
-            SET username = @username, password = @password
-            WHERE UserID = @userId;
-            SELECT * FROM Users WHERE UserID = @userId;
-          `;
-          const request = connection.request();
-          request.input('userId', sql.Int, userId);
-          request.input('username', sql.VarChar, newUserData.username);
-          request.input('password', sql.VarChar, newUserData.password);
-          const result = await request.query(query);
-          if (result.recordset.length === 0) {
-            return null;
-          }
-          const updatedUser = result.recordset[0];
-          return new user(updatedUser.UserID, updatedUser.username, updatedUser.password); // Ensure column names match database schema
-        } catch (error) {
-          console.error('Error updating user:', error);
-          throw error;
-        } finally {
-          await connection.close();
-        }
-      }
-    
-      static async deleteUser(userId) {
-        const connection = await sql.connect(dbConfig);
-        try {
-          const query = `
-            DELETE FROM Users
-            WHERE UserID = @userId;
-          `;
-          const request = connection.request();
-          request.input('userId', sql.Int, userId);
-          const result = await request.query(query);
-          return result.rowsAffected[0] > 0;
-        } catch (error) {
-          console.error('Error deleting user:', error);
-          throw error;
-        } finally {
-          await connection.close();
-        }
-      }
-    
-      static async searchUsers(searchTerm) {
-        const connection = await sql.connect(dbConfig);
-        try {
-          const query = `
-            SELECT * FROM Users
-            WHERE username LIKE @searchTerm
-          `;
-          const request = connection.request();
-          request.input('searchTerm', sql.VarChar, `%${searchTerm}%`);
-          const result = await request.query(query);
-          return result.recordset.map(row => new User(row.UserID, row.username, row.password));
-        } catch (error) {
-          console.error('Error searching users:', error);
-          throw error;
-        } finally {
-          await connection.close();
-        }
-      }
+    const user = result.recordset[0];
+    return new User(user.Userid, user.username, user.password, user.role);
+  } catch (error) {
+    console.error('Error retrieving user by ID:', error);
+    throw error;
+  } finally {
+    await connection.close();
+  }
+}
+
+static async updateUser(userId, newUserData) {
+  const connection = await sql.connect(dbConfig);
+  try {
+    const query = `
+      UPDATE Users
+      SET username = @username, password = @password
+      WHERE Userid = @userId;
+      SELECT * FROM Users WHERE Userid = @userId;
+    `;
+    const request = connection.request();
+    request.input('userId', sql.Int, userId);
+    request.input('username', sql.VarChar, newUserData.username);
+    request.input('password', sql.VarChar, newUserData.password);
+    const result = await request.query(query);
+    if (result.recordset.length === 0) {
+      return null;
+    }
+    const updatedUser = result.recordset[0];
+    return new User(updatedUser.Userid, updatedUser.username, updatedUser.password, updatedUser.role);
+  } catch (error) {
+    console.error('Error updating user:', error);
+    throw error;
+  } finally {
+    await connection.close();
+  }
+}
+
+static async deleteUser(userId) {
+  const connection = await sql.connect(dbConfig);
+  try {
+    const query = `
+      DELETE FROM Users
+      WHERE Userid = @userId;
+    `;
+    const request = connection.request();
+    request.input('userId', sql.Int, userId);
+    const result = await request.query(query);
+    return result.rowsAffected[0] > 0;
+  } catch (error) {
+    console.error('Error deleting user in database:', error);
+    throw error;
+  } finally {
+    await connection.close();
+  }
+}
+
+
+static async searchUsers(searchTerm) {
+  const connection = await sql.connect(dbConfig);
+  try {
+    const query = `
+      SELECT * FROM Users
+      WHERE username LIKE @searchTerm
+    `;
+    const request = connection.request();
+    request.input('searchTerm', sql.VarChar, `%${searchTerm}%`);
+    const result = await request.query(query);
+    return result.recordset.map(row => new User(row.Userid, row.username, row.password, row.role));
+  } catch (error) {
+    console.error('Error searching users:', error);
+    throw error;
+  } finally {
+    await connection.close();
+  }
+}
       static async getUsersForEvent(id) {
         const connection = await sql.connect(dbConfig);
         const sqlQuery = `
