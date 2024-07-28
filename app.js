@@ -103,7 +103,7 @@ app.put('/api/users/:id', authenticateToken,validationMiddleware.validateUserIdP
 app.delete('/api/users/:id', authenticateToken,  validationMiddleware.validateUserIdParam, userController.deleteUser);
  
 // Newsletter routes
-app.post('/api/newsletter', validateEmail, newslettersController.joinNewsletter);
+app.post('/newsletter', validateEmail, newslettersController.joinNewsletter);
  
 // Documentary routes
 app.get('/documentary/category/:doccategory', documentaryController.getDocsbyCat);
