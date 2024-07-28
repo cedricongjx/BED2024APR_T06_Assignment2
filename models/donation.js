@@ -1,3 +1,4 @@
+// Import necessary modules
 const sql = require("mssql");
 const dbConfig = require("../config/dbConfig");
 
@@ -17,6 +18,7 @@ class Donation {
   static async createDonation(donation) {
     const connection = await sql.connect(dbConfig); // Connect to the database
     try {
+      // SQL query to insert a new donation record
       const query = `
         INSERT INTO Donations (DonatorID, Name, Amount, DonationDate, DonationType, Months)
         VALUES (@DonatorID, @Name, @Amount, @DonationDate, @DonationType, @Months);
@@ -24,6 +26,7 @@ class Donation {
       `;
 
       const request = connection.request();
+      // Input parameters for the query
       request.input("DonatorID", sql.Int, donation.DonatorID);
       request.input("Name", sql.VarChar, donation.Name);
       request.input("Amount", sql.Decimal(10, 2), donation.Amount);
@@ -38,6 +41,7 @@ class Donation {
         throw new Error("Failed to retrieve the DonationID"); // Throw error if DonationID is not retrieved
       }
 
+      // Return a new Donation instance
       return new Donation(
         donationId,
         donation.DonatorID,
@@ -58,6 +62,7 @@ class Donation {
   static async getTopDonorsByType(donationType) {
     const connection = await sql.connect(dbConfig); // Connect to the database
     try {
+      // SQL query to get top donors by donation type
       let query = `
         SELECT Name, SUM(Amount * ISNULL(Months, 1)) AS TotalAmount
         FROM Donations
@@ -67,6 +72,7 @@ class Donation {
       `;
 
       const request = connection.request();
+      // Input parameter for the query
       request.input("DonationType", sql.VarChar, donationType);
 
       const result = await request.query(query);
@@ -82,6 +88,7 @@ class Donation {
   static async getStatistics(period) {
     const connection = await sql.connect(dbConfig); // Connect to the database
     try {
+      // SQL query to get donation statistics over a specified period
       let query = `
         SELECT DonationType, SUM(Amount * ISNULL(Months, 1)) AS TotalAmount
         FROM Donations
