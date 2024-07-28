@@ -8,12 +8,7 @@ CREATE TABLE Users (
 
 ); 
 
- 
 
- 
-
-
- 
 
 CREATE TABLE Donations (  
 
@@ -58,6 +53,11 @@ CREATE TABLE Feedback
 
 ); 
 
+INSERT INTO Feedback(title, description,category,verified) 
+VALUES 
+('Website is buggy','This website is very buggy','Bug', 'N'),
+('Website description is wrong', 'The documentary is off', 'Feedback', 'N'),
+('Donation failure','The donation took my money but did not register it','Customer Service','Y');
  
 
 CREATE TABLE FeedbackVerified 
@@ -190,8 +190,7 @@ CREATE TABLE Review (
  
 
  
-INSERT INTO admin (username, password) VALUES ('test', 'test');
-INSERT INTO admin (username, password) VALUES ('test1', 'test1');
+
 INSERT INTO EVENT (EventName, eventDescription, eventDateTime, Adminid)
 VALUES ('Sample Event1', 'This is a description for the sample event.', '2024-07-01T15:00:00', 1);
 INSERT INTO EVENT (EventName, eventDescription, eventDateTime, Adminid)

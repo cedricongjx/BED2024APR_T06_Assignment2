@@ -426,3 +426,38 @@ h2{
   background-color: blue; 
   color: initial;
 }
+
+
+.dropdown_menu 
+ {
+    color:white;
+ }
+.dropdown_menu a
+{
+    display:block;
+    
+}
+
+.feedback_content 
+{
+    display: none;
+    position:absolute;
+    
+
+}
+.feedback_content a
+{
+  
+    padding:15%;
+    padding-left:0px;
+    z-index: 999;
+    /* border-style:solid;  */
+
+}
+
+.dropdown_menu:hover .feedback_content
+{
+    display: block;
+    background-color: #333;
+    
+}
