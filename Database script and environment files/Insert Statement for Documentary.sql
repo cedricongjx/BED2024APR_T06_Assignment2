@@ -100,3 +100,66 @@ The next time you buy groceries, remember: it’s decision time. What you eat is w
 '2015-10-16',
 'https://assets.weforum.org/article/image/large_ZhktFwS8CBO5oRQv2fbhh_4ZAfE12IbG7cjNRab6Afw.jpg',
 'Food and Nutrition')
+
+INSERT into Documentary(title, documentary, docdate, image, doccategory) values ('Authentic Engagement: Michael Hernandez on Using AI and Meaningful Assessments to Reenergize Learning', 
+'One thing we all seem to agree on when it comes to Artificial Intelligence (AI) is that it’s poised to cause significant change. It’s revolutionizing how we work and play, how we communicate, and even how we create. And as is often the case with new technologies, there’s a lot of fear about the future. However, educator and author Michael Hernandez is cautiously optimistic that with thoughtful and ethical adoption, AI can transform our education system for the better. Instead of challenges, he’s looking for opportunities. Hernandez, a veteran media arts teacher at Mira Costa High School in California and author of the recently published ISTE book Storytelling with Purpose: Digital Projects to Ignite Student Curiosity, is passionate about increasing student engagement, in part via authentic and meaningful assessments. He encourages the use of story projects that allow students to utilize their unique voices and perspectives, find deeper meaning in their learning, and avoid the temptation to cheat. While cheating has been at the forefront of concerns about AI on the educational front, Hernandez has a different take. AI, he reminds us, is just another tool. He likens it to the introduction of the calculator in classrooms; schools wanted to ban them because students wouldn’t learn basic math skills. But Hernandez believes that artificial intelligence may free students from mundane tasks, allowing them to delve deeper into topics of interest. “I’m hopeful that AI will be the ultimate disruptor of a very problematic academic school system which has always focused on rote memorization and repetitive activities,” Hernandez explains. “How can we use these tools to offload that cognitive load?” When Hernandez thinks back to childhood, he remembers having his own challenges in the classroom. “There are many obstacles to learning that students struggle with,” he says. “Instead of putting barriers in front of kids and telling them they have to suffer, because suffering somehow equals learning, we should focus on what really matters, which is curiosity and passion and doing something real that has an impact in the world.” It is exactly these challenges and this vision that pushed Hernandez to think critically about assessments. He dedicated a full chapter to the subject in Storytelling with Purpose and found that it resonated heavily with fellow educators who were struggling to properly assess student learning and discourage cheating. This led Hernandez to create his new self-produced online course, entitled Uncheatable Assessments. Hernandez’s method isn’t simply about making it difficult for students to cheat, it’s also about creating assignments that are exciting, so kids aren’t compelled to cheat. Instead of bogging students down in the name of a learning model that often equates to “minutes sitting in a chair,’’ Hernandez advocates rethinking standardized assignments, where possible, and freeing students to share their learning stories. In terms of AI and its future in the classroom, Hernandez thinks it may be just what we need to tear down barriers to learning and elevate the type of work students can engage in. "These tech tools, and especially artificial intelligence, have highlighted the importance of our humanity, originality, and creativity,” he shares. “What is of value is not rote memorization. It’’s not the worksheets. It’’s what you can do that is helpful and productive and unique. And so, it’’s not so much what you know, but what you can do with what you know that matters."',
+'2024-06-20',
+'https://iste-prod.imgix.net/GettyImages-892807216.jpg?auto=compress%2Cformat&fit=crop&ar=1.7777777777778%3A1&crop=focalpoint&fp-x=0.5&fp-y=0.5&h=720&q=80&w=1946&ixlib=imgixjs-4.0.1',
+'Education')
+
+INSERT into Documentary(title, documentary, docdate, image, doccategory) values ('How will climate change affect agriculture?', 
+'The effects of climate change, now accelerating all over the world, include unpredictable changes in rainfall patterns bringing drought, heatwaves, and flooding. As extreme weather becomes more frequent, and destructive events hit farmers harder, the impact on farming will be more and more severe.
+
+The most impoverished farmers (including pastoralists, fishers, and others who rely on agriculture and natural resources to survive) are among the worst affected. Women farmers, who already face greater difficulties accessing land, finance, and training, face some of the greatest risks to their fragile livelihoods.
+
+The ways climate change is affecting farmers is one factor driving the acceleration of inequality and poverty. However, all farming — whether subsistence-level producers in West Africa or industrial-sized farms in Europe and North America — are feeling the effects of climate change.
+
+Since it was founded in the 1940s, Oxfam has been fighting hunger and supporting farmers while working to change the underlying causes of injustice and poverty. You can read here how we see climate change affecting agriculture and the ways the climate crisis is driving malnutrition, see our recommendations for what we can do now to ensure we have food in the future, and learn more about what you can do to help the farmers who are the least responsible for climate change to survive.
+
+HOW DOES CLIMATE CHANGE AFFECT FOOD PRODUCTION?
+The worst effects of climate change are now bringing significant risks to farming, including unpredictable changes in temperature (both averages, and extreme heat and cold), and availability of water (the volume of precipitation — too much destructive rain, and drought).
+
+As the climate changes, so is the range of pests and diseases. Areas that were not previously vulnerable to certain types of crop-eating insects or destructive blights or fungi might suddenly be exposed to additional, unfamiliar risks. “The net effect of these climate [-induced] impacts will generally be negative (e.g., droughts causing reduced crop yields or crop failures), though they may be positive in some instances (e.g., warmer springs, longer growing seasons),” says a report co-authored by Oxfam.
+
+Some of these concerns are already visible in East Africa, an area suffering from recurrent drought causing crop failures, loss of livelihoods, and large-scale internal displacement. At one point in 2022, 85 percent of cropland in Ethiopia had been affected, and up to 60 percent of cereal production in Somalia was below average as a result of a two-year-drought. The drought killed millions of livestock, due to lack of water and pasture.
+
+Small-scale farmers, who produce more than 70 percent of the food consumed by people in Asia and sub-Saharan Africa, are the most vulnerable to climate change and the resulting volatility of commodity prices. Yet they are the least responsible for the heat-trapping emissions responsible for the changes that are making food production, on which their very lives depend, more and more difficult.
+
+HOW MUCH DOES AGRICULTURE CONTRIBUTE TO CLIMATE CHANGE?
+Farming contributes to global warming, as fertilized soil emits nitrous oxide, cattle pass methane gas, and burning fields produces carbon dioxide. Agriculture accounts for one third of greenhouse gas emissions globally, according to the UN Food and Agriculture Organisation.
+
+As part of our Behind the Brands campaign, started in 2013, Oxfam’s learned that the large-scale industrial agriculture production and supply chain supporting the food and beverage sector accounts for as much as 37 percent of global greenhouse gas emissions and is responsible for much of the destruction of the world’s tropical rainforests.
+
+This means food and beverage companies are in a position to make a major difference in reducing greenhouse gas emissions and promoting sustainable farming practices that can help farmers survive climate change. Oxfam has advocated for the top 10 food and beverage companies to make commitments to reduce greenhouse gas emissions across their supply chain, set science-based goals, and track their results. We’ve actually scored these companies on the actions they take to protect the environment (and workers).
+
+HOW MUCH DOES CLIMATE CHANGE AFFECT SOIL?
+Farmers in areas accustomed to regular rainy seasons are now experiencing unpredictable rainfall. Sometimes this comes in the form of unusually heavy rains, which can have devastating effects, eroding top soil, washing away nutrients, and destroying productive growing areas.
+
+Oxfam is helping farmers protect their soil by applying organic fertilizer, and planting trees to help reduce erosion and add nitrogen to improve soil quality. We advise farmers to plant trees and build stone walls and other structures to reduce water run-off, recharge groundwater, maintain moisture in growing areas, and reduce erosion.
+
+To help rice farmers in southeast Asia, Oxfam for many years trained farmers in the System of Rice Intensification (SRI), which reduces chemical fertilizers that release powerful greenhouse gases when applied to farmland. SRI growing methods use 30 percent less water, no harmful chemicals, and reduces greenhouse gas emissions by up to 20 percent.
+
+HOW DOES CLIMATE CHANGE AFFECT MALNUTRITION?
+There’s no question that the effects of climate change, especially the increasing number of extreme weather events, are playing a negative role in malnutrition rates in the most vulnerable areas of the world.
+
+Between 2000 and 2022, 10 countries that experienced the highest number of U.N. appeals related to extreme weather events saw malnutrition jump from 21 million people to 48 million during the last six years of that period, according to an analysis by Oxfam. “The correlation between weather-related crises and rising hunger in these countries is stark and undeniable,” the report states.
+
+As the frequency of extreme weather events increases, the poorest families hit by storms, floods, or severe drought have less and less time to recover before the next disaster hits. For pastoralist families, it can take years to rebuild herds destroyed by drought. Others displaced by flooding may not be able to replant severely eroded fields, and must seek an entirely different livelihood. These shocks are generally accompanied by food scarcity and increased prices.
+
+As in all crises, the most disadvantaged people suffer the most. Women, minority groups, and children are most at risk of malnutrition in areas where climate-driven extreme weather has disrupted food supplies and malnutrition increases.
+
+WHAT WILL FARMING LOOK LIKE IN 2100?
+What the global agriculture system will look like in the future will depend on what we do today. There is a potential for even more negative outcomes if we do not reduce greenhouse gas emissions and help farmers adapt to climate change.
+
+If temperatures continue to climb and there are no technological advances, rice yields in Asia could drop as much as 50 percent by 2100, compared to 1990.
+Farmers in South Asia could experience a 30 percent reduction in wheat and maize production by the end of the century, pushing up food prices. By 2030, as many as 38 million more people in Asia and the Pacific region could be pushed into hunger.
+To avoid the worst possible outcomes, Oxfam is recommending that countries should:
+
+Deeply reduce emissions: To minimize the worst effects of climate change on agriculture, countries like the United States need to take realistic steps to reduce greenhouse gas emissions by 2030 to ensure temperature increases do not exceed 1.5 degrees Celsius.
+Provide humanitarian aid to address the immediate hunger crisis in places hit hardest by climate change.
+Fairly compensate those most affected by the climate crisis: Rich polluting countries must compensate low-income countries for the damages and losses they caused them due to climate change, so farmers can recover and adapt their agricultural production.
+Prepare for the next climate shock: To help the most vulnerable farmers be better prepared, we need funds for communities at risk that can be provided ahead of climate disasters, create early warning systems so they can prepare, and ensure local communities and organizations can lead the response to disasters.
+If we succeed, we will build a more gender just, resilient, and sustainable food system at the heart of the climate response. This will ensure small-scale food producers (many of whom are women) participate in discussions about adapting and surviving climate change. The agriculture and food system of the future will require investing in sustainable agriculture that supports local food production and preserves the planet.',
+'2024-04-18',
+'https://webassets.oxfamamerica.org/media/images/Oxfam_InuruID.2e16d0ba.fill-1180x738-c100.jpegquality-60_X8VKdr7.jpg',
+'Agriculture')
