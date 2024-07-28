@@ -169,7 +169,7 @@ async function removeCategoryFilter() {
 // Initialize the page
 document.addEventListener('DOMContentLoaded', function() {
   fetchEvents();
-  fetchLatestEvent();
+  //fetchLatestEvent();
   fetchCategories();
 
   document.getElementById('showAllButton').addEventListener('click', () => {

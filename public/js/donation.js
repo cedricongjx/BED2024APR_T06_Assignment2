@@ -1,5 +1,16 @@
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('donationForm').addEventListener('submit', handleDonation);
+});
+ 
 function handleDonation(event) {
   event.preventDefault();
+ 
+  const token = localStorage.getItem('token');
+  if (!token) {
+    alert('Please sign up or log in before you can donate.');
+    window.location.href = '/loginsignup.html'; // Redirect to login page
+    return;
+  }
  
   const firstName = document.getElementById('firstName').value;
   let amount = document.getElementById('amount').value;
@@ -21,8 +32,6 @@ function handleDonation(event) {
   }
  
   console.log("Sending donation request:", { firstName, amount, donationType, months });
- 
-  const token = localStorage.getItem('token'); // Get the stored token
  
   fetch('/api/donate', {
     method: 'POST',
@@ -46,7 +55,6 @@ function handleDonation(event) {
   .catch(error => console.error('Error:', error));
 }
  
-// Function to toggle the display of the months field based on donation type
 function toggleMonthsField() {
   const donationType = document.getElementById('donationType').value;
   const monthsField = document.getElementById('months');
@@ -57,3 +65,4 @@ function toggleMonthsField() {
     monthsField.style.display = 'none'; // Hide the months field for one-time donations
   }
 }
+ 

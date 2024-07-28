@@ -1,3 +1,4 @@
+const token = localStorage.getItem("token")
 document.addEventListener('DOMContentLoaded', function() {
   const queryParams = new URLSearchParams(window.location.search);
   const eventId = queryParams.get('id');
@@ -27,6 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
       try {
         const uploadResponse = await fetch('http://localhost:3000/upload', {
           method: 'POST',
+          
           body: formData
         });
 
@@ -44,9 +46,10 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     try {
-      const response = await fetch(`http://localhost:3000/event/${eventId}`, {
+      const response = await fetch(`http://localhost:3000/eventupdate/${eventId}`, {
         method: 'PUT',
         headers: {
+          'Authorization' : `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
@@ -69,6 +72,7 @@ document.addEventListener('DOMContentLoaded', function() {
         return fetch('http://localhost:3000/addcategoryforevent', {
           method: 'POST',
           headers: {
+            'Authorization' : `Bearer ${token}`,
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({ eventid: eventId, catid: catId })
@@ -154,6 +158,7 @@ async function deleteAllCategoriesForEvent(eventId) {
       return fetch('http://localhost:3000/removeCategoryFromEvent', {
         method: 'DELETE',
         headers: {
+          'Authorization' : `Bearer ${token}`,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({ eventid: eventId, catid: category.CatId })
@@ -173,9 +178,10 @@ async function addCategory() {
 
   if (categoryName) {
     try {
-      const response = await fetch('http://localhost:3000/category', {
+      const response = await fetch('http://localhost:3000/categorypost', {
         method: 'POST',
         headers: {
+          'Authorization' : `Bearer ${token}`,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({ categoryName: categoryName })
@@ -197,17 +203,24 @@ async function addCategory() {
 async function deleteCategory(categoryId) {
   if (confirm('Are you sure you want to delete this category?')) {
     try {
-      const response = await fetch(`http://localhost:3000/category/${categoryId}`, {
+      const response = await fetch(`http://localhost:3000/categorydelete/${categoryId}`, {
         method: 'DELETE',
+        headers: {
+          'Authorization' : `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
       });
       if (!response.ok) {
+        if (response===403){
+          alert('no authorization');
+        }
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
       categories = categories.filter(category => category.catId !== categoryId);
       renderExistingCategories(categories);
     } catch (error) {
       console.error('Error deleting category:', error);
-      alert('Category used in other events');
+      //alert('Category used in other events');
     }
   }
 }

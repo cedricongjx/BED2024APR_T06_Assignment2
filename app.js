@@ -55,28 +55,17 @@ const storage = multer.diskStorage({
     cb(null, Date.now() + path.extname(file.originalname));
   }
 });
- 
- 
- 
-// app.post('/api/signup', validationMiddleware.validateSignup, userController.createUser);
-// app.post('/api/login', validationMiddleware.validateLogin, userController.loginUser);
-// app.get('/api/users', userController.getAllUsers);
-// app.get('/api/users/:id', validationMiddleware.validateUserIdParam, userController.getUserById);
-// app.put('/api/users/:id', validationMiddleware.validateUserIdParam, validationMiddleware.validateUserUpdate, userController.updateUser);
-// app.delete('/api/users/:id', validationMiddleware.validateUserIdParam, userController.deleteUser);
-// app.post('/api/newsletter', validateEmail, newslettersController.joinNewsletter);
-// app.get('/api/documentary/:id', documentarysController.getDocbyID);
-// app.put('/api/documentary/:id', documentarysController.updateDocByID);
-
-
-
-app.post('/api/donate', authenticateToken,  donationsController.createDonation);
-//app.post('/api/donate',  donationsController.createDonation);
- 
-
 
 const upload = multer({ storage: storage });
 const testupload = multer({ dest: 'public/images/events' });
+
+
+
+//donataion
+app.post('/api/donate', authenticateToken,  donationsController.createDonation);
+app.get('/api/top-donors', donationsController.getTopDonors); // Fetch top donors
+
+
 const docStorage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, 'public/images/documentary');
@@ -104,14 +93,14 @@ const docUpload = multer({
 
 
  
+
 // User routes
 app.post('/api/signup', validationMiddleware.validateSignup, userController.createUser);
 app.post('/api/login', validationMiddleware.validateLogin, userController.loginUser);
-app.get('/api/users',  authorizeAdmin, userController.getAllUsers);
-app.get('/api/users/:id', authenticateToken, authorizeAdmin, validationMiddleware.validateUserIdParam, userController.getUserById);
-app.put('/api/users/:id', authenticateToken, authorizeAdmin, validationMiddleware.validateUserIdParam, validationMiddleware.validateUserUpdate, userController.updateUser);
-app.delete('/api/users/:id', authenticateToken, authorizeAdmin, validationMiddleware.validateUserIdParam, userController.deleteUser);
- 
+app.get('/api/users',  authenticateToken,  userController.getAllUsers);
+app.get('/api/users/:id', authenticateToken, validationMiddleware.validateUserIdParam, userController.getUserById);
+app.put('/api/users/:id', authenticateToken,validationMiddleware.validateUserIdParam, validationMiddleware.validateUserUpdate, userController.updateUser);
+app.delete('/api/users/:id', authenticateToken,  validationMiddleware.validateUserIdParam, userController.deleteUser);
  
 // Newsletter routes
 app.post('/api/newsletter', validateEmail, newslettersController.joinNewsletter);
@@ -171,7 +160,7 @@ app.get("/testgetalluserforevent/:id",userController.getUsersForEvent);
  
 app.get("/event", eventController.getAllEvent);
 app.get("/event/:id", eventController.getEventById);
-app.post("/event", testupload.single('image'), validateEventDate, eventController.createEvent);
+app.post("/eventpost", testupload.single('image'), validateEventDate, authenticateToken,eventController.createEvent);
 app.post("/upload", upload.single('image'), (req, res) => {
   if (!req.file) {
     return res.status(400).send({ message: 'No file uploaded' });
@@ -180,8 +169,8 @@ app.post("/upload", upload.single('image'), (req, res) => {
 });
 app.get("/latestEvent", eventController.latestEvent);
 app.get("/events/search", eventController.getEventByName);
- 
-app.put('/event/:id', upload.single('image'), eventController.updateEvent);
+
+app.put('/eventupdate/:id', upload.single('image'),authenticateToken ,eventController.updateEvent);
 app.post("/upload", upload.single('image'), (req, res) => {
   if (!req.file) {
     return res.status(400).send({ message: 'No file uploaded' });
@@ -192,12 +181,14 @@ app.get("/userwithevent", userController.getAllUserWithEvents);
 app.get("/userwithevent/:id", userController.getUserWithEventsById);
 app.get("/eventWithCategory",eventController.getEventsWithCategories);
 app.get("/eventWithCategory/:id",eventController.detailedEventById);
+
 app.get("/category",categoryController.getAllCategories);
 app.get("/category/:id",categoryController.getCategoryById);
-app.post("/category",categoryController.addCategory)
-app.delete("/category/:id",categoryController.deleteCategory);
-app.post("/addcategoryforevent",eventController.addCategoryToEvent);
-app.delete("/removeCategoryFromEvent",eventController.removeCategoryFromEvent);
+app.post("/categorypost",authenticateToken,categoryController.addCategory)
+
+app.delete("/categorydelete/:id",authenticateToken,categoryController.deleteCategory);
+app.post("/addcategoryforevent",authenticateToken,eventController.addCategoryToEvent);
+app.delete("/removeCategoryFromEvent",authenticateToken,eventController.removeCategoryFromEvent);
 app.get("/events/category/:id",eventController.getEventsByCategory);
 app.get("/getCategoryForEvent/:id",eventController.getCategoryForEvent);
  
@@ -212,24 +203,19 @@ app.get("/eventWithCategory", eventController.getEventsWithCategories);
 app.get("/eventWithCategory/:id", eventController.detailedEventById);
  
 // Category routes
-app.get("/category", categoryController.getAllCategories);
-app.get("/category/:id", categoryController.getCategoryById);
-app.post("/category", categoryController.addCategory);
-app.delete("/category/:id", categoryController.deleteCategory);
-app.post("/addcategoryforevent", eventController.addCategoryToEvent);
-app.delete("/removeCategoryFromEvent", eventController.removeCategoryFromEvent);
-app.get("/events/category/:id", eventController.getEventsByCategory);
+// app.get("/category", categoryController.getAllCategories);
+// app.get("/category/:id", categoryController.getCategoryById);
+// app.post("/category", categoryController.addCategory);
+//app.delete("/category/:id", categoryController.deleteCategory);
  
 // Feedback routes
- 
- 
 // Static file routes
  
 app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use('/images', express.static(path.join(__dirname, 'public/images/event')));
-app.post("/testadduser",userController.registerUserEvent);
-app.delete("/testremoveuser",userController.removeUserFromEvent);
-app.post("/testcheck",userController.isUserRegisteredForEvent);
+app.post("/testadduser",authenticateToken,userController.registerUserEvent);
+app.delete("/testremoveuser",authenticateToken,userController.removeUserFromEvent);
+app.post("/testcheck",authenticateToken,userController.isUserRegisteredForEvent);
  
 //Feedback
 app.put("/feedback/response",authenticateToken,feedbackController.editResponse);

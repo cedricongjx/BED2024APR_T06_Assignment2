@@ -1,8 +1,9 @@
 const userid = localStorage.getItem('userid'); 
+const token = localStorage.getItem('token'); 
 
 document.addEventListener('DOMContentLoaded', async function () {
     const event = JSON.parse(localStorage.getItem('selectedEvent'));
-
+    console.log(event);
     if (event) {
         const imageURL = `/public/images/event/${event.Image}`;
         document.getElementById('eventImg').src = imageURL;
@@ -54,7 +55,9 @@ document.addEventListener('DOMContentLoaded', async function () {
                 const registeredResponse = await fetch("http://localhost:3000/testadduser", {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Authorization' : `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                        
                     },
                     body: JSON.stringify({
                         eventid: event.Eventid,
@@ -78,6 +81,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                 const removedResponse = await fetch("http://localhost:3000/testremoveuser", {
                     method: 'DELETE',
                     headers: {
+                        'Authorization' : `Bearer ${token}`,
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
@@ -124,6 +128,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                 const checkResponse = await fetch(`http://localhost:3000/testcheck`, {
                     method: 'POST',
                     headers: {
+                        'Authorization' : `Bearer ${token}`,
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
