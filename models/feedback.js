@@ -15,6 +15,7 @@ class Feedback
         this.adminid = adminid;
     }
 
+    //Getting all feedback from database
     static async getAllFeedback()
     {
         const connection = await sql.connect(dbConfig);
@@ -27,6 +28,7 @@ class Feedback
             (row) => new Feedback(row.id,row.title,row.description,row.category,row.verified,row.time,row.userid,row.adminid)
         );
     }
+    //Getting all not verified feedback from database
     static async getAllNotVerifiedFeedback()
     {
         const connection = await sql.connect(dbConfig);
@@ -39,6 +41,7 @@ class Feedback
             (row) => new Feedback(row.id,row.title,row.description,row.category,row.verified,row.time,row.userid,row.adminid)
         );
     }
+    //Getting all  verified feedback from database
     static async getAllVerifiedFeedback()
     {
         const connection = await sql.connect(dbConfig);
@@ -51,7 +54,7 @@ class Feedback
             (row) => new Feedback(row.id,row.title,row.description,row.category,row.verified,row.time,row.userid,row.adminid)
         );
     }
-
+    //Getting all bug feedback from database
     static async getAllBugFeedback()
     {
         const connection = await sql.connect(dbConfig);
@@ -64,7 +67,7 @@ class Feedback
             (row) => new Feedback(row.id,row.title,row.description,row.category,row.verified,row.time,row.userid,row.adminid)
         );
     }
-
+    //Getting all customer service feedback from database
     static async getAllCustomerServiceFeedback()
     {
         const connection = await sql.connect(dbConfig);
@@ -77,7 +80,7 @@ class Feedback
             (row) => new Feedback(row.id,row.title,row.description,row.category,row.verified,row.time,row.userid,row.adminid)
         );
     }
-
+    //Getting all feedback category feedback from database
     static async getAllfeedbackFeedback()
     {
         const connection = await sql.connect(dbConfig);
@@ -92,6 +95,7 @@ class Feedback
         );
     }
 
+    //Getting all other feedback from database
     static async getAllOtherFeedback()
     {
         const connection = await sql.connect(dbConfig);
@@ -104,7 +108,7 @@ class Feedback
             (row) => new Feedback(row.id,row.title,row.description,row.category,row.verified,row.time,row.userid,row.adminid)
         );
     }
-
+    //Getting all feedback by name from database
     static async getFeedbackByName(name)
     {
         const connection = await sql.connect(dbConfig);
@@ -114,7 +118,7 @@ class Feedback
         return result.recordset
         
     }
-
+    //Create feedback that takes in title, description from the user
     static async createFeedback(newFeedbackData)
     {
         const connection = await sql.connect(dbConfig)
@@ -128,6 +132,7 @@ class Feedback
         const result = await request.query(sqlQuery);
     }
 
+    //Update feedback to database
     static async updateFeedback(id)
     {
         const connection = await sql.connect(dbConfig);
@@ -139,7 +144,7 @@ class Feedback
         connection.close();
         return true;
     }
-
+    //Delete Feedback from database
     static async deleteFeedback(id)
     {
         const connection = await sql.connect(dbConfig);
@@ -152,8 +157,8 @@ class Feedback
         return result.rowsAffected > 0;
     }
 
-    // static async deleteFeedback
 
+    //Creating the justification for the feedback
     static async addJustification(justification,id)
     {
         const connection = await sql.connect(dbConfig);
@@ -166,7 +171,7 @@ class Feedback
         return true;
         
     }
-
+    //Edit the response
     static async editResponse(response,feedback_id)
     {
         const connection = await sql.connect(dbConfig);
@@ -178,7 +183,7 @@ class Feedback
         connection.close();
         return true;
     }
-
+    //Get response from database
     static async getResponse(userid)
     {
         const connection = await sql.connect(dbConfig);
@@ -197,7 +202,7 @@ class Feedback
         connection.close();
         return result.recordset;
     }
-
+    //Getting all feedback count by all category from database
     static async getFeedbackCountByAllCategory()
     {
         const connection = await sql.connect(dbConfig);

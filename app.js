@@ -36,11 +36,19 @@ const { user } = require('./dbConfig');
 const validateFeedback = require("./middlewares/validateFeedback");
  
 const dbConfig = require('./config/dbConfig');
- 
+
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = require("./swagger-output.json"); // Import generated spec
+
  
 const app = express();
 const port = process.env.PORT || 3000;
  
+
+
+// Serve the Swagger UI at a specific route
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 // Middleware to parse JSON and URL-encoded data
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

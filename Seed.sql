@@ -49,15 +49,13 @@ CREATE TABLE Feedback
 
     user_id INT FOREIGN KEY REFERENCES Users(Userid), 
 
-    admin_id INT FOREIGN KEY REFERENCES Admin(Adminid) 
-
 ); 
 
-INSERT INTO Feedback(title, description,category,verified) 
+INSERT INTO Feedback(title, description,category,verified, user_id) 
 VALUES 
-('Website is buggy','This website is very buggy','Bug', 'N'),
-('Website description is wrong', 'The documentary is off', 'Feedback', 'N'),
-('Donation failure','The donation took my money but did not register it','Customer Service','Y');
+('Website is buggy','This website is very buggy','Bug', 'N',1),
+('Website description is wrong', 'The documentary is off', 'Feedback', 'N',2),
+('Donation failure','The donation took my money but did not register it','Customer Service','Y',3);
  
 
 CREATE TABLE FeedbackVerified 
@@ -74,9 +72,10 @@ CREATE TABLE FeedbackVerified
 
 ) 
 
- 
-
- 
+INSERT INTO FeedbackVerified (justification, response, feedback_id) 
+VALUES ('Customer provided detailed explanation', 'Thank you for your feedback', 1),
+('Issue with product quality', 'We apologize for the inconvenience and will address this issue promptly', 2),
+('Positive feedback on customer service', 'We appreciate your kind words and will continue to provide excellent service', 3);
 
 CREATE TABLE Documentary (  
 
@@ -113,7 +112,7 @@ create table Event(
   Image varchar(100),
   location varchar(200) not null
 ) 
-CREATE TABLE EventsWithUsers (
+CREATE TABLE EventWithUsers (
     Eventid int,
     userid int,
     FOREIGN KEY (Eventid) REFERENCES Event(Eventid),
