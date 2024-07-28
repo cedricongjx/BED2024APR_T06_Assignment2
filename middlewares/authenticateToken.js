@@ -23,8 +23,8 @@ const authenticateToken = (req, res, next) => {
     }
 
     req.user = user; // Attach user info to request object
-    console.log("Authenticated user ID:", user.id); // Log the user ID
-    console.log("User role:", user.role);
+    // console.log("Authenticated user ID:", user.id); // Log the user ID
+    // console.log("User role:", user.role);
 
     const authorizedRoles = {
       
@@ -84,7 +84,7 @@ const authenticateToken = (req, res, next) => {
 
 
     const requestedEndpoint = req.url.split('?')[0];
-    console.log("Requested Endpoint:", requestedEndpoint); // Log the requested endpoint
+    // console.log("Requested Endpoint:", requestedEndpoint); // Log the requested endpoint
 
     const authorizedRole = Object.entries(authorizedRoles).find(
       ([endpoint, roles]) => {
