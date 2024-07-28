@@ -46,6 +46,9 @@ const authenticateToken = (req, res, next) => {
       "/feedback/categorycount":["A"],
       "/api/donate":["U","A"],
       "/api/user/:id":["A"],
+      "/documentary/[0-9]+":["A"],
+      "/documentary":["A"],
+      "/review/[0-9]+":["U"],
     }
 
 
