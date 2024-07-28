@@ -2,6 +2,7 @@ const { error } = require("console");
 const Event = require("../models/event")
 const path = require('path');
 
+// Handler to get all events
 const getAllEvent = async (req,res) => {
     try{
         const events = await Event.getAllEvent();
@@ -11,6 +12,8 @@ const getAllEvent = async (req,res) => {
         res.status(500).send("error retreiving events");
     }
 };
+
+// Handler to get an event by ID
 const getEventById = async (req,res)=>{
     const EventId = parseInt(req.params.id);
     try{
@@ -24,6 +27,8 @@ const getEventById = async (req,res)=>{
         res.status(500).send("Error retreiving event");
     }
 };
+
+// Handler to get events by name
 const getEventByName = async (req, res) => {
     const EventName = req.query.name; 
     try {
@@ -37,6 +42,8 @@ const getEventByName = async (req, res) => {
         res.status(500).send("Error retrieving events");
     }
 };
+
+// Handler to create a new event
 const createEvent = async (req,res)=>{
     const newEvent = req.body;
     console.log('Request Body:', req.body);
@@ -48,6 +55,8 @@ const createEvent = async (req,res)=>{
         res.status(500).send("Error creating event");
     }
 }
+
+// Handler to get the latest event
 const latestEvent = async (req,res) =>{
     try{
         const latestevent = await Event.latestEvent();
@@ -57,6 +66,8 @@ const latestEvent = async (req,res) =>{
         res.status(500).send("error retreiving events");
     }
 }
+
+// Handler to update an event
 const updateEvent = async (req, res) => {
     const EventId = parseInt(req.params.id);
     const newEventData = req.body;
@@ -71,6 +82,8 @@ const updateEvent = async (req, res) => {
         res.status(500).send("Error updating event");
     }
 };
+
+// Handler to get events with categories
 async function getEventsWithCategories(req,res){
     try{
         const events = await Event.getEventsWithCategories();
@@ -80,6 +93,8 @@ async function getEventsWithCategories(req,res){
         res.status(500).json({ message: "Error fetching Events with Category" });
     }
 }
+
+// Handler to get detailed event by ID
 const detailedEventById = async (req,res)=>{
     const EventId = parseInt(req.params.id);
     try{
@@ -93,6 +108,8 @@ const detailedEventById = async (req,res)=>{
         res.status(500).send("Error retreiving Detailed Event");
     }
 }
+
+// Handler to add category to an event
 const addCategoryToEvent = async(req,res)=>{
     const categoryForEvent = req.body;
     try{
@@ -103,6 +120,8 @@ const addCategoryToEvent = async(req,res)=>{
         res.status(500).send ("Error creating category for category")
     }
 }
+
+// Handler to remove a category from an event
 const removeCategoryFromEvent = async (req, res) => {
     const categoryForEvent = req.body;
     try {
@@ -116,6 +135,8 @@ const removeCategoryFromEvent = async (req, res) => {
         res.status(500).send("Error deleting category for event"+ error.message);
     }
 };
+
+// Handler to get events by category ID
 const getEventsByCategory = async(req,res) =>{
     const catId = parseInt(req.params.id);
     try{
@@ -129,6 +150,8 @@ const getEventsByCategory = async(req,res) =>{
         res.status(500).send("Error retreiving event by category")
     }
 }
+
+// Handler to get categories for an event
 const getCategoryForEvent = async (req,res)=>{
     const id = parseInt(req.params.id);
     try{
@@ -139,6 +162,8 @@ const getCategoryForEvent = async (req,res)=>{
         res.status(500).send("Error fetching categories for event"); 
     }
 }
+
+// Exporting the handlers
 module.exports={
     getAllEvent,
     getEventById,

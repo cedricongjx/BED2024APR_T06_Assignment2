@@ -14,7 +14,7 @@ class Event{
         this.Image = Image
     }
 
-    static async getAllEvent(){
+    static async getAllEvent(){// gets all the event
         const connection = await sql.connect(dbConfig);
         const sqlQuery = `select * from event`;
         const request = connection.request();
@@ -25,7 +25,7 @@ class Event{
             (row) => new Event(row.Eventid,row.EventName,row.eventDescription,row.eventDateTime,row.location,row.Image)
         );
     }
-    static async getEventById(id){
+    static async getEventById(id){// gets event by id
         const connection = await sql.connect(dbConfig);
         const sqlQuery = `select * from event where Eventid = @id`; 
         const request = connection.request();
@@ -44,7 +44,7 @@ class Event{
             )
             :null;
     }
-    static async getEventByName(EventName) {
+    static async getEventByName(EventName) {// get event by name
         const connection = await sql.connect(dbConfig);
         const sqlQuery = `SELECT * FROM event WHERE EventName LIKE @EventName`;
         const request = connection.request();
@@ -55,7 +55,7 @@ class Event{
             (row) => new Event(row.Eventid,row.EventName,row.eventDescription,row.eventDateTime,row.location,row.Image)
         );
     }
-    static async createEvent(newEventData){
+    static async createEvent(newEventData){// creates event
         const connection = await sql.connect(dbConfig);
         const sqlQuery = `INSERT INTO EVENT(EventName,eventDescription,eventDateTime,image,location) values(@EventName,@eventDescription,@eventDateTime,@image,@location); 
                           select scope_identity() AS Eventid`;
@@ -73,7 +73,7 @@ class Event{
         }
         return this.getEventById(eventid);
     }
-    static async latestEvent(){
+    static async latestEvent(){// displays the latest event created
         const connection = await sql.connect(dbConfig);
         const sqlQuery = `Select * from Event Where EventID = (SELECT MAX(Eventid) FROM Event);`
         const request = connection.request();
@@ -103,7 +103,7 @@ class Event{
         const result = await request.query(sqlQuery);
         connection.close();
     }
-    static async updateEvent(id, newEventData) {
+    static async updateEvent(id, newEventData) {// updates event
         const connection = await sql.connect(dbConfig);
         const sqlQuery = `UPDATE EVENT SET 
                             EventName = @EventName, 
@@ -124,7 +124,7 @@ class Event{
         connection.close();
         return this.getEventById(id);
       }
-    static async getEventsWithCategories() {
+    static async getEventsWithCategories() {// get events with category
         const connection = await sql.connect(dbConfig);
     
         try {
@@ -168,7 +168,7 @@ class Event{
             await connection.close();
         }
     }
-    static async detailedEventById(eventid){
+    static async detailedEventById(eventid){// shows detailed events
         const connection = await sql.connect(dbConfig);
         try{
             const sqlQuery = `
@@ -216,7 +216,7 @@ class Event{
             await connection.close();
         }     
     }
-    static async getCategoryForEvent(id){
+    static async getCategoryForEvent(id){// get the category for event
         const connection = await sql.connect(dbConfig);
         const sqlQuery = `select * from EventWithCategory where Eventid = @id`
         const request = connection.request();
@@ -225,7 +225,7 @@ class Event{
         connection.close();
         return result.recordset;
     }
-    static async addCategoryToEvent(eventDetails) {
+    static async addCategoryToEvent(eventDetails) {// add category to event 
         const connection = await sql.connect(dbConfig);
         const sqlQuery = `INSERT INTO EventWithCategory (eventId, catId) VALUES (@eventId, @catId)`;
         const request = connection.request();
@@ -235,7 +235,7 @@ class Event{
         connection.close();
         return this.detailedEventById(eventDetails.eventid);
     }
-    static async removeCategoryFromEvent(eventDetails){
+    static async removeCategoryFromEvent(eventDetails){// remove category from event
         const connection = await sql.connect(dbConfig);
         const sqlQuery = `delete from EventWithCategory where Eventid = @eventId and CatId = @catId`;
         const request = connection.request();
@@ -245,7 +245,7 @@ class Event{
         connection.close();
         return result.rowsAffected > 0;
     }
-    static async getEventsByCategory(categoryId) {
+    static async getEventsByCategory(categoryId) { //get the event by category id 
         const connection = await sql.connect(dbConfig);
         const sqlQuery = `
             SELECT e.eventId AS event_id, e.EventName, e.eventDescription, e.eventDateTime, e.location, e.Image

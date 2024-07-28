@@ -1,4 +1,4 @@
-const token = localStorage.getItem("token")
+const token = localStorage.getItem("token")// token for authorization
 document.addEventListener('DOMContentLoaded', function() {
   const queryParams = new URLSearchParams(window.location.search);
   const eventId = queryParams.get('id');
@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
       formData.append('image', file);
 
       try {
-        const uploadResponse = await fetch('http://localhost:3000/upload', {
+        const uploadResponse = await fetch('http://localhost:3000/upload', {//posting the image to local
           method: 'POST',
           
           body: formData
@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     try {
-      const response = await fetch(`http://localhost:3000/eventupdate/${eventId}`, {
+      const response = await fetch(`http://localhost:3000/eventupdate/${eventId}`, {//update event details
         method: 'PUT',
         headers: {
           'Authorization' : `Bearer ${token}`,
@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function() {
           EventName: eventName,
           eventDescription: eventDescription,
           eventDateTime: eventDateTime,
-          Image: fileDetails || document.getElementById('currentImage').src, // Use existing image if no new file is provided
+          Image: fileDetails || document.getElementById('currentImage').src, 
           Location: eventLocation,
         }),
       });
@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
       // Update categories
       await Promise.all(selectedCategories.map(catId => {
-        return fetch('http://localhost:3000/addcategoryforevent', {
+        return fetch('http://localhost:3000/addcategoryforevent', {// adding category to events
           method: 'POST',
           headers: {
             'Authorization' : `Bearer ${token}`,
@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 async function fetchEventDetails(eventId) {
   try {
-    const response = await fetch(`http://localhost:3000/event/${eventId}`);
+    const response = await fetch(`http://localhost:3000/event/${eventId}`);// getting the event details
     if (!response.ok) {
       throw new Error('Failed to fetch event details');
     }
@@ -110,7 +110,7 @@ async function fetchEventDetails(eventId) {
   }
 }
 
-async function fetchExistingCategories(selectedCategories = []) {
+async function fetchExistingCategories(selectedCategories = []) {// gets all the existing category from the database
   try {
     const response = await fetch('http://localhost:3000/category');
     if (!response.ok) {
@@ -123,7 +123,7 @@ async function fetchExistingCategories(selectedCategories = []) {
   }
 }
 
-function renderExistingCategories(categories, selectedCategories = []) {
+function renderExistingCategories(categories, selectedCategories = []) {// displaying all the category for front end.
   const existingCategoriesContainer = document.getElementById('existingCategories');
   existingCategoriesContainer.innerHTML = '';
   categories.forEach(category => {
@@ -143,7 +143,7 @@ function renderExistingCategories(categories, selectedCategories = []) {
   });
 }
 
-async function deleteAllCategoriesForEvent(eventId) {
+async function deleteAllCategoriesForEvent(eventId) {// deletes all the category that is tied to the event
   try {
     // Fetch existing categories for the event
     const response = await fetch(`http://localhost:3000/getCategoryForEvent/${eventId}`);
@@ -172,7 +172,7 @@ async function deleteAllCategoriesForEvent(eventId) {
     console.error('Error deleting categories for event:', error);
   }
 }
-async function addCategory() {
+async function addCategory() { // adding category into the database
   const categoryInput = document.getElementById('categoryInput');
   const categoryName = categoryInput.value.trim();
 
@@ -200,7 +200,7 @@ async function addCategory() {
     }
   }
 }
-async function deleteCategory(categoryId) {
+async function deleteCategory(categoryId) { // deletes the category from the database
   if (confirm('Are you sure you want to delete this category?')) {
     try {
       const response = await fetch(`http://localhost:3000/categorydelete/${categoryId}`, {
