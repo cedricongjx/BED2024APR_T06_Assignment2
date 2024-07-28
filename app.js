@@ -67,9 +67,14 @@ const storage = multer.diskStorage({
 // app.post('/api/newsletter', validateEmail, newslettersController.joinNewsletter);
 // app.get('/api/documentary/:id', documentarysController.getDocbyID);
 // app.put('/api/documentary/:id', documentarysController.updateDocByID);
+
+
+
+app.post('/api/donate', authenticateToken,  donationsController.createDonation);
+//app.post('/api/donate',  donationsController.createDonation);
  
-app.post('/api/donate', authenticateToken, donationsController.createDonation);
- 
+
+
 const upload = multer({ storage: storage });
 const testupload = multer({ dest: 'public/images/events' });
 const docUpload = multer({ dest: 'public/images/documentary' });
@@ -77,7 +82,7 @@ const docUpload = multer({ dest: 'public/images/documentary' });
 // User routes
 app.post('/api/signup', validationMiddleware.validateSignup, userController.createUser);
 app.post('/api/login', validationMiddleware.validateLogin, userController.loginUser);
-app.get('/api/users', authenticateToken, authorizeAdmin, userController.getAllUsers);
+app.get('/api/users',  authorizeAdmin, userController.getAllUsers);
 app.get('/api/users/:id', authenticateToken, authorizeAdmin, validationMiddleware.validateUserIdParam, userController.getUserById);
 app.put('/api/users/:id', authenticateToken, authorizeAdmin, validationMiddleware.validateUserIdParam, validationMiddleware.validateUserUpdate, userController.updateUser);
 app.delete('/api/users/:id', authenticateToken, authorizeAdmin, validationMiddleware.validateUserIdParam, userController.deleteUser);
